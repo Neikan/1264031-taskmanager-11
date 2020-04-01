@@ -7,6 +7,7 @@ const COUNT_TASKS = 3;
 
 /**
  * Создание шаблона главного меню
+ * @return {HTMLElement} - главное меню
  */
 const createMenuTemplate = () => {
   return (`
@@ -43,6 +44,7 @@ const createMenuTemplate = () => {
 
 /**
  * Создание шаблона перечня фильтров
+ * @return {HTMLElement} - перечень фильтров
  */
 const createFilterTemplate = () => {
   return (`
@@ -108,6 +110,10 @@ const createFilterTemplate = () => {
   `);
 };
 
+/**
+ * Создание шаблона доски задач
+ * @return {HTMLElement} - доска для отображения задач
+ */
 const createBoardTemplate = () => {
   return (`
     <section class="board container">
@@ -124,6 +130,7 @@ const createBoardTemplate = () => {
 
 /**
  * Создание шаблона отображения существующей карточки задачи
+ * @return {HTMLElement} - карточка задачи
  */
 const createTaskTemplate = () => {
   return (`
@@ -175,6 +182,7 @@ const createTaskTemplate = () => {
 
 /**
  * Создание шаблона формы редактирования / создания карточки задачи
+ * @return {HTMLElement} - форма редактирования / создания карточки задачи
  */
 const createTaskNewOrEditTemplate = () => {
   return (`
@@ -380,6 +388,7 @@ const createTaskNewOrEditTemplate = () => {
 
 /**
  * Создание шаблона кнопки показа оставшихся задач
+ * @return {HTMLElement} - кнопка показа задач
  */
 const createLoadMoreButtonTemplate = () => {
   return (`
@@ -388,13 +397,16 @@ const createLoadMoreButtonTemplate = () => {
 };
 
 /**
- * Определение контейнеров для вставки элементов
+ * Определение контейнеров для вставки элементов *
  */
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.control`);
 
 /**
  * Отрисовка элемента страницы ("компонента")
+ * @param {HTMLElement} container - контейнер, в который отрисосывается шаблон
+ * @param {HTMLElement} template - отрисовываемый шаблон
+ * @param {DOMString} position - место в контейнере для отрисовываемого шаблона
  */
 const render = (container, template, position = `beforeend`) => {
   container.insertAdjacentHTML(position, template);
@@ -402,6 +414,8 @@ const render = (container, template, position = `beforeend`) => {
 
 /**
  * Выполнение функции определенное количество раз для
+ * @param {number} count - количество элементов
+ * @param {function} func - функция, применяемая для каждого элемента
  */
 const repeat = (count, func) => {
   Array(count).fill(``).forEach(func);
