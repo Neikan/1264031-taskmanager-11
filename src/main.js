@@ -406,7 +406,8 @@ const createLoadMore = () => `<button class="load-more" type="button">load more<
  * @param {string} position место в контейнере для отрисовываемого шаблона
  * @return {void}
  */
-const render = (container, template, position = Position.BEFORE_END) => void container.insertAdjacentHTML(position, template);
+const render = (container, template, position = Position.BEFORE_END) =>
+  void container.insertAdjacentHTML(position, template);
 
 /**
  * Отрисовка нескольких элементов одного щаблона с позицией по умолчанию
