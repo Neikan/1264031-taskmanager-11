@@ -410,7 +410,7 @@ const render = (container, template, position = Position.BEFORE_END) => containe
  * Отрисовка нескольких элементов одного щаблона с позицией по умолчанию
  * @param {number} count количество итераций
  * @param {string} container контейнер, в который отрисосывается шаблон
- * @param {string} func отрисовываемый шаблон
+ * @param {string} template отрисовываемый шаблон
  */
 const renderElements = (count, container, template) => {
   for (let i = 0; i < count; i++) {
