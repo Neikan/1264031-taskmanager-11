@@ -1,15 +1,22 @@
 "use strict";
 
-/**
- * Количество карточек задач
- */
 const COUNT_TASKS = 3;
+
+const Position = {
+  BEFORE_END: `beforeend`,
+  AFTER_END: `afterend`
+}
+
+const Nodes = {
+  HEADER: document.querySelector(`.control`),
+  MAIN: document.querySelector(`.main`),
+}
 
 /**
  * Создание шаблона главного меню
- * @return {HTMLElement} - главное меню
+ * @return {string} - главное меню
  */
-const createMenuTemplate = () => {
+const createMenu = () => {
   return (`
     <section class="control__btn-wrap">
       <input
@@ -44,9 +51,9 @@ const createMenuTemplate = () => {
 
 /**
  * Создание шаблона перечня фильтров
- * @return {HTMLElement} - перечень фильтров
+ * @return {string} - перечень фильтров
  */
-const createFilterTemplate = () => {
+const createFilter = () => {
   return (`
     <section class="main__filter filter container">
       <input
@@ -112,9 +119,9 @@ const createFilterTemplate = () => {
 
 /**
  * Создание шаблона доски задач
- * @return {HTMLElement} - доска для отображения задач
+ * @return {string} - доска для отображения задач
  */
-const createBoardTemplate = () => {
+const createBoard = () => {
   return (`
     <section class="board container">
       <div class="board__filter-list">
@@ -130,9 +137,9 @@ const createBoardTemplate = () => {
 
 /**
  * Создание шаблона отображения существующей карточки задачи
- * @return {HTMLElement} - карточка задачи
+ * @return {string} - карточка задачи
  */
-const createTaskTemplate = () => {
+const createTask = () => {
   return (`
     <article class="card card--black">
       <div class="card__form">
@@ -182,9 +189,9 @@ const createTaskTemplate = () => {
 
 /**
  * Создание шаблона формы редактирования / создания карточки задачи
- * @return {HTMLElement} - форма редактирования / создания карточки задачи
+ * @return {string} - форма редактирования / создания карточки задачи
  */
-const createTaskNewOrEditTemplate = () => {
+const createTaskEdit = () => {
   return (`
     <article class="card card--edit card--yellow card--repeat">
       <form class="card__form" method="get">
@@ -388,63 +395,43 @@ const createTaskNewOrEditTemplate = () => {
 
 /**
  * Создание шаблона кнопки показа оставшихся задач
- * @return {HTMLElement} - кнопка показа задач
  */
-const createLoadMoreButtonTemplate = () => {
-  return (`
-    <button class="load-more" type="button">load more</button>
-  `);
-};
-
-/**
- * Определение контейнеров для вставки элементов *
- */
-const siteMainElement = document.querySelector(`.main`);
-const siteHeaderElement = siteMainElement.querySelector(`.control`);
+const createLoadMore = () => `<button class="load-more" type="button">load more</button>`;
 
 /**
  * Отрисовка элемента страницы ("компонента")
- * @param {HTMLElement} container - контейнер, в который отрисосывается шаблон
- * @param {HTMLElement} template - отрисовываемый шаблон
- * @param {DOMString} position - место в контейнере для отрисовываемого шаблона
+ * @param {Element} container контейнер, в который отрисосывается шаблон
+ * @param {string} template отрисовываемый шаблон
+ * @param {string} position место в контейнере для отрисовываемого шаблона
  */
-const render = (container, template, position = `beforeend`) => {
-  container.insertAdjacentHTML(position, template);
+const render = (container, template, position = Position.BEFORE_END) => container.insertAdjacentHTML(position, template);
+
+/**
+ * Отрисовка нескольких элементов одного щаблона с позицией по умолчанию
+ * @param {number} count количество итераций
+ * @param {string} container контейнер, в который отрисосывается шаблон
+ * @param {string} func отрисовываемый шаблон
+ */
+const renderElements = (count, container, template) => {
+  for (let i = 0; i < count; i++) {
+    render(container, template);
+  }
 };
 
 /**
- * Выполнение функции определенное количество раз для
- * @param {number} count - количество элементов
- * @param {function} func - функция, применяемая для каждого элемента
+ * Отрисовка компонентов на странице
  */
-const repeat = (count, func) => {
-  Array(count).fill(``).forEach(func);
-};
+const init = () => {
+  render(Nodes.HEADER, createMenu());
+  render(Nodes.MAIN, createFilter());
+  render(Nodes.MAIN, createBoard());
 
-/**
- * Отрисовка компонентов страницы
- */
-render(siteHeaderElement, createMenuTemplate());
-render(siteMainElement, createFilterTemplate());
-render(siteMainElement, createBoardTemplate());
+  const taskListElement = Nodes.MAIN.querySelector(`.board__tasks`);
+  render(taskListElement, createTaskEdit());
+  renderElements(COUNT_TASKS, taskListElement, createTask());
 
-/**
- * Определение контейнера для отрисовки задач
- * Отрисовка формы редактирования / создания новой задачи
- */
-const taskListElement = siteMainElement.querySelector(`.board__tasks`);
-render(taskListElement, createTaskNewOrEditTemplate());
+  const boardElement = Nodes.MAIN.querySelector(`.board`);
+  render(boardElement, createLoadMore());
+}
 
-/**
- * Отрисовка заданного количества шаблонных карточек задач
- */
-repeat(COUNT_TASKS, () => {
-  render(taskListElement, createTaskTemplate());
-});
-
-/**
- * Определение контейнера для вставки кнопки
- * Отрисовка кнопки показа оставшихся задач
- */
-const boardElement = siteMainElement.querySelector(`.board`);
-render(boardElement, createLoadMoreButtonTemplate());
+init();
