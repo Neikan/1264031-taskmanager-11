@@ -5,12 +5,12 @@ const COUNT_TASKS = 3;
 const Position = {
   BEFORE_END: `beforeend`,
   AFTER_END: `afterend`
-}
+};
 
 const Nodes = {
   HEADER: document.querySelector(`.control`),
   MAIN: document.querySelector(`.main`),
-}
+};
 
 /**
  * Создание шаблона главного меню
@@ -395,6 +395,7 @@ const createTaskEdit = () => {
 
 /**
  * Создание шаблона кнопки показа оставшихся задач
+ * @return {string} - кнопка
  */
 const createLoadMore = () => `<button class="load-more" type="button">load more</button>`;
 
@@ -403,8 +404,9 @@ const createLoadMore = () => `<button class="load-more" type="button">load more<
  * @param {Element} container контейнер, в который отрисосывается шаблон
  * @param {string} template отрисовываемый шаблон
  * @param {string} position место в контейнере для отрисовываемого шаблона
+ * @return {void}
  */
-const render = (container, template, position = Position.BEFORE_END) => container.insertAdjacentHTML(position, template);
+const render = (container, template, position = Position.BEFORE_END) => void container.insertAdjacentHTML(position, template);
 
 /**
  * Отрисовка нескольких элементов одного щаблона с позицией по умолчанию
@@ -432,6 +434,6 @@ const init = () => {
 
   const boardElement = Nodes.MAIN.querySelector(`.board`);
   render(boardElement, createLoadMore());
-}
+};
 
 init();
