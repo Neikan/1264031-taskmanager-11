@@ -11,12 +11,12 @@ const render = (container, template, position = Position.BEFORE_END) =>
   void container.insertAdjacentHTML(position, template);
 
 /**
- * Отрисовка нескольких элементов одного щаблона с позицией по умолчанию
+ * Создание нескольких элементов по одному шаблону
  * @param {number} count количество итераций
- * @param {string} template шаблон для дублирования
- * @return {string}
+ * @param {string} template шаблон
+ * @return {string} результирущая строка
  */
-const renderElements = (count, template) => {
+const createElements = (count, template) => {
   let result = ``;
   for (let i = 0; i < count; i++) {
     result += template;
@@ -26,5 +26,5 @@ const renderElements = (count, template) => {
 
 export {
   render,
-  renderElements
+  createElements
 };

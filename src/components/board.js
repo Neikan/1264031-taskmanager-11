@@ -2,7 +2,7 @@ import {COUNT_TASKS} from "./consts";
 import {createLoadMore} from "./button-load-more";
 import {createTaskEdit} from "./task-form";
 import {createTask} from "./task";
-import {renderElements} from "./utils";
+import {createElements} from "./utils";
 
 /**
  * Создание шаблона доски задач
@@ -19,7 +19,7 @@ export const createBoard = () => {
 
       <div class="board__tasks">
         ${createTaskEdit()}
-        ${renderElements(COUNT_TASKS, createTask())}
+        ${createElements(COUNT_TASKS, createTask())}
       </div>
 
       ${createLoadMore()}
