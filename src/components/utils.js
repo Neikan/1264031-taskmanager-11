@@ -13,13 +13,15 @@ const render = (container, template, position = Position.BEFORE_END) =>
 /**
  * Отрисовка нескольких элементов одного щаблона с позицией по умолчанию
  * @param {number} count количество итераций
- * @param {string} container контейнер, в который отрисосывается шаблон
- * @param {string} template отрисовываемый шаблон
+ * @param {string} template шаблон для дублирования
+ * @return {string}
  */
-const renderElements = (count, container, template) => {
+const renderElements = (count, template) => {
+  let result = ``;
   for (let i = 0; i < count; i++) {
-    render(container, template);
+    result += template;
   }
+  return result;
 };
 
 export {

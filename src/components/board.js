@@ -1,3 +1,9 @@
+import {COUNT_TASKS} from "./consts";
+import {createLoadMore} from "./button-load-more";
+import {createTaskEdit} from "./task-form";
+import {createTask} from "./task";
+import {renderElements} from "./utils";
+
 /**
  * Создание шаблона доски задач
  * @return {string} - доска для отображения задач
@@ -11,7 +17,12 @@ export const createBoard = () => {
         <a href="#" class="board__filter" data-sort-type="date-down">SORT BY DATE down</a>
       </div>
 
-      <div class="board__tasks"></div>
+      <div class="board__tasks">
+        ${createTaskEdit()}
+        ${renderElements(COUNT_TASKS, createTask())}
+      </div>
+
+      ${createLoadMore()}
     </section>
   `);
 };
