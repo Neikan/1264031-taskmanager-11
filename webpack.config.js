@@ -10,8 +10,8 @@ module.exports = {
   devtool: `source-map`,
   devServer: {
     contentBase: path.join(__dirname, `public`),
-    publicPath: `http:/localhost:8081/`,
     compress: true,
+    hot: true,
     watchContentBase: true
   }
 };
