@@ -1,9 +1,6 @@
-import {COUNT_TASKS} from "./components/consts";
-
 import {createMenu} from "./components/menu";
 import {createFilter} from "./components/filters";
 import {createBoard} from "./components/board";
-
 import {render} from "./components/utils";
 
 const Nodes = {
