@@ -1,23 +1,16 @@
+const filterNames = [
+  `all`, `overdue`, `today`, `favorites`, `repeating`, `archive`
+];
+
+/**
+ * Генерация фильтров
+ * @return {Object} фильтр с названием и числом элементов, соответствующих ему
+ */
 export const generateFilters = () => {
-  return [
-    {
-      name: `all`,
-      count: 42,
-    }, {
-      name: `overdue`,
-      count: 18,
-    }, {
-      name: `today`,
-      count: 18,
-    }, {
-      name: `favorites`,
-      count: 18,
-    }, {
-      name: `repeating`,
-      count: 18,
-    }, {
-      name: `archive`,
-      count: 18,
-    }
-  ];
+  return filterNames.map((it) => {
+    return {
+      name: it,
+      count: Math.floor(Math.random() * 10),
+    };
+  });
 };
