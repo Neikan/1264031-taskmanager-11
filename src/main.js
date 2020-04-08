@@ -1,6 +1,6 @@
-import {createMenu} from "./components/menu";
-import {createFilter} from "./components/filters";
-import {createBoard} from "./components/board";
+import {createMenu} from "./components/menu/index";
+import {createFilter} from "./components/filters/index";
+import {createBoard} from "./components/board/index";
 import {render} from "./components/utils";
 
 const Nodes = {

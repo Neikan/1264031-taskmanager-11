@@ -1,6 +1,6 @@
-import {COUNT_TASKS} from "./consts";
-import {createTask} from "./task";
-import {generateTask} from "../mock/task";
+import {COUNT_TASKS} from "../consts";
+import {createTask} from "../task";
+import {generateTask} from "../../mock/task";
 
 /**
  * Создание нескольких задач по одному шаблону

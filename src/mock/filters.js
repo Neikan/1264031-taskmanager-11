@@ -1,6 +1,4 @@
-const filterNames = [
-  `all`, `overdue`, `today`, `favorites`, `repeating`, `archive`
-];
+import {filterNames} from "./consts";
 
 /**
  * Генерация фильтров

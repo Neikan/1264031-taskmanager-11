@@ -1,7 +1,7 @@
-import {createLoadMore} from "./button-load-more";
-import {createTaskEdit} from "./task-form";
-import {createTasks} from "./tasks-generation";
-import {generateTask} from "../mock/task";
+import {createLoadMore} from "./components/button-load-more";
+import {createTaskEdit} from "../task/task-form";
+import {createTasks} from "../../mock/task";
+import {generateTask} from "../../mock/task";
 
 /**
  * Создание шаблона доски задач

@@ -1,5 +1,5 @@
-import {MonthNames} from "./consts";
-import {formatTime} from "./utils";
+import {MonthNames} from "../consts";
+import {formatTime} from "../utils";
 
 /**
  * Создание шаблона отображения существующей карточки задачи

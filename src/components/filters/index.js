@@ -1,4 +1,4 @@
-import {generateFilters} from "../mock/filters";
+import {generateFilters} from "../../mock/filters";
 
 /**
  * Создание шаблона для фильтра

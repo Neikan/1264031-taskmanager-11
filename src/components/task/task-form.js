@@ -1,5 +1,5 @@
-import {Colors, Days, MonthNames} from "./consts";
-import {formatTime} from "./utils";
+import {Colors, Days, MonthNames} from "../consts";
+import {formatTime} from "../utils";
 
 /**
  * Создание шаблона формы выбора цвета
