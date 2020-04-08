@@ -1,5 +1,6 @@
 import {COUNT_TASKS} from "./consts";
 import {createTask} from "./task";
+import {generateTask} from "../mock/task";
 
 /**
  * Создание нескольких задач по одному шаблону
@@ -9,7 +10,7 @@ import {createTask} from "./task";
 export const createTasks = () => {
   let result = ``;
   for (let i = 0; i < COUNT_TASKS; i++) {
-    result += createTask();
+    result += createTask(generateTask());
   }
   return result;
 };

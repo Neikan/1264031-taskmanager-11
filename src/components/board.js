@@ -1,10 +1,11 @@
 import {createLoadMore} from "./button-load-more";
 import {createTaskEdit} from "./task-form";
 import {createTasks} from "./tasks-generation";
+import {generateTask} from "../mock/task";
 
 /**
  * Создание шаблона доски задач
- * @return {string} - доска для отображения задач
+ * @return {string} доска для отображения задач
  */
 export const createBoard = () => {
   return (`
@@ -16,7 +17,7 @@ export const createBoard = () => {
       </div>
 
       <div class="board__tasks">
-        ${createTaskEdit()}
+        ${createTaskEdit(generateTask())}
         ${createTasks()}
       </div>
 
