@@ -1,8 +1,14 @@
 /**
+ * Получание случайного логического значения
+ * @return {boolean} полученное логическое значение
+ */
+export const getRandomBoolean = () => Math.random() > 0.5;
+
+/**
  * Получение случайного числа из диапазона
- * @param {Number} min - меньшее число
- * @param {Number} max - большее число
- * @return {Number} - случайное число
+ * @param {Number} min меньшее число
+ * @param {Number} max большее число
+ * @return {Number} полученное случайное число
  */
 const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
@@ -19,7 +25,7 @@ export const getRandomArrayItem = (array) => {
 
 /**
  * Получение случайной даты
- * @return {Date}
+ * @return {Date} полученная дата
  */
 export const getRandomDate = () => {
   const targetDate = new Date();

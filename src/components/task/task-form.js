@@ -1,4 +1,4 @@
-import {Colors, Days, MonthNames} from "../consts";
+import {DAYS, MONTH_NAMES, COLORS} from "../consts";
 import {formatTime} from "../utils";
 
 /**
@@ -63,7 +63,7 @@ export const createTaskEdit = (task) => {
   const isExpired = dueDate instanceof Date && dueDate < Date.now();
   const isDateShowing = !!dueDate;
 
-  const date = isDateShowing ? `${dueDate.getDate()} ${MonthNames[dueDate.getMonth()]}` : ``;
+  const date = isDateShowing ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
 
   const isRepeatingTask = Object.values(repeatingDays).some(Boolean);
@@ -121,7 +121,7 @@ export const createTaskEdit = (task) => {
     isRepeatingTask ?
       `<fieldset class="card__repeat-days">
                       <div class="card__repeat-days-inner">
-                        ${createRepeatingDaysMarkup(Days, repeatingDays)}
+                        ${createRepeatingDaysMarkup(DAYS, repeatingDays)}
                       </div>
                     </fieldset>`
       : ``
@@ -134,7 +134,7 @@ export const createTaskEdit = (task) => {
             <div class="card__colors-inner">
               <h3 class="card__colors-title">Color</h3>
               <div class="card__colors-wrap">
-                ${createColorsMarkup(Colors, color)}
+                ${createColorsMarkup(COLORS, color)}
               </div>
             </div>
           </div>

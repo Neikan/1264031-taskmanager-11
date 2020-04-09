@@ -1,7 +1,9 @@
-import {createLoadMore} from "./components/button-load-more";
+import {Count} from "../../components/consts";
+import {createLoadMore} from "./components/index-button-load-more";
 import {createTaskEdit} from "../task/task-form";
-import {createTasks} from "../../mock/task";
-import {generateTask} from "../../mock/task";
+import {generateTasks, createTasks} from "../../mock/components/task";
+
+export const tasks = generateTasks(Count.TASKS);
 
 /**
  * Создание шаблона доски задач
@@ -17,10 +19,9 @@ export const createBoard = () => {
       </div>
 
       <div class="board__tasks">
-        ${createTaskEdit(generateTask())}
-        ${createTasks()}
+        ${createTaskEdit(tasks[0])}
+        ${createTasks(tasks.slice(1, Count.TASKS_ON_START))}
       </div>
-
       ${createLoadMore()}
     </section>
   `);

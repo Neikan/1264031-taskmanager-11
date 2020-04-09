@@ -1,11 +1,15 @@
-export const COUNT_TASKS = 3;
+export const Count = {
+  TASKS: 22,
+  TASKS_ON_START: 8,
+  TASKS_BY_BUTTON: 8
+};
 
 export const Position = {
   BEFORE_END: `beforeend`,
   AFTER_END: `afterend`
 };
 
-export const MonthNames = [
+export const MONTH_NAMES = [
   `January`,
   `February`,
   `March`,
@@ -20,6 +24,21 @@ export const MonthNames = [
   `December`,
 ];
 
-export const Days = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
+export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
-export const Colors = [`black`, `yellow`, `blue`, `green`, `pink`];
+export const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
+
+export const MenuItems = [
+  {
+    name: `new-task`,
+    label: `+ ADD NEW TASK`
+  },
+  {
+    name: `task`,
+    label: `TASKS`
+  },
+  {
+    name: `statistic`,
+    label: `STATISTICS`
+  }
+];

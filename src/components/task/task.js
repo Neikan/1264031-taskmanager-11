@@ -1,9 +1,9 @@
-import {MonthNames} from "../consts";
+import {MONTH_NAMES} from "../consts";
 import {formatTime} from "../utils";
 
 /**
  * Создание шаблона отображения существующей карточки задачи
- * @param {*} task
+ * @param {Object} task задача для отрисовки
  * @return {string} - карточка задачи
  */
 export const createTask = (task) => {
@@ -12,7 +12,7 @@ export const createTask = (task) => {
   const isExpired = dueDate instanceof Date && dueDate < Date.now();
   const isDateShowing = !!dueDate;
 
-  const date = isDateShowing ? `${dueDate.getDate()} ${MonthNames[dueDate.getMonth()]}` : ``;
+  const date = isDateShowing ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
 
   const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;

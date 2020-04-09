@@ -1,4 +1,4 @@
-import {filterNames} from "./consts";
+import {filterNames} from "../consts";
 
 /**
  * Генерация фильтров
