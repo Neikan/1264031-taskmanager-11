@@ -1,4 +1,4 @@
-import {createTask} from "../task-view-form/index-view";
+import {createTask} from "../../index-view";
 
 /**
  * Создание разметки нескольких задач
@@ -8,7 +8,7 @@ import {createTask} from "../task-view-form/index-view";
 export const createTasks = (tasks) => {
   let result = ``;
   tasks.forEach((it) => {
-    result += createTask(it);
+    result += createTask(it, true);
   });
   return result;
 };

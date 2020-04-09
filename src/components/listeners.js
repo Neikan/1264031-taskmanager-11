@@ -1,7 +1,7 @@
 import {Count} from "./consts";
 import {render} from "./utils";
 import {tasks} from "./board/components/tasksBlock";
-import {createTask} from "./tasks/task-view-form/index-view";
+import {createTask} from "./tasks/index-view";
 
 let showingTasksCount = Count.TASKS_ON_START;
 
@@ -15,7 +15,7 @@ const loadMoreClickHandler = () => {
   showingTasksCount += Count.TASKS_BY_BUTTON;
 
   tasks.slice(prevTasksCount, showingTasksCount)
-    .forEach((task) => render(taskListElement, createTask(task)));
+    .forEach((task) => render(taskListElement, createTask(task, true)));
 
   if (showingTasksCount >= tasks.length) {
     document.querySelector(`.load-more`).remove();
