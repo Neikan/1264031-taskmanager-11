@@ -3,8 +3,8 @@ import {createFilter} from "./components/field";
 import {createFilterSection} from "./components/section";
 
 /**
- * Создание перечня фильтров
- * @return {string} перечень фильтров для разметки
+ * Создание разметки для перечня фильтров
+ * @return {string} разметка перечня фильтров
  */
 export const createFilters = () => {
   return createFilterSection(generateFilters()

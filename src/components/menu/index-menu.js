@@ -3,8 +3,8 @@ import {createMenuItem} from "./components/field";
 import {createMenuSection} from "./components/section";
 
 /**
- * Создание шаблона главного меню
- * @return {string} - главное меню
+ * Создание разметки главного меню
+ * @return {string} разметка главного меню
  */
 export const createMenu = () => {
   return createMenuSection(MenuItems

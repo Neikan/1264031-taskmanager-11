@@ -1,5 +1,5 @@
-import {createSorting} from "./sortingContainer";
-import {createBoardTasks} from "./tasksContainer";
+import {createSorting} from "./sortingBlock";
+import {createBoardTasks} from "./tasksBlock";
 import {createLoadMore} from "../../button-load-more/index-button-load-more";
 
 /**

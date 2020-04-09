@@ -12,8 +12,8 @@ export const render = (container, template, position = Position.BEFORE_END) =>
 
 /**
  * Сброс формата времени
- * @param {*} value
- * @return {*}
+ * @param {string} value
+ * @return {string}
  */
 const castTimeFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
@@ -21,8 +21,8 @@ const castTimeFormat = (value) => {
 
 /**
  * Приведение времени к формату HH:MM
- * @param {*} date передаваемая дата
- * @return {*}
+ * @param {Date} date форматируемая дата
+ * @return {string} время в формате HH:MM
  */
 export const formatTime = (date) => {
   const hours = castTimeFormat(date.getHours() % 12);

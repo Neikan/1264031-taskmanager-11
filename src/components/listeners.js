@@ -1,7 +1,7 @@
 import {Count} from "./consts";
 import {render} from "./utils";
-import {tasks} from "./board/components/tasksContainer";
-import {createTask} from "./tasks/task-view-form";
+import {tasks} from "./board/components/tasksBlock";
+import {createTask} from "./tasks/task-view-form/index-view";
 
 let showingTasksCount = Count.TASKS_ON_START;
 

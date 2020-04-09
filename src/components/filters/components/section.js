@@ -1,7 +1,7 @@
 /**
- * Получение секции фильтров
- * @param {*} filters разметка фильтров
- * @return {string} разметка секции
+ * Получение блока фильтров
+ * @param {string} filters разметка фильтров
+ * @return {string} разметка блока
  */
 export const createFilterSection = (filters) => {
   return (`

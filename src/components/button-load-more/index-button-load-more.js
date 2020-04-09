@@ -1,7 +1,5 @@
-import {loadMoreClickHandler} from "../listeners";
-
 /**
- * Создание шаблона кнопки показа оставшихся задач
- * @return {string} - кнопка
+ * Создание разметки кнопки показа оставшихся задач
+ * @return {string} разметка кнопки
  */
 export const createLoadMore = () => `<button class="load-more" type="button">load more</button>`;

@@ -1,10 +1,10 @@
-import {MONTH_NAMES} from "../consts";
-import {formatTime} from "../utils";
+import {MONTH_NAMES} from "../../consts";
+import {formatTime} from "../../utils";
 
 /**
  * Создание шаблона отображения существующей карточки задачи
  * @param {Object} task задача для отрисовки
- * @return {string} - карточка задачи
+ * @return {string} карточка задачи
  */
 export const createTask = (task) => {
   const {description, dueDate, color, repeatingDays, isArchive, isFavorite} = task;

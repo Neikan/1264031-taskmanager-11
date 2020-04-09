@@ -1,6 +1,6 @@
-import {Count} from "../../../components/consts";
-import {createTaskEdit} from "../../tasks/task-edit-form";
-import {createTasks} from "../../tasks/tasks-creation";
+import {Count} from "../../consts";
+import {createTaskEdit} from "../../tasks/task-edit-form/index-edit";
+import {createTasks} from "../../tasks/common/tasks-creation";
 import {generateTasks} from "../../../mock/components/task";
 
 export const tasks = generateTasks(Count.TASKS);
