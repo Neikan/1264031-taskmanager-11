@@ -1,3 +1,7 @@
+/**
+ * Создание разметки блока цветовой панели
+ * @return {string} разметка цветовой панели
+ */
 export const createColorBar = () => {
   return (`
     <div class="card__color-bar">

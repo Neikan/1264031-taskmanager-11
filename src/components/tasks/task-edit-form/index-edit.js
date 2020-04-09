@@ -1,12 +1,12 @@
-import {createColorBar} from "./components/colorBarBlock";
+
+import {createColorBar} from "../common/colorBarBlock";
 import {createDescription} from "./components/descriptionBlock";
 import {createSettingsBlock} from "./components/settingsBlock";
 import {createButtonsBlock} from "./components/buttonsBlock";
 
-
 /**
  * Создание шаблона формы редактирования / создания карточки задачи
- * @param {Object} task
+ * @param {Object} task задача
  * @return {string} форма редактирования / создания карточки задачи
  */
 export const createTaskEdit = (task) => {
