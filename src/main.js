@@ -2,8 +2,7 @@ import {createMenu} from "./components/menu/index-menu";
 import {createFilters} from "./components/filters/index-filters";
 import {createBoard} from "./components/board/index-board";
 import {render} from "./components/utils";
-
-import {loadMoreClickHandler} from "./components/board/components/listeners";
+import {addListeners} from "./components/listeners";
 
 const Nodes = {
   HEADER: document.querySelector(`.control`),
@@ -18,7 +17,7 @@ const init = () => {
   render(Nodes.MAIN, createFilters());
   render(Nodes.MAIN, createBoard());
 
-  document.querySelector(`.load-more`).addEventListener(`click`, loadMoreClickHandler);
+  addListeners();
 };
 
 init();

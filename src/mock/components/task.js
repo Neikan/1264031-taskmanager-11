@@ -1,6 +1,5 @@
-import {Count, COLORS, DAYS} from "../../components/consts.js";
+import {COLORS, DAYS} from "../../components/consts.js";
 import {DescriptionItems, DefaultRepeatingDays} from "../consts.js";
-import {createTask} from "../../components/task/task.js";
 import {getRandomBoolean, getRandomArrayItem, getRandomDate} from "../utils.js";
 
 /**
@@ -36,24 +35,11 @@ export const generateTask = () => {
 
 /**
  * Генерация массива задач
- * @param {Number} count
+ * @param {Number} count количество элементов для генерации
  * @return {Array} массив сгенерированных задач
  */
 export const generateTasks = (count) => {
   return new Array(count)
     .fill(``)
     .map(generateTask);
-};
-
-/**
- * Создание нескольких задач по одному шаблону
- * @param {string} template шаблон для дублирования
- * @return {string} результирущая строка
- */
-export const createTasks = () => {
-  let result = ``;
-  for (let i = 0; i < Count.TASKS_ON_START; i++) {
-    result += createTask(generateTask());
-  }
-  return result;
 };

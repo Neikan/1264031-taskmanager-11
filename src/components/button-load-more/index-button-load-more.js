@@ -1,3 +1,5 @@
+import {loadMoreClickHandler} from "../listeners";
+
 /**
  * Создание шаблона кнопки показа оставшихся задач
  * @return {string} - кнопка
