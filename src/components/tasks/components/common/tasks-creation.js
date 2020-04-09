@@ -1,4 +1,4 @@
-import {createTask} from "../../index-view";
+import {createTask} from "../../task";
 
 /**
  * Создание разметки нескольких задач

@@ -1,4 +1,4 @@
-import {MenuItems} from "../../components/consts";
+import {MenuItems} from "../consts";
 import {createMenuItem} from "./components/field";
 import {createMenuSection} from "./components/section";
 

@@ -1,6 +1,6 @@
-import {createMenu} from "./components/menu/index-menu";
-import {createFilters} from "./components/filters/index-filters";
-import {createBoard} from "./components/board/index-board";
+import {createMenu} from "./components/menu/menu";
+import {createFilters} from "./components/filters/filters";
+import {createBoard} from "./components/board/board";
 import {render} from "./components/utils";
 import {addListeners} from "./components/listeners";
 

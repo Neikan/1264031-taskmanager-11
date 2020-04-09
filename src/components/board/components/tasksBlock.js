@@ -1,5 +1,5 @@
 import {Count} from "../../consts";
-import {createTask} from "../../tasks/index-view";
+import {createTask} from "../../tasks/task";
 import {createTasks} from "../../tasks/components/common/tasks-creation";
 import {generateTasks} from "../../../mock/components/task";
 
