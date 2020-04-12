@@ -1,3 +1,6 @@
+import {DAYS} from "../../consts";
+import {Sign, DAYS_OF_WEEK} from "./tasks-consts";
+
 /**
  * Получание случайного логического значения
  * @return {boolean} полученное логическое значение
@@ -8,7 +11,7 @@ export const getRandomBoolean = () => Math.random() > 0.5;
  * Получение случайного числа из диапазона
  * @param {Number} max большее число
  * @param {Number} min меньшее число
-* @return {Number} полученное случайное число
+ * @return {Number} полученное случайное число
  */
 const getRandomInt = (max, min = 0) => {
   return min + Math.floor(Math.random() * (max - min));
@@ -27,10 +30,24 @@ export const getRandomElement = (array) => array[getRandomInt(array.length)];
  */
 export const getRandomDate = () => {
   const targetDate = new Date();
-  const sign = getRandomBoolean() ? 1 : -1;
-  const diffValue = sign * getRandomInt(8);
+  const sign = getRandomBoolean() ? Sign.PLUS : Sign.MINUS;
+  const diffValue = sign * getRandomInt(DAYS_OF_WEEK);
 
   targetDate.setDate(targetDate.getDate() + diffValue);
 
   return targetDate;
 };
+
+/**
+  * Получение дня повторения задачи
+  * @param {Array} days дни
+  * @param {string} day день
+  * @return {Object} день повторения
+  */
+const getDay = (days, day) => Object.assign(days, {[day]: getRandomBoolean()});
+
+/**
+* Генерация дней, в которые задача повторяется
+* @return {Object} дни повторения
+*/
+export const generateRepeatingDays = () => DAYS.reduce(getDay, {});

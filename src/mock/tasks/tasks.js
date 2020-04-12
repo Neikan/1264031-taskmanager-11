@@ -1,20 +1,11 @@
-import {COLORS, DAYS} from "../../consts.js";
+import {COLORS} from "../../consts.js";
 import {DESCRIPTIONS, DefaultRepeatingDays} from "./tasks-consts.js";
-import {getRandomBoolean, getRandomElement, getRandomDate} from "./tasks-utils.js";
-
-/**
-  * Получение дня повторения задачи
-  * @param {*} days
-  * @param {*} day
-  * @return {Object} день повторения
-  */
-const getDay = (days, day) => Object.assign(days, {[day]: getRandomBoolean()});
-
-/**
- * Генерация дней, в которые задача повторяется
- * @return {Object} дни повторения
- */
-const generateRepeatingDays = () => DAYS.reduce(getDay, {});
+import {
+  getRandomBoolean,
+  getRandomElement,
+  getRandomDate,
+  generateRepeatingDays
+} from "./tasks-utils.js";
 
 /**
  * Генерация задачи со случайными атрибутами

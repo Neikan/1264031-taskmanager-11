@@ -1,3 +1,5 @@
+export const DAYS_OF_WEEK = 8;
+
 export const DESCRIPTIONS = [
   `Изучить теорию`,
   `Выполнить практические задания`,
@@ -8,6 +10,11 @@ export const DESCRIPTIONS = [
   `Начать делать pet-проект`,
   `Подготовиться к следующей лекции`
 ];
+
+export const Sign = {
+  PLUS: 1,
+  MINUS: -1
+};
 
 export const DefaultRepeatingDays = {
   'mo': false,

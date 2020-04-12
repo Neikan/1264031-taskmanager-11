@@ -1,4 +1,4 @@
-import {Position} from "./consts";
+import {Position, CHECK_FORMAT_TIME} from "./consts";
 
 /**
  * Отрисовка элемента страницы ("компонента")
@@ -16,7 +16,7 @@ export const render = (container, template, position = Position.BEFORE_END) =>
  * @return {string}
  */
 const castTimeFormat = (value) => {
-  return value < 10 ? `0${value}` : String(value);
+  return value < CHECK_FORMAT_TIME ? `0${value}` : String(value);
 };
 
 /**

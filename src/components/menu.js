@@ -4,7 +4,7 @@ import {MEMU_ITEMS} from "../consts";
  * Создание разметки блока главного меню
  * @return {string} разметка блока
  */
-const createMenu = () => createMenuSection(MEMU_ITEMS.map((menuItem) => createMenuItem(menuItem)).join(`\n`));
+const createMenu = () => createMenuSection(MEMU_ITEMS.map(createMenuItem).join(`\n`));
 
 /**
  * Создание разметки секции главного меню

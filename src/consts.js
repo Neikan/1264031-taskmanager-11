@@ -1,3 +1,6 @@
+export const CHECK_FORMAT_TIME = 10;
+export const CHECKED = ` checked`;
+
 export const CountTask = {
   ALL: 22,
   START: 8,
@@ -29,25 +32,46 @@ export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 export const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
 
 export const FILTER_NAMES = [
-  `all`,
-  `overdue`,
-  `today`,
-  `favorites`,
-  `repeating`,
-  `archive`
+  {
+    name: `all`,
+    checked: true
+  },
+  {
+    name: `overdue`,
+    checked: false
+  },
+  {
+    name: `today`,
+    checked: false
+  },
+  {
+    name: `favorites`,
+    checked: false
+  },
+  {
+    name: `repeating`,
+    checked: false
+  },
+  {
+    name: `archive`,
+    checked: false
+  }
 ];
 
 export const MEMU_ITEMS = [
   {
     name: `new-task`,
-    label: `+ ADD NEW TASK`
+    label: `+ ADD NEW TASK`,
+    checked: true
   },
   {
     name: `task`,
-    label: `TASKS`
+    label: `TASKS`,
+    checked: false
   },
   {
     name: `statistic`,
-    label: `STATISTICS`
+    label: `STATISTICS`,
+    checked: false
   }
 ];

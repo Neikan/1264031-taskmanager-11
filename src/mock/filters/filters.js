@@ -1,4 +1,4 @@
-import {FILTER_NAMES} from "../../consts";
+import {FILTER_NAMES, CountTask} from "../../consts";
 
 /**
  * Генерация фильтров
@@ -7,8 +7,9 @@ import {FILTER_NAMES} from "../../consts";
 const generateFilters = () => {
   return FILTER_NAMES.map((it) => {
     return {
-      name: it,
-      count: Math.floor(Math.random() * 10),
+      name: it.name,
+      checked: it.checked,
+      count: Math.floor(Math.random() * CountTask.ALL),
     };
   });
 };
