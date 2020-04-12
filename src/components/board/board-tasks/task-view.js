@@ -4,18 +4,18 @@ import {createDescription} from "./common/description";
 import {createSettingsBlock} from "./common/settings";
 
 /**
- * Создание разметки для формы просмотра задачи
+ * Создание разметки блока формы просмотра задачи
  * @param {Object} task задача
+ * @param {Object} classes классы разметки
  * @param {Boolean} isView флаг, отвечающий за вид отображаемой формы
- * @param {Object} classesMarkup классы разметки
- * @return {string} разметка формы просмотра задачи
+ * @return {string} разметка блока
  */
-const getViewForm = (task, isView, classesMarkup) => {
+const getViewForm = (task, classes, isView) => {
   const {description, color} = task;
-  const {repeatClass, deadlineClass} = classesMarkup;
+  const {repeat, deadline} = classes;
 
   return (`
-    <article class="card card--${color} ${repeatClass} ${deadlineClass}">
+    <article class="card card--${color} ${repeat} ${deadline}">
       <div class="card__form">
         <div class="card__inner">
           ${createButtonsBlock(task, isView)}

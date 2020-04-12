@@ -17,20 +17,20 @@ const createColorsBlock = (color) => {
 };
 
 /**
- * Создание разметки нескольких цветов
+ * Создание разметки блока нескольких цветов
  * @param {Array} colors цвета
  * @param {string} currentColor
- * @return {string} разметка нескольких цветов
+ * @return {string} разметка блока
  */
 const createColors = (colors, currentColor) =>
   colors.map((color, index) => createColor(color, index, currentColor)).join(`\n`);
 
 /**
- * Создание разметки цвета
+ * Создание разметки блока цвета
  * @param {string} color цвет
  * @param {Number} index индекс цвета в массиве цветов
  * @param {string} currentColor выбранный цвет по умолчанию
- * @return {string} разметка цвета
+ * @return {string} разметка блока
  */
 const createColor = (color, index, currentColor) => {
   const checked = currentColor === color ? Checked.CLASS : ``;

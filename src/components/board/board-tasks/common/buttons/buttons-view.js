@@ -1,8 +1,8 @@
 /**
- * Создание разметки кнопок формы просмотра задачи
+ * Создание разметки блока кнопок формы просмотра задачи
  * @param {string} archiveInactive класс неактивной кнопки добавления в "Архив"
  * @param {string} favoriteInactive класс неактивной кнопки добавления в "Избранное"
- * @return {string} разметка кнопок формы просмотра задачи
+ * @return {string} разметка блока
  */
 const getViewButtons = (archiveInactive, favoriteInactive) => {
   return (`

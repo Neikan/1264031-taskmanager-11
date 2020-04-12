@@ -84,3 +84,13 @@ export const MEMU_ITEMS = [
     checked: false
   }
 ];
+
+export const Form = {
+  VIEW: true,
+  EDIT: false
+};
+
+export const CardClass = {
+  repeat: `card--repeat`,
+  deadline: `card--deadline`
+};

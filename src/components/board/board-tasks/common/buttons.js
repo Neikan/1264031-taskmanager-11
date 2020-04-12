@@ -5,7 +5,7 @@ import {getEditButtons} from "./buttons/buttons-edit";
  * Создание разметки блока кнопок задачи
  * @param {Object} task задача
  * @param {Boolean} isView флаг, отвечающий за вид отображаемой формы
- * @return {string} разметка блока кнопок задачи
+ * @return {string} разметка блока
  */
 const createButtonsBlock = (task, isView) => {
   const {isArchive, isFavorite} = task;

@@ -28,9 +28,9 @@ const createFiltersSection = (filters) => {
 };
 
 /**
- * Создание разметки фильтра
+ * Создание разметки блока фильтра
  * @param {Object} {параметры фильтра}
- * @return {string} разметка фильтра
+ * @return {string} разметка блока
  */
 const createFilter = ({name, checked, count}) => {
   return (`

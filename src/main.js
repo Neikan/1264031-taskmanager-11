@@ -3,7 +3,7 @@ import {generateTasks} from "./mock/tasks/tasks";
 import {createMenu} from "./components/menu";
 import {createFilters} from "./components/filters";
 import {createBoard} from "./components/board";
-import {createTask} from "./components/board/task";
+import {createTasks} from "./components/board/task";
 import {render} from "./utils";
 
 const Nodes = {
@@ -17,11 +17,10 @@ let showingTasksCount = CountTask.START;
 
 const loadMoreClickHandler = () => {
   const taskListElement = document.querySelector(`.board__tasks`);
-  const prevTasksCount = CountTask.START;
+  const prevTasksCount = showingTasksCount;
   showingTasksCount += CountTask.BY_BUTTON;
 
-  tasks.slice(prevTasksCount, showingTasksCount)
-    .forEach((task) => render(taskListElement, createTask(task, true)));
+  render(taskListElement, createTasks(tasks.slice(prevTasksCount, showingTasksCount)));
 
   if (showingTasksCount >= tasks.length) {
     document.querySelector(`.load-more`).remove();

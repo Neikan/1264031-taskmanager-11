@@ -1,35 +1,52 @@
 import {getViewForm} from "./board-tasks/task-view";
 import {getEditForm} from "./board-tasks/task-edit";
-import { CountTask } from "../../consts";
+import {Form, CardClass} from "../../consts";
 
 /**
- * Создание шаблона отображения существующей карточки задачи
+ * Создание разметки блока формы карточки задачи
  * @param {Object} task задача
  * @param {Boolean} isView флаг, отвечающий за вид отображаемой формы
- * @return {string} форма просмотра задачи
+ * @return {string} разметка блока
  */
-const createTask = (task, isView) => {
+const createTask = (task, isView = Form.VIEW) => {
   const {dueDate, repeatingDays} = task;
+  const additionalInfo = getAdditionalInfo({dueDate, repeatingDays});
+  const additionalMarkup = getAdditionalMarkup(additionalInfo);
 
-  const Parameters = {
-    isExpired: dueDate instanceof Date && dueDate < Date.now(),
-    isRepeating: Object.values(repeatingDays).some(Boolean)
-  };
-
-  const ClassesMarkup = {
-    repeatClass: Parameters.isRepeating ? `card--repeat` : ``,
-    deadlineClass: Parameters.isExpired ? `card--deadline` : ``
-  };
-
-  return isView ? getViewForm(task, isView, ClassesMarkup) : getEditForm(task, isView, ClassesMarkup, Parameters);
+  return isView ?
+    getViewForm(task, additionalMarkup, isView) :
+    getEditForm(task, additionalMarkup, isView, additionalInfo);
 };
 
 /**
- * Создание разметки нескольких задач
- * @param {Array} tasks задачи
- * @return {string} разметка нескольких задач
+ * Получение дополнительных вычисляемых свойств задачи
+ * @param {Object} {параметры задачи}
+ * @return {Object} дополнительные параметры
  */
-const createTasks = (tasks) => tasks.slice(1, CountTask.START)
-  .reduce((cards, task) => cards + createTask(task, true), ``);
+const getAdditionalInfo = ({dueDate, repeatingDays}) => {
+  return {
+    isExpired: dueDate instanceof Date && dueDate < Date.now(),
+    isRepeating: Object.values(repeatingDays).some(Boolean)
+  };
+};
+
+/**
+ * Получение дополнительных классов разметки для карточки задачи
+ * @param {Object} {дополнительные параметры}
+ * @return {Object} дополнительные классы для разметки
+ */
+const getAdditionalMarkup = ({isExpired, isRepeating}) => {
+  return {
+    repeat: isRepeating ? CardClass.repeat : ``,
+    deadline: isExpired ? CardClass.deadline : ``
+  };
+};
+
+/**
+ * Создание разметки блока нескольких задач
+ * @param {Array} tasks задачи
+ * @return {string} разметка блока
+ */
+const createTasks = (tasks) => tasks.reduce((cards, task) => cards + createTask(task), ``);
 
 export {createTask, createTasks};

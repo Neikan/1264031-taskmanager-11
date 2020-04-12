@@ -1,7 +1,7 @@
 /**
   * Создание разметки блока описания формы просмотра задачи
  * @param {string} description описание задачи
- * @return {string} разметка блока с описанием задачи
+ * @return {string} разметка блока
  */
 const getEditDescription = (description) => {
   return (`

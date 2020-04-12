@@ -2,22 +2,23 @@ import {createColorBar} from "./common/color-bar";
 import {createDescription} from "./common/description";
 import {createSettingsBlock} from "./common/settings";
 import {createButtonsBlock} from "./common/buttons";
+import {Form} from "../../../consts";
 
 /**
- * Создание разметки для формы просмотра задачи
+ * Создание разметки блока формы создания / редактирования задачи
  * @param {Object} task задача
+ * @param {Object} classes классы разметки
  * @param {Boolean} isView флаг, отвечающий за вид отображаемой формы
- * @param {Object} classesMarkup классы разметки
- * @param {Object} taskParameters дополнительные параметры задачи
- * @return {string} разметка формы просмотра задачи
+ * @param {Object} parameters дополнительные параметры задачи
+ * @return {string} разметка блока
  */
-const getEditForm = (task, isView, classesMarkup, taskParameters) => {
+const getEditForm = (task, classes, isView = Form.EDIT, parameters) => {
   const {description, color} = task;
-  const {repeatClass, deadlineClass} = classesMarkup;
-  const {isRepeating} = taskParameters;
+  const {repeat, deadline} = classes;
+  const {isRepeating} = parameters;
 
   return (`
-    <article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
+    <article class="card card--edit card--${color} ${repeat} ${deadline}">
       <form class="card__form" method="get">
         <div class="card__inner">
           ${createColorBar()}

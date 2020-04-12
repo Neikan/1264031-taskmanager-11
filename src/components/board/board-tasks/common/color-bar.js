@@ -1,6 +1,6 @@
 /**
  * Создание разметки блока цветовой панели
- * @return {string} разметка цветовой панели
+ * @return {string} разметка блока
  */
 const createColorBar = () => {
   return (`

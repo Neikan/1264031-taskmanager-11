@@ -40,8 +40,8 @@ const collectDateBlock = ({status, showing}) => {
 
 /**
  * Создание разметки блока показа даты
- * @param {string} date
- * @param {string} time
+ * @param {string} date дата
+ * @param {string} time время
  * @return {string} разметка блока
  */
 const createDateShowingBlock = (date, time) => {

@@ -7,9 +7,9 @@ import {MEMU_ITEMS} from "../consts";
 const createMenu = () => createMenuSection(MEMU_ITEMS.map(createMenuItem).join(`\n`));
 
 /**
- * Создание разметки секции главного меню
+ * Создание разметки блока главного меню
  * @param {string} menuMarkup разхметка пунктов меню
- * @return {string} разметка секции
+ * @return {string} разметка блока
  */
 const createMenuSection = (menuMarkup) => {
   return (`
