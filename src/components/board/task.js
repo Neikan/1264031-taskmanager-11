@@ -1,5 +1,6 @@
 import {getViewForm} from "./board-tasks/task-view";
 import {getEditForm} from "./board-tasks/task-edit";
+import { CountTask } from "../../consts";
 
 /**
  * Создание шаблона отображения существующей карточки задачи
@@ -12,11 +13,11 @@ const createTask = (task, isView) => {
 
   const Parameters = {
     isExpired: dueDate instanceof Date && dueDate < Date.now(),
-    isRepeatingTask: Object.values(repeatingDays).some(Boolean)
+    isRepeating: Object.values(repeatingDays).some(Boolean)
   };
 
   const ClassesMarkup = {
-    repeatClass: Parameters.isRepeatingTask ? `card--repeat` : ``,
+    repeatClass: Parameters.isRepeating ? `card--repeat` : ``,
     deadlineClass: Parameters.isExpired ? `card--deadline` : ``
   };
 
@@ -28,12 +29,7 @@ const createTask = (task, isView) => {
  * @param {Array} tasks задачи
  * @return {string} разметка нескольких задач
  */
-const createTasks = (tasks) => {
-  let result = ``;
-  tasks.forEach((it) => {
-    result += createTask(it, true);
-  });
-  return result;
-};
+const createTasks = (tasks) => tasks.slice(1, CountTask.START)
+  .reduce((cards, task) => cards + createTask(task, true), ``);
 
 export {createTask, createTasks};

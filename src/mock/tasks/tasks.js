@@ -1,10 +1,10 @@
 import {COLORS} from "../../consts.js";
-import {DESCRIPTIONS, DefaultRepeatingDays} from "./tasks-consts.js";
+import {DESCRIPTIONS} from "./tasks-consts.js";
 import {
   getRandomBoolean,
   getRandomElement,
   getRandomDate,
-  generateRepeatingDays
+  getRepeatingDays
 } from "./tasks-utils.js";
 
 /**
@@ -12,12 +12,12 @@ import {
  * @return {Object} генерируемый объект задачи
  */
 const generateTask = () => {
-  const dueDate = getRandomBoolean() ? null : getRandomDate();
+  const dueDate = getRandomBoolean() ? getRandomDate() : null;
 
   return {
     description: getRandomElement(DESCRIPTIONS),
     dueDate,
-    repeatingDays: dueDate ? DefaultRepeatingDays : generateRepeatingDays(),
+    repeatingDays: getRepeatingDays(dueDate),
     color: getRandomElement(COLORS),
     isArchive: getRandomBoolean(),
     isFavorite: getRandomBoolean(),

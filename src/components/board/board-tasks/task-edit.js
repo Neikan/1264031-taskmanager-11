@@ -14,7 +14,7 @@ import {createButtonsBlock} from "./common/buttons";
 const getEditForm = (task, isView, classesMarkup, taskParameters) => {
   const {description, color} = task;
   const {repeatClass, deadlineClass} = classesMarkup;
-  const {isRepeatingTask} = taskParameters;
+  const {isRepeating} = taskParameters;
 
   return (`
     <article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
@@ -22,7 +22,7 @@ const getEditForm = (task, isView, classesMarkup, taskParameters) => {
         <div class="card__inner">
           ${createColorBar()}
           ${createDescription(description, isView)}
-          ${createSettingsBlock(task, isView, isRepeatingTask)}
+          ${createSettingsBlock(task, isView, isRepeating)}
           ${createButtonsBlock(task, isView)}
         </div>
       </form>

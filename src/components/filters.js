@@ -1,4 +1,4 @@
-import {CHECKED} from "../consts";
+import {Checked} from "../consts";
 import {generateFilters} from "../mock/filters/filters";
 
 /**
@@ -29,8 +29,7 @@ const createFiltersSection = (filters) => {
 
 /**
  * Создание разметки фильтра
- * @param {Object} filter фильтр
- * @param {boolean} isChecked флаг, показывающий что фильтр выбран
+ * @param {Object} {параметры фильтра}
  * @return {string} разметка фильтра
  */
 const createFilter = ({name, checked, count}) => {
@@ -40,7 +39,7 @@ const createFilter = ({name, checked, count}) => {
       id="filter__${name}"
       class="filter__input visually-hidden"
       name="filter"
-      ${checked && CHECKED}
+      ${checked && Checked.INPUT}
     />
     <label for="filter__${name}" class="filter__label">
       ${name} <span class="filter__${name}-count">${count}</span>

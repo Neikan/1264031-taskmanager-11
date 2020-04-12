@@ -1,4 +1,4 @@
-import {COLORS} from "../../../../consts";
+import {COLORS, Checked} from "../../../../consts";
 
 /**
  * Создание разметки блока выбора цвета
@@ -27,13 +27,13 @@ const createColors = (colors, currentColor) =>
 
 /**
  * Создание разметки цвета
- * @param {string} color
- * @param {Number} index
- * @param {string} currentColor
+ * @param {string} color цвет
+ * @param {Number} index индекс цвета в массиве цветов
+ * @param {string} currentColor выбранный цвет по умолчанию
  * @return {string} разметка цвета
  */
 const createColor = (color, index, currentColor) => {
-  const current = currentColor === color ? `checked` : ``;
+  const checked = currentColor === color ? Checked.CLASS : ``;
 
   return (`
     <input
@@ -42,7 +42,7 @@ const createColor = (color, index, currentColor) => {
       class="card__color-input card__color-input--${color} visually-hidden"
       name="color"
       value="${color}"
-      ${current}
+      ${checked}
     />
     <label
       for="color-${color}-${index}"

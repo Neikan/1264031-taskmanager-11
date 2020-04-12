@@ -1,10 +1,19 @@
 export const CHECK_FORMAT_TIME = 10;
-export const CHECKED = ` checked`;
+
+export const Checked = {
+  INPUT: ` checked`,
+  CLASS: `checked`
+};
 
 export const CountTask = {
   ALL: 22,
   START: 8,
   BY_BUTTON: 8
+};
+
+export const Decision = {
+  YES: `yes`,
+  NO: `no`
 };
 
 export const Position = {

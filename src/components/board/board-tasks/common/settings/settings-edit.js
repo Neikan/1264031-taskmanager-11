@@ -7,11 +7,11 @@ import {createColorsBlock} from "../../task-edit/colors-block";
  * @param {string} task описание задачи
  * @param {string} date дата
  * @param {string} time время
- * @param {Boolean} isRepeatingTask
+ * @param {Boolean} isRepeating
  * @param {Boolean} isDateShowing
  * @return {string} разметка блока с описанием задачи
  */
-const getEditSettings = (task, date, time, isRepeatingTask, isDateShowing) => {
+const getEditSettings = (task, date, time, isRepeating, isDateShowing) => {
   const {color, repeatingDays} = task;
 
   return (`
@@ -19,7 +19,7 @@ const getEditSettings = (task, date, time, isRepeatingTask, isDateShowing) => {
       <div class="card__details">
         <div class="card__dates">
           ${createDateBlock(isDateShowing, date, time)}
-          ${createRepeatBlock(isRepeatingTask, repeatingDays)}
+          ${createRepeatBlock(isRepeating, repeatingDays)}
         </div>
       </div>
       ${createColorsBlock(color)}
