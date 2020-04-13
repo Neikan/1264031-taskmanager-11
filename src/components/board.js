@@ -1,26 +1,20 @@
-import {createLoadMore} from "./button-load-more";
-import {createTaskEdit} from "./task-form";
-import {createTasks} from "./tasks-generation";
+import {createSorting} from "./board/sorting";
+import {createBoardTasks} from "./board/board-tasks";
+import {createLoadMore} from "./board/index-button-load-more";
 
 /**
- * Создание шаблона доски задач
- * @return {string} - доска для отображения задач
+ * Создание разметки блока доски задач
+ * @param {Array} tasks задачи
+ * @return {string} разметка блока
  */
-export const createBoard = () => {
+const createBoard = (tasks) => {
   return (`
     <section class="board container">
-      <div class="board__filter-list">
-        <a href="#" class="board__filter" data-sort-type="default">SORT BY DEFAULT</a>
-        <a href="#" class="board__filter" data-sort-type="date-up">SORT BY DATE up</a>
-        <a href="#" class="board__filter" data-sort-type="date-down">SORT BY DATE down</a>
-      </div>
-
-      <div class="board__tasks">
-        ${createTaskEdit()}
-        ${createTasks()}
-      </div>
-
+      ${createSorting()}
+      ${createBoardTasks(tasks)}
       ${createLoadMore()}
     </section>
   `);
 };
+
+export {createBoard};

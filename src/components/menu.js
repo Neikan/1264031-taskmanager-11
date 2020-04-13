@@ -1,36 +1,41 @@
+import {MEMU_ITEMS} from "../consts";
+
 /**
- * Создание шаблона главного меню
- * @return {string} - главное меню
+ * Создание разметки блока главного меню
+ * @return {string} разметка блока
  */
-export const createMenu = () => {
+const createMenu = () => createMenuSection(MEMU_ITEMS.map(createMenuItem).join(`\n`));
+
+/**
+ * Создание разметки блока главного меню
+ * @param {string} menuMarkup разхметка пунктов меню
+ * @return {string} разметка блока
+ */
+const createMenuSection = (menuMarkup) => {
   return (`
     <section class="control__btn-wrap">
-      <input
-        type="radio"
-        name="control"
-        id="control__new-task"
-        class="control__input visually-hidden"
-      />
-      <label for="control__new-task" class="control__label control__label--new-task"
-        >+ ADD NEW TASK</label
-      >
-      <input
-        type="radio"
-        name="control"
-        id="control__task"
-        class="control__input visually-hidden"
-        checked
-      />
-      <label for="control__task" class="control__label">TASKS</label>
-      <input
-        type="radio"
-        name="control"
-        id="control__statistic"
-        class="control__input visually-hidden"
-      />
-      <label for="control__statistic" class="control__label"
-        >STATISTICS</label
-      >
+      ${menuMarkup}
     </section>
   `);
 };
+
+/**
+ * Создание разметки блока пункта меню
+ * @param {Object} {пункт меню}
+ * @return {string} разметка блока
+ */
+const createMenuItem = ({name, label}) => {
+  return (`
+    <input
+      type="radio"
+      name="control"
+      id="control__${name}"
+      class="control__input visually-hidden"
+    />
+    <label for="control__${name}" class="control__label control__label--${name}"
+      >${label}</label
+    >
+  `);
+};
+
+export {createMenu};
