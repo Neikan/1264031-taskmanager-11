@@ -3,12 +3,20 @@ import {Position, CHECK_FORMAT_TIME} from "./consts";
 /**
  * Отрисовка элемента страницы ("компонента")
  * @param {Element} container контейнер, в который отрисосывается шаблон
- * @param {string} template отрисовываемый шаблон
+ * @param {string} element отрисовываемый элемент
  * @param {string} position место в контейнере для отрисовываемого шаблона
  * @return {void}
  */
-export const render = (container, template, position = Position.BEFORE_END) =>
-  void container.insertAdjacentHTML(position, template);
+export const render = (container, element, position = Position.BEFORE_END) => {
+  switch (position) {
+    case Position.AFTER_BEGIN:
+      container.prepend(element);
+      break;
+    case Position.BEFORE_END:
+      container.append(element);
+      break;
+  }
+};
 
 /**
  * Добавление ведущих нулей к часам / минутам: 2 -> 02
@@ -29,4 +37,16 @@ export const formatTime = (date) => {
   const minutes = castTimeFormat(date.getMinutes());
 
   return `${hours}:${minutes}`;
+};
+
+/**
+ * Создание DOM-элемента
+ * @param {string} template шаблон-разметка для создания элемента
+ * @return {string} разметка созданного элемента
+ */
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
 };

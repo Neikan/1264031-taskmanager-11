@@ -1,14 +1,14 @@
 import {getViewForm} from "./board-tasks/task-view";
 import {getEditForm} from "./board-tasks/task-edit";
-import {Form, CardClass} from "../../consts";
-
+import {CardClass, Form} from "../../consts";
+import {createElement} from "../../utils";
 /**
  * Создание разметки блока формы карточки задачи
  * @param {Object} task задача
  * @param {Boolean} isView флаг, отвечающий за вид отображаемой формы
  * @return {string} разметка блока
  */
-const createTask = (task, isView = Form.VIEW) => {
+export const createTask = (task, isView) => {
   const {dueDate, repeatingDays} = task;
   const additionalInfo = getAdditionalInfo({dueDate, repeatingDays});
   const additionalMarkup = getAdditionalMarkup(additionalInfo);
@@ -49,4 +49,32 @@ const getAdditionalMarkup = ({isExpired, isRepeating}) => {
  */
 const createTasks = (tasks) => tasks.reduce((cards, task) => cards + createTask(task), ``);
 
-export {createTask, createTasks};
+export {createTasks};
+
+
+/**
+ * Создание класса задачи
+ */
+export default class Task {
+  constructor(task, isView = Form.VIEW) {
+    this._task = task;
+    this._isView = isView;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTask(this._task, this._isView);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

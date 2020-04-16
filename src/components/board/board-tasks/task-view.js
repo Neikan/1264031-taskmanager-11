@@ -14,8 +14,8 @@ const getViewForm = (task, classes, isView) => {
   const {description, color} = task;
   const {repeat, deadline} = classes;
 
-  return (`
-    <article class="card card--${color} ${repeat} ${deadline}">
+  return (
+    `<article class="card card--${color} ${repeat} ${deadline}">
       <div class="card__form">
         <div class="card__inner">
           ${createButtonsBlock(task, isView)}
@@ -24,8 +24,8 @@ const getViewForm = (task, classes, isView) => {
           ${createSettingsBlock(task, isView)}
         </div>
       </div>
-    </article>
-  `);
+    </article>`
+  );
 };
 
 export {getViewForm};

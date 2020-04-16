@@ -1,4 +1,5 @@
 import {MEMU_ITEMS} from "../consts";
+import {createElement} from "../utils";
 
 /**
  * Создание разметки блока главного меню
@@ -12,11 +13,11 @@ const createMenu = () => createMenuSection(MEMU_ITEMS.map(createMenuItem).join(`
  * @return {string} разметка блока
  */
 const createMenuSection = (menuMarkup) => {
-  return (`
-    <section class="control__btn-wrap">
+  return (
+    `<section class="control__btn-wrap">
       ${menuMarkup}
-    </section>
-  `);
+    </section>`
+  );
 };
 
 /**
@@ -25,17 +26,40 @@ const createMenuSection = (menuMarkup) => {
  * @return {string} разметка блока
  */
 const createMenuItem = ({name, label}) => {
-  return (`
-    <input
+  return (
+    `<input
       type="radio"
       name="control"
       id="control__${name}"
-      class="control__input visually-hidden"
-    />
+      class="control__input visually-hidden"/>
     <label for="control__${name}" class="control__label control__label--${name}"
-      >${label}</label
-    >
-  `);
+      >${label}</label>`
+  );
 };
 
-export {createMenu};
+
+/**
+ * Создание класса меню
+ */
+export default class Menu {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createMenu();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+

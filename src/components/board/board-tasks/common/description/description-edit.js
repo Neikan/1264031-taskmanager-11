@@ -4,17 +4,16 @@
  * @return {string} разметка блока
  */
 const getEditDescription = (description) => {
-  return (`
-    <div class="card__textarea-wrap">
+  return (
+    `<div class="card__textarea-wrap">
       <label>
         <textarea
           class="card__text"
           placeholder="Start typing your text here..."
-          name="text"
-        >${description}</textarea>
+          name="text">${description}</textarea>
       </label>
-    </div>
-  `);
+    </div>`
+  );
 };
 
 export {getEditDescription};
