@@ -1,4 +1,4 @@
-import {DAYS, Decision, Checked} from "../../../../consts";
+import {DAYS, Decision, Checked} from "../../../consts";
 
 /**
  * Создание разметки блока повторений задачи

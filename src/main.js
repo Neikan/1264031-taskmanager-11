@@ -4,7 +4,7 @@ import {generateFilters} from "./mock/filters/filters";
 import MenuComponent from "./components/menu.js";
 import FiltersComponent from "./components/filters.js";
 import BoardComponent from "./components/board.js";
-import TaskComponent from "./components/board/task.js";
+import TaskComponent from "./components/task.js";
 import {render} from "./utils";
 
 const Nodes = {
@@ -13,27 +13,29 @@ const Nodes = {
 };
 
 const renderBoard = (boardComponent, tasks) => {
-  const tasksList = boardComponent.getElement().querySelector(`.board__tasks`);
-  let showingTasksCount = CountTask.START;
+  if (tasks.length) {
+    const tasksList = boardComponent.getElement().querySelector(`.board__tasks`);
+    let showingTasksCount = CountTask.START;
 
-  const renderTasksList = () => (task) => renderTask(tasksList, task);
+    const renderTasksList = () => (task) => renderTask(tasksList, task);
 
-  tasks.slice(0, showingTasksCount).map(renderTasksList());
+    tasks.slice(0, showingTasksCount).map(renderTasksList());
 
-  const loadMore = boardComponent.getElement().querySelector(`.load-more`);
+    const loadMore = boardComponent.getElement().querySelector(`.load-more`);
 
-  const loadMoreClickHandler = () => {
-    const prevTasksCount = showingTasksCount;
-    showingTasksCount += CountTask.BY_BUTTON;
+    const loadMoreClickHandler = () => {
+      const prevTasksCount = showingTasksCount;
+      showingTasksCount += CountTask.BY_BUTTON;
 
-    tasks.slice(prevTasksCount, showingTasksCount).map(renderTasksList());
+      tasks.slice(prevTasksCount, showingTasksCount).map(renderTasksList());
 
-    if (showingTasksCount >= tasks.length) {
-      loadMore.remove();
-    }
-  };
+      if (showingTasksCount >= tasks.length) {
+        loadMore.remove();
+      }
+    };
 
-  loadMore.addEventListener(`click`, loadMoreClickHandler);
+    loadMore.addEventListener(`click`, loadMoreClickHandler);
+  }
 };
 
 const renderTask = (tasksList, task) => {
@@ -74,7 +76,7 @@ const renderTask = (tasksList, task) => {
 const init = () => {
   const filters = generateFilters();
   const tasks = generateTasks(CountTask.ALL);
-  const boardComponent = new BoardComponent();
+  const boardComponent = new BoardComponent(tasks);
 
   render(Nodes.HEADER, new MenuComponent().getElement());
   render(Nodes.MAIN, new FiltersComponent(filters).getElement());

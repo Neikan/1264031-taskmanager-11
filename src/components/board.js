@@ -8,12 +8,34 @@ import {createElement} from "../utils";
  * @param {Array} tasks задачи
  * @return {string} разметка блока
  */
-export const createBoard = (tasks) => {
+const createBoardO = () => {
   return (
     `<section class="board container">
       ${createSorting()}
-      ${createBoardTasks(tasks)}
+      ${createBoardTasks()}
       ${createLoadMore()}
+    </section>`
+  );
+};
+
+const createBoard = (tasks) => tasks.length ? getBoardWithTasks() : getBoardNoTasks();
+
+const getBoardWithTasks = () => {
+  return (
+    `<section class="board container">
+      ${createSorting()}
+      ${createBoardTasks()}
+      ${createLoadMore()}
+    </section>`
+  );
+};
+
+const getBoardNoTasks = () => {
+  return (
+    `<section class="board container">
+      <p class="board__no-tasks">
+        Click «ADD NEW TASK» in menu to create your first task
+      </p>
     </section>`
   );
 };

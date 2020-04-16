@@ -1,7 +1,7 @@
-import {getViewForm} from "./board-tasks/task-view";
-import {getEditForm} from "./board-tasks/task-edit";
-import {CardClass, Form} from "../../consts";
-import {createElement} from "../../utils";
+import {getViewForm} from "./task/task-view";
+import {getEditForm} from "./task/task-edit";
+import {CardClass, Form} from "../consts";
+import {createElement} from "../utils";
 /**
  * Создание разметки блока формы карточки задачи
  * @param {Object} task задача
