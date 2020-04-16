@@ -1,5 +1,5 @@
-import {getViewForm} from "./task/task-view";
-import {getEditForm} from "./task/task-edit";
+import {getViewForm} from "./task/components/task-view";
+import {getEditForm} from "./task/components/task-edit";
 import {CardClass, Form} from "../consts";
 import {createElement} from "../utils";
 /**
@@ -8,7 +8,7 @@ import {createElement} from "../utils";
  * @param {Boolean} isView флаг, отвечающий за вид отображаемой формы
  * @return {string} разметка блока
  */
-export const createTask = (task, isView) => {
+const createTask = (task, isView) => {
   const {dueDate, repeatingDays} = task;
   const additionalInfo = getAdditionalInfo({dueDate, repeatingDays});
   const additionalMarkup = getAdditionalMarkup(additionalInfo);
@@ -41,16 +41,6 @@ const getAdditionalMarkup = ({isExpired, isRepeating}) => {
     deadline: isExpired ? CardClass.deadline : ``
   };
 };
-
-/**
- * Создание разметки блока нескольких задач
- * @param {Array} tasks задачи
- * @return {string} разметка блока
- */
-const createTasks = (tasks) => tasks.reduce((cards, task) => cards + createTask(task), ``);
-
-export {createTasks};
-
 
 /**
  * Создание класса задачи

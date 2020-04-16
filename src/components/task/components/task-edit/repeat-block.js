@@ -1,4 +1,4 @@
-import {DAYS, Decision, Checked} from "../../../consts";
+import {DAYS, Decision, Checked} from "../../../../consts";
 
 /**
  * Создание разметки блока повторений задачи
@@ -28,12 +28,12 @@ const getRepeatParams = (isRepeating, repeatingDays) => {
  * @return {string} разметка блока
  */
 const collectRepeatBlock = ({status, showing}) => {
-  return (`
-    <button class="card__repeat-toggle" type="button">
+  return (
+    `<button class="card__repeat-toggle" type="button">
       repeat:<span class="card__repeat-status">${status}</span>
     </button>
-    ${showing}
-  `);
+    ${showing}`
+  );
 };
 
 /**
@@ -42,13 +42,13 @@ const collectRepeatBlock = ({status, showing}) => {
  * @return {string} разметка блока
  */
 const createRepeatShowingBlock = (repeatingDays) => {
-  return (`
-    <fieldset class="card__repeat-days">
+  return (
+    `<fieldset class="card__repeat-days">
       <div class="card__repeat-days-inner">
         ${createRepeatingDays(DAYS, repeatingDays)}
       </div>
-    </fieldset>
-  `);
+    </fieldset>`
+  );
 };
 
 /**
@@ -69,8 +69,8 @@ const createRepeatingDays = (days, repeatingDays) =>
  */
 const createRepeatingDay = (day, index, repeatingDays) => {
   const checked = repeatingDays[day] ? Checked.INPUT : ``;
-  return (`
-    <input
+  return (
+    `<input
       class="visually-hidden card__repeat-day-input"
       type="checkbox"
       id="repeat-${day}-${index}"
@@ -78,8 +78,8 @@ const createRepeatingDay = (day, index, repeatingDays) => {
       value="${day}"
       ${checked}
     />
-    <label class="card__repeat-day" for="repeat-${day}-${index}">${day}</label>
-  `);
+    <label class="card__repeat-day" for="repeat-${day}-${index}">${day}</label>`
+  );
 };
 
 export {createRepeatBlock};

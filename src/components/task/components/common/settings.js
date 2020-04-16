@@ -1,5 +1,5 @@
-import {MONTH_NAMES} from "../../../consts";
-import {formatTime} from "../../../utils";
+import {MONTH_NAMES} from "../../../../consts";
+import {formatTime} from "../../../../utils";
 import {getViewSettings} from "./settings/settings-view";
 import {getEditSettings} from "./settings/settings-edit";
 

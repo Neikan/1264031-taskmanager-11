@@ -1,6 +1,6 @@
-import {createSorting} from "./board/sorting";
-import {createBoardTasks} from "./board/board-tasks";
-import {createLoadMore} from "./board/index-button-load-more";
+import {createSorting} from "./board/components/sorting";
+import {createBoardTasks} from "./board/components/board-tasks";
+import {createLoadMore} from "./board/components/load-more-button";
 import {createElement} from "../utils";
 
 /**
@@ -8,35 +8,27 @@ import {createElement} from "../utils";
  * @param {Array} tasks задачи
  * @return {string} разметка блока
  */
-const createBoardO = () => {
-  return (
-    `<section class="board container">
-      ${createSorting()}
-      ${createBoardTasks()}
-      ${createLoadMore()}
-    </section>`
-  );
+const createBoard = (tasks) => {
+  const board = tasks.length ? getBoardWithTasks() : getBoardNoTasks();
+
+  return `<section class="board container">${board}</section>`;
 };
 
-const createBoard = (tasks) => tasks.length ? getBoardWithTasks() : getBoardNoTasks();
+/**
+ * Получение разметки блока доски при наличии задач
+ * @return {string} разметка блока
+ */
+const getBoardWithTasks = () => `${createSorting()}${createBoardTasks()}${createLoadMore()}`;
 
-const getBoardWithTasks = () => {
-  return (
-    `<section class="board container">
-      ${createSorting()}
-      ${createBoardTasks()}
-      ${createLoadMore()}
-    </section>`
-  );
-};
-
+/**
+ * Получение разметки блока доски при отсутствии задач
+ * @return {string} разметка блока
+ */
 const getBoardNoTasks = () => {
   return (
-    `<section class="board container">
-      <p class="board__no-tasks">
-        Click «ADD NEW TASK» in menu to create your first task
-      </p>
-    </section>`
+    `<p class="board__no-tasks">
+      Click «ADD NEW TASK» in menu to create your first task
+    </p>`
   );
 };
 
