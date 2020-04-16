@@ -1,6 +1,6 @@
-import {createDateBlock} from "../../task-edit/date-block";
-import {createRepeatBlock} from "../../task-edit/repeat-block";
-import {createColorsBlock} from "../../task-edit/colors-block";
+import {createDateBlock} from "./../../task-edit/date-block";
+import {createRepeatBlock} from "./../../task-edit/repeat-block";
+import {createColorsBlock} from "./../../task-edit/colors-block";
 
 /**
  * Создание разметки блока с описанием задачи для создания / редактирования
@@ -14,8 +14,8 @@ import {createColorsBlock} from "../../task-edit/colors-block";
 const getEditSettings = (task, date, time, isRepeating, isDateShowing) => {
   const {color, repeatingDays} = task;
 
-  return (`
-    <div class="card__settings">
+  return (
+    `<div class="card__settings">
       <div class="card__details">
         <div class="card__dates">
           ${createDateBlock(isDateShowing, date, time)}
@@ -23,8 +23,8 @@ const getEditSettings = (task, date, time, isRepeating, isDateShowing) => {
         </div>
       </div>
       ${createColorsBlock(color)}
-    </div>
-  `);
+    </div>`
+  );
 };
 
 export {getEditSettings};

@@ -1,41 +1,30 @@
 import {CountTask} from "./consts";
 import {generateTasks} from "./mock/tasks/tasks";
-import {createMenu} from "./components/menu";
-import {createFilters} from "./components/filters";
-import {createBoard} from "./components/board";
-import {createTasks} from "./components/board/task";
+import {generateFilters} from "./mock/filters/filters";
 import {render} from "./utils";
+import {renderBoard} from "./components/board/helpers/helpers";
+import MenuComponent from "./components/menu.js";
+import FiltersComponent from "./components/filters.js";
+import BoardComponent from "./components/board.js";
+
 
 const Nodes = {
   HEADER: document.querySelector(`.control`),
   MAIN: document.querySelector(`.main`),
 };
 
-const tasks = generateTasks(CountTask.ALL);
-
-let showingTasksCount = CountTask.START;
-
-const loadMoreClickHandler = () => {
-  const taskListElement = document.querySelector(`.board__tasks`);
-  const prevTasksCount = showingTasksCount;
-  showingTasksCount += CountTask.BY_BUTTON;
-
-  render(taskListElement, createTasks(tasks.slice(prevTasksCount, showingTasksCount)));
-
-  if (showingTasksCount >= tasks.length) {
-    document.querySelector(`.load-more`).remove();
-  }
-};
-
 /**
  * Отрисовка компонентов на странице
  */
 const init = () => {
-  render(Nodes.HEADER, createMenu());
-  render(Nodes.MAIN, createFilters());
-  render(Nodes.MAIN, createBoard(tasks));
+  const filters = generateFilters();
+  const tasks = generateTasks(CountTask.ALL);
+  const boardComponent = new BoardComponent(tasks);
 
-  document.querySelector(`.load-more`).addEventListener(`click`, loadMoreClickHandler);
+  render(Nodes.HEADER, new MenuComponent().getElement());
+  render(Nodes.MAIN, new FiltersComponent(filters).getElement());
+  render(Nodes.MAIN, boardComponent.getElement());
+  renderBoard(boardComponent, tasks);
 };
 
 init();

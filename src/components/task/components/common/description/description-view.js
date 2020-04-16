@@ -4,11 +4,11 @@
  * @return {string} разметка блока
  */
 const getViewDescription = (description) => {
-  return (`
-    <div class="card__textarea-wrap">
+  return (
+    `<div class="card__textarea-wrap">
       <p class="card__text">${description}</p>
-    </div>
-  `);
+    </div>`
+  );
 };
 
 export {getViewDescription};

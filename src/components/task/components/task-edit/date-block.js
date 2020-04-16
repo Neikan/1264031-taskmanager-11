@@ -30,12 +30,12 @@ const getDateParams = (isDateShowing, date, time) => {
  * @return {string} разметка блока
  */
 const collectDateBlock = ({status, showing}) => {
-  return (`
-    <button class="card__date-deadline-toggle" type="button">
+  return (
+    `<button class="card__date-deadline-toggle" type="button">
       date: <span class="card__date-status">${status}</span>
     </button>
-    ${showing}
-  `);
+    ${showing}`
+  );
 };
 
 /**
@@ -45,8 +45,8 @@ const collectDateBlock = ({status, showing}) => {
  * @return {string} разметка блока
  */
 const createDateShowingBlock = (date, time) => {
-  return (`
-    <fieldset class="card__date-deadline">
+  return (
+    `<fieldset class="card__date-deadline">
       <label class="card__input-deadline-wrap">
         <input
           class="card__date"
@@ -56,8 +56,8 @@ const createDateShowingBlock = (date, time) => {
           value="${date} ${time}"
         />
       </label>
-    </fieldset>
-  `);
+    </fieldset>`
+  );
 };
 
 export {createDateBlock};

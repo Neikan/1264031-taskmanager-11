@@ -18,7 +18,8 @@ export const Decision = {
 
 export const Position = {
   BEFORE_END: `beforeend`,
-  AFTER_END: `afterend`
+  AFTER_END: `afterend`,
+  AFTER_BEGIN: `afterbegin`
 };
 
 export const MONTH_NAMES = [
@@ -93,4 +94,9 @@ export const Form = {
 export const CardClass = {
   repeat: `card--repeat`,
   deadline: `card--deadline`
+};
+
+export const KeyCode = {
+  ENTER: 13,
+  ESC: 27
 };

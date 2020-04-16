@@ -5,8 +5,8 @@
  * @return {string} разметка блока
  */
 const getViewSettings = (date, time) => {
-  return (`
-    <div class="card__settings">
+  return (
+    `<div class="card__settings">
       <div class="card__details">
         <div class="card__dates">
           <div class="card__date-deadline">
@@ -17,8 +17,8 @@ const getViewSettings = (date, time) => {
           </div>
         </div>
       </div>
-    </div>
-  `);
+    </div>`
+  );
 };
 
 export {getViewSettings};

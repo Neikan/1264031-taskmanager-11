@@ -1,11 +1,12 @@
 import {Checked} from "../consts";
-import {generateFilters} from "../mock/filters/filters";
+import {createElement} from "../utils";
 
 /**
  * Создание разметки для перечня фильтров
+ * @param {Array} filters
  * @return {string} разметка блока
  */
-const createFilters = () => createFiltersSection(generateFilters().map(getFilter).join(`\n`));
+const createFilters = (filters) => createFiltersSection(filters.map(getFilter).join(`\n`));
 
 /**
  * Получение разметки для каждого фильтра
@@ -20,11 +21,11 @@ const getFilter = (filter) => createFilter(filter);
  * @return {string} разметка блока
  */
 const createFiltersSection = (filters) => {
-  return (`
-    <section class="main__filter filter container">
+  return (
+    `<section class="main__filter filter container">
       ${filters}
-    </section>
-  `);
+    </section>`
+  );
 };
 
 /**
@@ -33,18 +34,41 @@ const createFiltersSection = (filters) => {
  * @return {string} разметка блока
  */
 const createFilter = ({name, checked, count}) => {
-  return (`
-    <input
+  return (
+    `<input
       type="radio"
       id="filter__${name}"
       class="filter__input visually-hidden"
       name="filter"
-      ${checked && Checked.INPUT}
-    />
+      ${checked && Checked.INPUT}/>
     <label for="filter__${name}" class="filter__label">
       ${name} <span class="filter__${name}-count">${count}</span>
-    </label>
-  `);
+    </label>`
+  );
 };
 
-export {createFilters};
+/**
+ * Создание класса фильтров
+ */
+export default class Filters {
+  constructor(filters) {
+    this._filters = filters;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilters(this._filters);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

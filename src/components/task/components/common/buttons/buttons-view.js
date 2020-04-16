@@ -5,24 +5,21 @@
  * @return {string} разметка блока
  */
 const getViewButtons = (archiveInactive, favoriteInactive) => {
-  return (`
-    <div class="card__control">
+  return (
+    `<div class="card__control">
       <button type="button" class="card__btn card__btn--edit">
         edit
       </button>
-
       <button type="button" class="card__btn card__btn--archive ${archiveInactive}">
         archive
       </button>
-
       <button
         type="button"
-        class="card__btn card__btn--favorites ${favoriteInactive}"
-      >
+        class="card__btn card__btn--favorites ${favoriteInactive}">
         favorites
       </button>
-    </div>
-  `);
+    </div>`
+  );
 };
 
 export {getViewButtons};

@@ -35,21 +35,19 @@ const createColors = (colors, currentColor) =>
 const createColor = (color, index, currentColor) => {
   const checked = currentColor === color ? Checked.CLASS : ``;
 
-  return (`
-    <input
+  return (
+    `<input
       type="radio"
       id="color-${color}-${index}"
       class="card__color-input card__color-input--${color} visually-hidden"
       name="color"
       value="${color}"
-      ${checked}
-    />
+      ${checked}/>
     <label
       for="color-${color}-${index}"
-      class="card__color card__color--${color}"
-      >${color}</label
-    >
-  `);
+      class="card__color card__color--${color}">${color}
+    </label>`
+  );
 };
 
 export {createColorsBlock};
