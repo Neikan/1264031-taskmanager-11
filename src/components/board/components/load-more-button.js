@@ -1,14 +1,21 @@
-import {CountTask} from "../../../consts";
+import {CountTask, IsExistence} from "../../../consts";
 
 /**
  * Создание разметки кнопки показа оставшихся задач
+ * @param {Array} tasks
  * @return {string} разметка кнопки
  */
-const createLoadMore = () => `<button class="load-more" type="button">load more</button>`;
+const createLoadMore = (tasks) => {
+  const moreTasksThanStart = (tasks.length > CountTask.START) ? IsExistence.YES : IsExistence.No;
+
+  return moreTasksThanStart ?
+    `<button class="load-more" type="button">load more</button>` :
+    ``;
+};
 
 /**
  * Добавление лисенера на кнопку показа оставшихся задач
- * @param {*} boardComponent компонент доски
+ * @param {Object} boardComponent компонент доски
  * @param {Array} tasks задачи
  * @param {Number} showingTasksCount количество задач, ранее отображенных на доске
  * @param {Function} renderTasksList

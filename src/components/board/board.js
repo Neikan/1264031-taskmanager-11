@@ -1,7 +1,8 @@
-import {createSorting} from "./board/components/sorting";
-import {createBoardTasks} from "./board/components/board-tasks";
-import {createLoadMore} from "./board/components/load-more-button";
-import {createElement} from "../utils";
+import {createSorting} from "./components/sorting";
+import {createBoardTasks} from "./components/board-tasks";
+import {createLoadMore} from "./components/load-more-button";
+import {createElement} from "../../utils";
+import {NO_TASKS} from "../../consts";
 
 /**
  * Создание разметки блока доски задач
@@ -9,16 +10,18 @@ import {createElement} from "../utils";
  * @return {string} разметка блока
  */
 const createBoard = (tasks) => {
-  const board = tasks.length ? getBoardWithTasks() : getBoardNoTasks();
+  const isAllTasksInArchive = tasks.every((task) => task.isArchive);
+  const board = (tasks.length && !isAllTasksInArchive) ? getBoardWithTasks(tasks) : getBoardNoTasks();
 
   return `<section class="board container">${board}</section>`;
 };
 
 /**
  * Получение разметки блока доски при наличии задач
+ * @param {Array} tasks
  * @return {string} разметка блока
  */
-const getBoardWithTasks = () => `${createSorting()}${createBoardTasks()}${createLoadMore()}`;
+const getBoardWithTasks = (tasks) => `${createSorting()}${createBoardTasks()}${createLoadMore(tasks)}`;
 
 /**
  * Получение разметки блока доски при отсутствии задач
@@ -36,7 +39,7 @@ const getBoardNoTasks = () => {
  * Создание класса доски задач
  */
 export default class Board {
-  constructor(tasks) {
+  constructor(tasks = NO_TASKS) {
     this._tasks = tasks;
     this._element = null;
   }

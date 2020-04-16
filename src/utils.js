@@ -12,6 +12,9 @@ export const render = (container, element, position = Position.BEFORE_END) => {
     case Position.AFTER_BEGIN:
       container.prepend(element);
       break;
+    case Position.AFTER_END:
+      container.after(element);
+      break;
     case Position.BEFORE_END:
       container.append(element);
       break;
@@ -50,4 +53,3 @@ export const createElement = (template) => {
 
   return newElement.firstChild;
 };
-

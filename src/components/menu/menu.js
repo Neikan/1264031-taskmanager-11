@@ -1,5 +1,5 @@
-import {MEMU_ITEMS} from "../consts";
-import {createElement} from "../utils";
+import {MEMU_ITEMS} from "../../consts";
+import {createElement} from "../../utils";
 
 /**
  * Создание разметки блока главного меню

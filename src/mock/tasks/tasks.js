@@ -20,6 +20,7 @@ const generateTask = () => {
     repeatingDays: getRepeatingDays(dueDate),
     color: getRandomElement(COLORS),
     isArchive: getRandomBoolean(),
+    // isArchive: true,
     isFavorite: getRandomBoolean(),
   };
 };

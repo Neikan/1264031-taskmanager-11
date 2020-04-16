@@ -1,5 +1,5 @@
-import {Checked} from "../consts";
-import {createElement} from "../utils";
+import {Checked} from "../../consts";
+import {createElement} from "../../utils";
 
 /**
  * Создание разметки для перечня фильтров

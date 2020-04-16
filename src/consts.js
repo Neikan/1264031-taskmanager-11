@@ -6,7 +6,7 @@ export const Checked = {
 };
 
 export const CountTask = {
-  ALL: 22,
+  ALL: 4,
   START: 8,
   BY_BUTTON: 8
 };
@@ -99,4 +99,11 @@ export const CardClass = {
 export const KeyCode = {
   ENTER: 13,
   ESC: 27
+};
+
+export const NO_TASKS = [];
+
+export const IsExistence = {
+  YES: true,
+  NO: false
 };

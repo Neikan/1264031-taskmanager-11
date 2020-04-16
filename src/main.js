@@ -3,9 +3,9 @@ import {generateTasks} from "./mock/tasks/tasks";
 import {generateFilters} from "./mock/filters/filters";
 import {render} from "./utils";
 import {renderBoard} from "./components/board/helpers/helpers";
-import MenuComponent from "./components/menu.js";
-import FiltersComponent from "./components/filters.js";
-import BoardComponent from "./components/board.js";
+import MenuComponent from "./components/menu/menu.js";
+import FiltersComponent from "./components/filters/filters.js";
+import BoardComponent from "./components/board/board.js";
 
 
 const Nodes = {
@@ -15,8 +15,7 @@ const Nodes = {
 
 /**
  * Отрисовка компонентов на странице
- */
-const init = () => {
+ */const init = () => {
   const filters = generateFilters();
   const tasks = generateTasks(CountTask.ALL);
   const boardComponent = new BoardComponent(tasks);
