@@ -1,5 +1,6 @@
 import {Position, CHECK_FORMAT_TIME} from "./consts";
 
+
 /**
  * Отрисовка элемента страницы ("компонента")
  * @param {Element} container контейнер, в который отрисосывается шаблон
@@ -21,6 +22,7 @@ export const render = (container, element, position = Position.BEFORE_END) => {
   }
 };
 
+
 /**
  * Добавление ведущих нулей к часам / минутам: 2 -> 02
  * @param {string} value
@@ -29,6 +31,7 @@ export const render = (container, element, position = Position.BEFORE_END) => {
 const castTimeFormat = (value) => {
   return value < CHECK_FORMAT_TIME ? `0${value}` : String(value);
 };
+
 
 /**
  * Приведение времени к формату "HH:MM"
@@ -41,6 +44,7 @@ export const formatTime = (date) => {
 
   return `${hours}:${minutes}`;
 };
+
 
 /**
  * Создание DOM-элемента

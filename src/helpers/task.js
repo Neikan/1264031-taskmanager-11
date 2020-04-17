@@ -1,9 +1,11 @@
-import TaskComponent from "../task";
-import {Form, KeyCode} from "../../../consts.js";
-import {render} from "../../../utils.js";
-import {replaceBoard} from "../../board/helpers/helpers";
+import TaskComponent from "../components/task/task";
+import {Form, KeyCode, IS_ARCHIVE} from "../consts.js";
+import {render} from "../utils.js";
+import {replaceBoard} from "./board";
+import {regenerateFilters} from "./filters";
 
-let countDeletedTasks = 0;
+
+// let countDeletedTasks = 0;
 
 /**
  * Изменение формы редактирования задачи на форму просмотра
@@ -21,16 +23,25 @@ const changeFormToView = (tasksList, {view, edit}) => {
   editForm.addEventListener(`submit`, editFormSubmitHandler);
 };
 
+
 /**
  * Изменение формы просмотра задачи на форму редактирования
+ * @param {Object} filtersComponent
+ * @param {Object} boardComponent
  * @param {Object} tasksList список задач
  * @param {Object} {формы задачи}
  * @param {Function} escKeyDownHandler помощник
+ * @param {Array} tasks задачи
+ * @param {Number} taskIndex индекс ранее открытой задачи
  */
-const changeFormToEdit = (tasksList, {view, edit}, escKeyDownHandler) => {
+const changeFormToEdit = (filtersComponent, boardComponent, tasksList, {view, edit}, escKeyDownHandler, tasks) => {
   const editBtn = view.getElement().querySelector(`.card__btn--edit`);
 
   const editBtnClickHandler = () => {
+    if (tasksList.querySelector(`.card--edit`)) {
+      replaceBoard(filtersComponent, boardComponent, tasks);
+    }
+
     tasksList.replaceChild(edit.getElement(), view.getElement());
     document.addEventListener(`keydown`, escKeyDownHandler);
   };
@@ -38,41 +49,52 @@ const changeFormToEdit = (tasksList, {view, edit}, escKeyDownHandler) => {
   editBtn.addEventListener(`click`, editBtnClickHandler);
 };
 
+
 /**
  * Добавление задачи в архив
+ * @param {Object} filtersComponent фильтры
  * @param {Object} boardComponent доска
- * @param {Object} tasksList задачи
- * @param {Object} {формы задачи}
+ * @param {Object} view форма просмотра задачи
  * @param {Array} tasks массив задач
+ * @param {Number} taskIndex индекс задачи
  */
-const addToArchive = (boardComponent, tasksList, {view}, tasks) => {
+const addTaskToArchive = (filtersComponent, boardComponent, {view}, tasks, taskIndex) => {
   const archiveBtn = view.getElement().querySelector(`.card__btn--archive`);
   if (!archiveBtn.classList.contains(`card__btn--disabled`)) {
 
     const archiveBtnClickHandler = () => {
       archiveBtn.classList.add(`card__btn--disabled`);
+      tasks[taskIndex].isArchive = IS_ARCHIVE;
+
+      regenerateFilters(filtersComponent, tasks);
+
       archiveBtn.removeEventListener(`click`, archiveBtnClickHandler);
-      checktArchiveTasks(boardComponent, tasks);
+      checktArchiveTasks(filtersComponent, boardComponent, tasks);
     };
 
     archiveBtn.addEventListener(`click`, archiveBtnClickHandler);
   }
 };
 
+
 /**
  * Реализация помощника для удаления задачи с доски
+ * @param {Object} filtersComponent фильтры
  * @param {Object} boardComponent доска
  * @param {Object} tasksList задачи
  * @param {Object} {формы задачи}
+ * @param {Number} taskIndex индекс текущей задачи
  * @param {Array} tasks массив задач
  * @param {Number} showingTasksCount количество отображаемых задач на доске
  * @param {Function} escKeyDownHandler помощник
  * @return {Function} реализованный помощник
  */
 const getDeleteBtnClickHandler = (
+    filtersComponent,
     boardComponent,
     tasksList,
     {edit},
+    taskIndex,
     tasks,
     showingTasksCount,
     escKeyDownHandler) => {
@@ -80,13 +102,17 @@ const getDeleteBtnClickHandler = (
     edit.getElement().remove();
     edit.removeElement();
     document.removeEventListener(`keydown`, escKeyDownHandler);
-    countDeletedTasks++;
-    const newTaskIndex = showingTasksCount + countDeletedTasks;
+    // countDeletedTasks++;
+    const newTaskIndex = showingTasksCount + 1;
 
     if (newTaskIndex < tasks.length) {
       const newTask = tasks[newTaskIndex];
-      renderTask(boardComponent, tasks, showingTasksCount, newTask);
+      renderTask(filtersComponent, boardComponent, tasks, showingTasksCount, newTask);
     }
+
+    tasks.splice(taskIndex, 1);
+    // countDeletedTasks--;
+    regenerateFilters(filtersComponent, tasks);
 
     const countCurrentCards = tasksList.querySelectorAll(`.card`);
 
@@ -96,42 +122,45 @@ const getDeleteBtnClickHandler = (
     }
 
     if (!countCurrentCards.length) {
-      replaceBoard(boardComponent);
+      replaceBoard(filtersComponent, boardComponent);
     }
   };
 };
 
+
 /**
  * Удаление задачи с доски
+ * @param {Object} filtersComponent фильтры
  * @param {Object} boardComponent доска
  * @param {Object} tasksList задачи
- * @param {Object} {формы задачи}
+ * @param {Object} edit форма редактирования задачи
+ * @param {Number} taskIndex индекс задачи
  * @param {Array} tasks массив задач
  * @param {Number} showingTasksCount количество отображаемых задач на доске
  * @param {Function} escKeyDownHandler помощник
  */
-const deleteTask = (boardComponent, tasksList, {edit}, tasks, showingTasksCount, escKeyDownHandler) => {
+const deleteTask = (filtersComponent, boardComponent, tasksList, {edit}, taskIndex, tasks, showingTasksCount, escKeyDownHandler) => {
   const deleteBtn = edit.getElement().querySelector(`.card__delete`);
 
   const deleteBtnClickHandler = getDeleteBtnClickHandler(
-      boardComponent, tasksList, {edit}, tasks, showingTasksCount, escKeyDownHandler);
+      filtersComponent, boardComponent, tasksList, {edit}, taskIndex, tasks, showingTasksCount, escKeyDownHandler);
 
   deleteBtn.addEventListener(`click`, deleteBtnClickHandler);
 };
 
+
 /**
  * Отрисовка задачи в блок списка задач
+ * @param {Object} filtersComponent фильтры
  * @param {Object} boardComponent список задач
  * @param {Array} tasks массив задач
- * @param {Number} showingTasksCount
+ * @param {Number} showingTasksCount количество отображаемых задач на доске
  * @param {Object} task задача
+ * @param {Number} taskIndex индекс задачи
  */
-const renderTask = (boardComponent, tasks, showingTasksCount, task) => {
+const renderTask = (filtersComponent, boardComponent, tasks, showingTasksCount, task, taskIndex) => {
   const tasksList = boardComponent.getElement().querySelector(`.board__tasks`);
-  const taskForm = {
-    view: new TaskComponent(task),
-    edit: new TaskComponent(task, Form.EDIT)
-  };
+  const taskForm = getTaskForm(task);
 
   const escKeyDownHandler = (evt) => {
     if (evt.keyCode === KeyCode.ESC) {
@@ -141,19 +170,44 @@ const renderTask = (boardComponent, tasks, showingTasksCount, task) => {
   };
 
   changeFormToView(tasksList, taskForm);
-  changeFormToEdit(tasksList, taskForm, escKeyDownHandler);
-  deleteTask(boardComponent, tasksList, taskForm, tasks, showingTasksCount, escKeyDownHandler);
-  addToArchive(boardComponent, tasksList, taskForm, tasks);
+  changeFormToEdit(filtersComponent, boardComponent, tasksList, taskForm, escKeyDownHandler, tasks);
+
+  deleteTask(
+      filtersComponent,
+      boardComponent,
+      tasksList,
+      taskForm,
+      taskIndex,
+      tasks,
+      showingTasksCount,
+      escKeyDownHandler
+  );
+
+  addTaskToArchive(
+      filtersComponent,
+      boardComponent,
+      taskForm,
+      tasks,
+      taskIndex
+  );
 
   render(tasksList, taskForm.view.getElement());
 };
 
 export {renderTask, checktArchiveTasks};
 
-const checktArchiveTasks = (boardComponent, tasks) => {
+const checktArchiveTasks = (filtersComponent, boardComponent, tasks) => {
   const tasksList = boardComponent.getElement().querySelector(`.board__tasks`);
   const countArchiveTasks = tasksList.querySelectorAll(`.card__btn--archive.card__btn--disabled`);
   if ((tasks.length - countArchiveTasks.length) === 0) {
-    replaceBoard(boardComponent);
+    replaceBoard(filtersComponent, boardComponent);
   }
+};
+
+
+const getTaskForm = (task) => {
+  return {
+    view: new TaskComponent(task),
+    edit: new TaskComponent(task, Form.EDIT)
+  };
 };

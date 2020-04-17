@@ -1,11 +1,13 @@
 import {FILTER_NAMES} from "../../consts";
 
+
 /**
  * Генерация фильтров
  * @param {Array} tasks массив задач
  * @return {Object} фильтр с названием и числом элементов, соответствующих ему
  */
 const generateFilters = (tasks) => FILTER_NAMES.map((filter) => addCount(tasks, filter));
+
 
 /**
  * Добавление свойства количества к элементу фильтра
@@ -17,6 +19,7 @@ const addCount = (tasks, filter) => {
   filter[`count`] = getFiltersCount(tasks, filter.name);
   return filter;
 };
+
 
 /**
  * Вычисление количества задач по каждому фильтру

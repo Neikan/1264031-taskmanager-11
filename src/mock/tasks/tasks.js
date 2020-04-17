@@ -7,6 +7,7 @@ import {
   getRepeatingDays
 } from "./tasks-utils.js";
 
+
 /**
  * Генерация задачи со случайными атрибутами
  * @return {Object} генерируемый объект задачи
@@ -24,11 +25,13 @@ const generateTask = () => {
   };
 };
 
+
 /**
  * Генерация массива задач
  * @param {Number} count количество элементов для генерации
  * @return {Array} массив сгенерированных задач
  */
 const generateTasks = (count) => new Array(count).fill({}).map(generateTask);
+
 
 export {generateTask, generateTasks};

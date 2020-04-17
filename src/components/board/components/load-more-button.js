@@ -1,5 +1,5 @@
 import {CountTask, IsExistence} from "../../../consts";
-import {checktArchiveTasks} from "../../task/helpers/helpers";
+
 
 /**
  * Создание разметки кнопки показа оставшихся задач
@@ -14,25 +14,5 @@ const createLoadMore = (tasks) => {
     ``;
 };
 
-/**
- * Добавление лисенера на кнопку показа оставшихся задач
- * @param {Object} boardComponent компонент доски
- * @param {Array} tasks задачи
- * @param {Number} showingTasksCount количество задач, ранее отображенных на доске
- * @param {Function} renderTasksList
- */
-const addLoadMoreListener = (boardComponent, tasks, showingTasksCount, renderTasksList) => {
-  const loadMore = boardComponent.getElement().querySelector(`.load-more`);
-  const loadMoreClickHandler = () => {
-    const prevTasksCount = showingTasksCount;
-    showingTasksCount += CountTask.BY_BUTTON;
-    tasks.slice(prevTasksCount, showingTasksCount).map(renderTasksList());
-    if (showingTasksCount >= tasks.length) {
-      loadMore.remove();
-    }
-    checktArchiveTasks(boardComponent, tasks);
-  };
-  loadMore.addEventListener(`click`, loadMoreClickHandler);
-};
 
-export {createLoadMore, addLoadMoreListener};
+export {createLoadMore};

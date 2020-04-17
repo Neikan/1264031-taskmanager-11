@@ -107,3 +107,5 @@ export const IsExistence = {
   YES: true,
   NO: false
 };
+
+export const IS_ARCHIVE = true;
