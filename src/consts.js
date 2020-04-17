@@ -6,8 +6,8 @@ export const Checked = {
 };
 
 export const CountTask = {
-  ALL: 4,
-  START: 8,
+  ALL: 10,
+  START: 4,
   BY_BUTTON: 8
 };
 

@@ -15,7 +15,7 @@ const renderBoard = (boardComponent, tasks = NO_TASKS) => {
   if (tasks.length && !isAllTasksInArchive) {
     let showingTasksCount = CountTask.START;
 
-    const renderTasksList = () => (task) => renderTask(boardComponent, task);
+    const renderTasksList = () => (task) => renderTask(boardComponent, tasks, showingTasksCount, task);
 
     tasks.slice(0, showingTasksCount).map(renderTasksList());
 
@@ -28,13 +28,14 @@ const renderBoard = (boardComponent, tasks = NO_TASKS) => {
 /**
  * Пересоздание доски после удаления всех задач с нее
  * @param {Object} boardComponent доска
+ * @param {Array} tasks задачи
  */
-const replaceBoard = (boardComponent) => {
+const replaceBoard = (boardComponent, tasks = NO_TASKS) => {
   boardComponent.getElement().remove();
   boardComponent = new BoardComponent();
   const filtersNode = document.querySelector(`.main__filter`);
   render(filtersNode, boardComponent.getElement(), Position.AFTER_END);
-  renderBoard(boardComponent);
+  renderBoard(boardComponent, tasks);
 };
 
 export {renderBoard, replaceBoard};

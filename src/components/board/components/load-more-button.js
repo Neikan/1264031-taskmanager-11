@@ -1,4 +1,5 @@
 import {CountTask, IsExistence} from "../../../consts";
+import {checktArchiveTasks} from "../../task/helpers/helpers";
 
 /**
  * Создание разметки кнопки показа оставшихся задач
@@ -29,6 +30,7 @@ const addLoadMoreListener = (boardComponent, tasks, showingTasksCount, renderTas
     if (showingTasksCount >= tasks.length) {
       loadMore.remove();
     }
+    checktArchiveTasks(boardComponent, tasks);
   };
   loadMore.addEventListener(`click`, loadMoreClickHandler);
 };
