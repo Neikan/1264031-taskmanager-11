@@ -26,7 +26,7 @@ const renderBoard = (boardComponent, tasks = NO_TASKS) => {
 };
 
 /**
- * Пересоздание доски после удаления всех задач с нее
+ * Пересоздание доски
  * @param {Object} boardComponent доска
  * @param {Array} tasks задачи
  */

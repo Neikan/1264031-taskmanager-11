@@ -16,8 +16,8 @@ const Nodes = {
 /**
  * Отрисовка компонентов на странице
  */const init = () => {
-  const filters = generateFilters();
   const tasks = generateTasks(CountTask.ALL);
+  const filters = generateFilters(tasks);
   const boardComponent = new BoardComponent(tasks);
 
   render(Nodes.HEADER, new MenuComponent().getElement());
