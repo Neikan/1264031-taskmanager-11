@@ -37,7 +37,6 @@ const addListenersToFilters = (filtersComponent, tasks, boardComponent) => {
     const attributeFor = filter.getAttribute(`for`);
     const filteringTasks = getFilteringTasks(tasks, attributeFor);
     reRenderBoard(filteringTasks, boardComponent, attributeFor);
-    console.log(filteringTasks);
   };
 
   const addListenerForFilter = () => (boardFilter) => boardFilter.addEventListener(`click`, filterClickHandler);
@@ -81,4 +80,9 @@ const getFilteringTasks = (tasks, attributeFor = `filter__all`) => {
 // здесь будет выбранный по умолчанию фильтр
 
 
-export {addListenersToFilters, regenerateFilters, getFilteringTasks};
+const getCheckedFilter = () => {
+  const checkedFilter = document.querySelector(`input:checked`);
+  return checkedFilter.getAttribute(`id`);
+};
+
+export {addListenersToFilters, regenerateFilters, getFilteringTasks, getCheckedFilter};

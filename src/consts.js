@@ -114,3 +114,5 @@ export const IsArchive = {
 };
 
 export const FILTER_LABEL = `.filter__label`;
+
+export const DEFAULT_FILTER = `filter__all`;
