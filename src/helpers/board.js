@@ -1,34 +1,47 @@
-import {CountTask, Form, DEFAULT_FILTER} from "../consts";
+import {CountTask, Form, NO_TASKS} from "../consts";
 import {renderTask} from "./task";
 import {render} from "../utils";
-import BoardComponent from "../components/board/board";
 import {getFilteringTasks} from "./filters";
+import BoardComponent from "../components/board/board";
 
 
 /**
  * Отрисовка блока доски задач
  * @param {Object} boardComponent доска задач
  * @param {Array} tasks задачи
- * @param {Object} boardFilter
+ * @param {Object} currentFilter
  * @param {Object} filtersComponent фильтры
  */
-const renderBoard = (boardComponent, tasks, boardFilter = DEFAULT_FILTER, filtersComponent) => {
-  const filteringTasks = getFilteringTasks(tasks, boardFilter);
-  if (tasks.length > 0) {
+const renderBoard = (boardComponent, tasks, currentFilter, filtersComponent) => {
+
+  const filteringTasks = getFilteringTasks(tasks, currentFilter);
+
+  if (filteringTasks.length) {
     let showingTasksCount = CountTask.START;
 
     const renderTasksList = () => (taskData, taskIndex) =>
       renderTask(boardComponent, tasks, taskData, taskIndex, Form.VIEW, filtersComponent);
 
     filteringTasks.slice(0, showingTasksCount).map(renderTasksList());
+    const loadMore = boardComponent.getElement().querySelector(`.load-more`);
 
-    if (boardComponent.getElement().querySelector(`.load-more`)) {
+    if (showingTasksCount >= filteringTasks.length && loadMore) {
+      boardComponent.getElement().querySelector(`.load-more`).remove();
+    } else if (loadMore) {
       addLoadMoreListener(boardComponent, filteringTasks, showingTasksCount, renderTasksList);
     }
+
+  } else {
+    removeBoard(boardComponent);
+    boardComponent = new BoardComponent(NO_TASKS);
+    render(document.querySelector(`.main`), boardComponent.getElement());
   }
 };
 
-
+/**
+ * Удаление доски
+ * @param {Object} boardComponent
+ */
 const removeBoard = (boardComponent) => {
   boardComponent.removeElement();
   document.querySelector(`.board.container`).remove();
@@ -39,35 +52,17 @@ const removeBoard = (boardComponent) => {
  * Перерисовка доски задач
  * @param {Array} filteringTasks задачи
  * @param {Object} boardComponent
- * @param {Object} attributeFor
+ * @param {Object} currentFilter
  */
-const reRenderBoard = (filteringTasks, boardComponent, attributeFor) => {
+const reRenderBoard = (filteringTasks, boardComponent, currentFilter) => {
   removeBoard(boardComponent);
 
   boardComponent = new BoardComponent(filteringTasks);
 
   render(document.querySelector(`.main`), boardComponent.getElement());
-  renderBoard(boardComponent, filteringTasks, attributeFor);
+  renderBoard(boardComponent, filteringTasks, currentFilter);
 };
 
-
-// const reRenderBoardWithEditTask = (tasks, boardComponent, currentTaskIndex, currentRenderedTasks) => {
-//   removeBoard(boardComponent);
-
-//   boardComponent = new BoardComponent(tasks);
-//   render(document.querySelector(`.main`), boardComponent.getElement());
-//   const renderTasksList = () => (taskData, taskIndex) => renderTask(boardComponent, tasks, taskData, taskIndex, Form.VIEW);
-
-//   tasks.slice(0, currentTaskIndex).map(renderTasksList());
-// renderTask(boardComponent, tasks, tasks[currentTaskIndex], currentTaskIndex, Form.EDIT);
-// tasks.slice(currentTaskIndex + 1, currentRenderedTasks).map(renderTasksList());
-
-// if (boardComponent.getElement().querySelector(`.load-more`)) {
-//   addLoadMoreListener(boardComponent, tasks, currentRenderedTasks, renderTasksList);
-// }
-
-// return boardComponent;
-// };
 
 /**
  * Добавление лисенера на кнопку показа оставшихся задач

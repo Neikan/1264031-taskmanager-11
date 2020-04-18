@@ -8,14 +8,16 @@ import {
 } from "./tasks-utils.js";
 
 
+let taskId = 1;
+
 /**
  * Генерация задачи со случайными атрибутами
  * @return {Object} генерируемый объект задачи
  */
 const generateTask = () => {
   const dueDate = getRandomBoolean() ? getRandomDate() : null;
-
   return {
+    id: taskId++,
     description: getRandomElement(DESCRIPTIONS),
     dueDate,
     repeatingDays: getRepeatingDays(dueDate),

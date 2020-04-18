@@ -10,14 +10,16 @@ import FiltersComponent from "./../components/filters/filters";
  * @param {Object} filtersComponent фильтры
  * @param {Array} tasks задачи
  * @param {Object} boardComponent доска задач
+ * @param {string} currentFilter текущий фильтр
  */
-const regenerateFilters = (filtersComponent, tasks, boardComponent) => {
+const regenerateFilters = (filtersComponent, tasks, boardComponent, currentFilter) => {
   document.querySelector(`.filter.container`).remove();
   const mainNode = document.querySelector(`.main__control`);
 
   const newFilters = generateFilters(tasks);
   filtersComponent = new FiltersComponent(newFilters);
   render(mainNode, filtersComponent.getElement(), Position.AFTER_END);
+  setCheckFilter(currentFilter);
   addListenersToFilters(filtersComponent, tasks, boardComponent);
 };
 
@@ -33,10 +35,14 @@ const addListenersToFilters = (filtersComponent, tasks, boardComponent) => {
   const boardFilters = Array.from(filtersComponent.getElement().querySelectorAll(FILTER_LABEL));
 
   const filterClickHandler = (evt) => {
+    unCheckFilter();
+
     const filter = evt.target.closest(FILTER_LABEL);
-    const attributeFor = filter.getAttribute(`for`);
-    const filteringTasks = getFilteringTasks(tasks, attributeFor);
-    reRenderBoard(filteringTasks, boardComponent, attributeFor);
+    const filterAttribute = filter.getAttribute(`for`);
+    const filteringTasks = getFilteringTasks(tasks, filterAttribute);
+
+    setCheckFilter(filterAttribute);
+    reRenderBoard(filteringTasks, boardComponent, filterAttribute);
   };
 
   const addListenerForFilter = () => (boardFilter) => boardFilter.addEventListener(`click`, filterClickHandler);
@@ -76,13 +82,30 @@ const getFilteringTasks = (tasks, attributeFor = `filter__all`) => {
 };
 
 
-// const getDefaultFilter = () => {};
-// здесь будет выбранный по умолчанию фильтр
+/**
+ * Получение идентификатора фильтра с состоянием "checked"
+ * @return {string}
+ */
+const getCheckedFilter = () => document.querySelector(`input:checked`).getAttribute(`id`);
 
 
-const getCheckedFilter = () => {
+/**
+ * Удаление с фильтра состояния "checked"
+ */
+const unCheckFilter = () => {
   const checkedFilter = document.querySelector(`input:checked`);
-  return checkedFilter.getAttribute(`id`);
+  checkedFilter.removeAttribute(`checked`);
 };
 
-export {addListenersToFilters, regenerateFilters, getFilteringTasks, getCheckedFilter};
+
+/**
+ * Уставновка фильтра в состояние "checked"
+ * @param {string} filterAttribute
+ */
+const setCheckFilter = (filterAttribute) => {
+  const input = document.querySelector(`#${filterAttribute}`);
+  input.setAttribute(`checked`, true);
+};
+
+
+export {addListenersToFilters, regenerateFilters, getFilteringTasks, getCheckedFilter, setCheckFilter};

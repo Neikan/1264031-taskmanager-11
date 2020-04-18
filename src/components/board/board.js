@@ -12,7 +12,7 @@ import {createElement} from "../../utils";
  */
 const createBoard = (tasks) => {
   // const isAllTasksInArchive = tasks.every((task) => task.isArchive);
-  const board = tasks ? getBoardWithTasks(tasks) : getBoardNoTasks();
+  const board = tasks.length ? getBoardWithTasks(tasks) : getBoardNoTasks();
 
   return `<section class="board container">${board}</section>`;
 };

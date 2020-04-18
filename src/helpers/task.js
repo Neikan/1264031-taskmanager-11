@@ -155,14 +155,14 @@ import {regenerateFilters, getCheckedFilter} from "./filters";
  * @param {Object} boardComponent список задач
  * @param {Array} tasks массив задач
  * @param {Object} taskData задача
- * @param {Number} taskIndex индекс задачи
+ * @param {Number} taskId индекс задачи
  * @param {Boolean} isView выбор формы для рендера задачи
  * @param {Object} filtersComponent фильтры
  */
-const renderTask = (boardComponent, tasks, taskData, taskIndex, isView, filtersComponent) => {
+const renderTask = (boardComponent, tasks, taskData, taskId, isView, filtersComponent) => {
   const tasksList = boardComponent.getElement().querySelector(`.board__tasks`);
   const taskForm = getTaskForm(taskData);
-  console.log(taskIndex);
+
   // 0
 
   const escKeyDownHandler = (evt) => {
@@ -194,17 +194,18 @@ const renderTask = (boardComponent, tasks, taskData, taskIndex, isView, filtersC
   editBtn.addEventListener(`click`, editBtnClickHandler);
 
   // 2
-
   const archiveBtnClickHandler = () => {
+    const currentFilter = getCheckedFilter();
     if (!archiveBtn.classList.contains(`card__btn--disabled`)) {
       archiveBtn.classList.add(`card__btn--disabled`);
-      tasks[taskIndex].isArchive = IsArchive.YES;
-      regenerateFilters(filtersComponent, tasks, boardComponent);
-      reRenderBoard(tasks, boardComponent, getCheckedFilter());
+      tasks[getTaskIndex(tasks, taskData)].isArchive = IsArchive.YES;
+      regenerateFilters(filtersComponent, tasks, boardComponent, currentFilter);
+      reRenderBoard(tasks, boardComponent, currentFilter);
     } else {
       archiveBtn.classList.remove(`card__btn--disabled`);
-      tasks[taskIndex].isArchive = IsArchive.NO;
-      regenerateFilters(filtersComponent, tasks, boardComponent);
+      tasks[getTaskIndex(tasks, taskData)].isArchive = IsArchive.NO;
+      regenerateFilters(filtersComponent, tasks, boardComponent, currentFilter);
+      reRenderBoard(tasks, boardComponent, currentFilter);
     }
   };
 
@@ -214,7 +215,7 @@ const renderTask = (boardComponent, tasks, taskData, taskIndex, isView, filtersC
   // 3
 
   const deleteBtnClickHandler = () => {
-    tasks.splice(taskIndex, 1);
+    // tasks.splice(taskIndex, 1);
     regenerateFilters(filtersComponent, tasks, boardComponent);
     reRenderBoard(tasks, boardComponent);
   };
@@ -250,6 +251,9 @@ const getTaskForm = (taskData) => {
     edit: new TaskComponent(taskData, Form.EDIT)
   };
 };
+
+
+const getTaskIndex = (tasks, taskData) => tasks.indexOf(taskData);
 
 
 export {renderTask, checktArchiveTasks};

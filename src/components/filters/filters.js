@@ -1,4 +1,3 @@
-import {Checked} from "../../consts";
 import {createElement} from "../../utils";
 
 
@@ -36,14 +35,13 @@ const createFiltersSection = (filters) => {
  * @param {Object} {параметры фильтра}
  * @return {string} разметка блока
  */
-const createFilter = ({name, checked, count}) => {
+const createFilter = ({name, count}) => {
   return (
     `<input
       type="radio"
       id="filter__${name}"
       class="filter__input visually-hidden"
-      name="filter"
-      ${checked && Checked.INPUT}/>
+      name="filter"/>
     <label for="filter__${name}"
       class="filter__label">${name} <span class="filter__${name}-count">${count}</span>
     </label>`
