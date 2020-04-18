@@ -11,8 +11,9 @@ import FiltersComponent from "./../components/filters/filters";
  * @param {Array} tasks задачи
  * @param {Object} boardComponent доска задач
  * @param {string} currentFilter текущий фильтр
+ * @param {Number} showingTasksCount количество отображенных задач
  */
-const regenerateFilters = (filtersComponent, tasks, boardComponent, currentFilter) => {
+const regenerateFilters = (filtersComponent, tasks, boardComponent, currentFilter, showingTasksCount) => {
   document.querySelector(`.filter.container`).remove();
   const mainNode = document.querySelector(`.main__control`);
 
@@ -20,7 +21,7 @@ const regenerateFilters = (filtersComponent, tasks, boardComponent, currentFilte
   filtersComponent = new FiltersComponent(newFilters);
   render(mainNode, filtersComponent.getElement(), Position.AFTER_END);
   setCheckFilter(currentFilter);
-  addListenersToFilters(filtersComponent, tasks, boardComponent);
+  addListenersToFilters(filtersComponent, tasks, boardComponent, showingTasksCount);
 };
 
 
@@ -29,8 +30,9 @@ const regenerateFilters = (filtersComponent, tasks, boardComponent, currentFilte
  * @param {Object} filtersComponent фильтры
  * @param {Array} tasks задачи
  * @param {Object} boardComponent доска задач
+ * @param {Number} showingTasksCount количество отображенных задач
  */
-const addListenersToFilters = (filtersComponent, tasks, boardComponent) => {
+const addListenersToFilters = (filtersComponent, tasks, boardComponent, showingTasksCount) => {
 
   const boardFilters = Array.from(filtersComponent.getElement().querySelectorAll(FILTER_LABEL));
 
@@ -42,7 +44,7 @@ const addListenersToFilters = (filtersComponent, tasks, boardComponent) => {
     const filteringTasks = getFilteringTasks(tasks, filterAttribute);
 
     setCheckFilter(filterAttribute);
-    reRenderBoard(filteringTasks, boardComponent, filterAttribute);
+    reRenderBoard(filteringTasks, boardComponent, filterAttribute, showingTasksCount);
   };
 
   const addListenerForFilter = () => (boardFilter) => boardFilter.addEventListener(`click`, filterClickHandler);
@@ -59,23 +61,33 @@ const addListenersToFilters = (filtersComponent, tasks, boardComponent) => {
  */
 const getFilteringTasks = (tasks, attributeFor = `filter__all`) => {
   let tasksNotArchive = [];
+  const tasksNotDelete = tasks.filter((task) => !task.isDeleted);
   if (tasks.length) {
-    tasksNotArchive = tasks.filter((task) => !task.isArchive);
+    tasksNotArchive = tasksNotDelete.filter((task) => !task.isArchive);
   }
 
   switch (attributeFor) {
     case `filter__all`:
       return tasksNotArchive;
+
     case `filter__overdue`:
-      return tasksNotArchive.filter((task) => task.dueDate instanceof Date && task.dueDate < Date.now());
+      return tasksNotArchive.filter((task) =>
+        task.dueDate instanceof Date && task.dueDate < Date.now());
+
     case `filter__today`:
-      return tasksNotArchive.filter((task) => task.dueDate && task.dueDate.getDate() === new Date().getDate());
+      return tasksNotArchive.filter((task) =>
+        task.dueDate && task.dueDate.getDate() === new Date().getDate());
+
     case `filter__favorites`:
       return tasksNotArchive.filter((task) => task.isFavorite);
+
     case `filter__repeating`:
-      return tasksNotArchive.filter((task) => Object.values(task.repeatingDays).some(Boolean));
+      return tasksNotArchive.filter((task) =>
+        Object.values(task.repeatingDays).some(Boolean));
+
     case `filter__archive`:
-      return tasks.filter((task) => task.isArchive);
+      return tasksNotDelete.filter((task) => task.isArchive);
+
     default:
       return 0;
   }

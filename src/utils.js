@@ -57,3 +57,14 @@ export const createElement = (template) => {
 
   return newElement.firstChild;
 };
+
+
+/**
+ * Замена DOM-элемента
+ * @param {Object} container родительский элемент
+ * @param {Object} newElement новый элемент
+ * @param {Object} oldElement заменяемый элемент
+ */
+export const replace = (container, newElement, oldElement) => {
+  container.replaceChild(newElement, oldElement);
+};

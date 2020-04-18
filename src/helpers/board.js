@@ -1,9 +1,11 @@
-import {CountTask, Form, NO_TASKS} from "../consts";
+import {CountTask, NO_TASKS} from "../consts";
 import {renderTask} from "./task";
 import {render} from "../utils";
 import {getFilteringTasks} from "./filters";
 import BoardComponent from "../components/board/board";
 
+
+let showingTasksCount = CountTask.START;
 
 /**
  * Отрисовка блока доски задач
@@ -13,14 +15,11 @@ import BoardComponent from "../components/board/board";
  * @param {Object} filtersComponent фильтры
  */
 const renderBoard = (boardComponent, tasks, currentFilter, filtersComponent) => {
-
   const filteringTasks = getFilteringTasks(tasks, currentFilter);
 
   if (filteringTasks.length) {
-    let showingTasksCount = CountTask.START;
-
-    const renderTasksList = () => (taskData, taskIndex) =>
-      renderTask(boardComponent, tasks, taskData, taskIndex, Form.VIEW, filtersComponent);
+    const renderTasksList = () => (taskData) =>
+      renderTask(boardComponent, tasks, taskData, filtersComponent, showingTasksCount);
 
     filteringTasks.slice(0, showingTasksCount).map(renderTasksList());
     const loadMore = boardComponent.getElement().querySelector(`.load-more`);
@@ -28,7 +27,7 @@ const renderBoard = (boardComponent, tasks, currentFilter, filtersComponent) => 
     if (showingTasksCount >= filteringTasks.length && loadMore) {
       boardComponent.getElement().querySelector(`.load-more`).remove();
     } else if (loadMore) {
-      addLoadMoreListener(boardComponent, filteringTasks, showingTasksCount, renderTasksList);
+      addLoadMoreListener(boardComponent, filteringTasks, renderTasksList);
     }
 
   } else {
@@ -37,6 +36,7 @@ const renderBoard = (boardComponent, tasks, currentFilter, filtersComponent) => 
     render(document.querySelector(`.main`), boardComponent.getElement());
   }
 };
+
 
 /**
  * Удаление доски
@@ -53,14 +53,15 @@ const removeBoard = (boardComponent) => {
  * @param {Array} filteringTasks задачи
  * @param {Object} boardComponent
  * @param {Object} currentFilter
+ * @param {Number} tasksCount количество отображенных задач
  */
-const reRenderBoard = (filteringTasks, boardComponent, currentFilter) => {
+const reRenderBoard = (filteringTasks, boardComponent, currentFilter, tasksCount) => {
   removeBoard(boardComponent);
 
   boardComponent = new BoardComponent(filteringTasks);
 
   render(document.querySelector(`.main`), boardComponent.getElement());
-  renderBoard(boardComponent, filteringTasks, currentFilter);
+  renderBoard(boardComponent, filteringTasks, currentFilter, tasksCount);
 };
 
 
@@ -68,10 +69,9 @@ const reRenderBoard = (filteringTasks, boardComponent, currentFilter) => {
  * Добавление лисенера на кнопку показа оставшихся задач
  * @param {Object} boardComponent доска
  * @param {Array} filteringTasks задачи
- * @param {Number} showingTasksCount количество задач, ранее отображенных на доске
  * @param {Function} renderTasksList
  */
-const addLoadMoreListener = (boardComponent, filteringTasks, showingTasksCount, renderTasksList) => {
+const addLoadMoreListener = (boardComponent, filteringTasks, renderTasksList) => {
   const loadMore = boardComponent.getElement().querySelector(`.load-more`);
 
   const loadMoreClickHandler = () => {

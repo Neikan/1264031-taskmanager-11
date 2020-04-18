@@ -1,4 +1,4 @@
-import {COLORS} from "../../consts.js";
+import {COLORS, IsDeleted} from "../../consts.js";
 import {DESCRIPTIONS} from "./tasks-consts.js";
 import {
   getRandomBoolean,
@@ -24,6 +24,7 @@ const generateTask = () => {
     color: getRandomElement(COLORS),
     isArchive: getRandomBoolean(),
     isFavorite: getRandomBoolean(),
+    isDeleted: IsDeleted.NO
   };
 };
 

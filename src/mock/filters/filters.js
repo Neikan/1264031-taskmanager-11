@@ -28,7 +28,8 @@ const addCount = (tasks, filter) => {
  * @return {Number} количество задач, соответствующих фильтру
  */
 const getFiltersCount = (tasks, filterName) => {
-  const tasksNotArchive = tasks.filter((task) => !task.isArchive);
+  const tasksNotDelete = tasks.filter((task) => !task.isDeleted);
+  const tasksNotArchive = tasksNotDelete.filter((task) => !task.isArchive);
   switch (filterName) {
     case `all`:
       return tasksNotArchive.length;
@@ -41,7 +42,7 @@ const getFiltersCount = (tasks, filterName) => {
     case `repeating`:
       return tasksNotArchive.filter((task) => Object.values(task.repeatingDays).some(Boolean)).length;
     case `archive`:
-      return tasks.filter((task) => task.isArchive).length;
+      return tasksNotDelete.filter((task) => task.isArchive).length;
     default:
       return 0;
   }

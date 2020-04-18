@@ -6,9 +6,9 @@ export const Checked = {
 };
 
 export const CountTask = {
-  ALL: 7,
-  START: 2,
-  BY_BUTTON: 2
+  ALL: 22,
+  START: 8,
+  BY_BUTTON: 8
 };
 
 export const Decision = {
@@ -109,6 +109,11 @@ export const IsExistence = {
 };
 
 export const IsArchive = {
+  YES: true,
+  NO: false
+};
+
+export const IsDeleted = {
   YES: true,
   NO: false
 };
