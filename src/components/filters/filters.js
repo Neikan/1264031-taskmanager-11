@@ -1,12 +1,14 @@
 import {Checked} from "../../consts";
 import {createElement} from "../../utils";
 
+
 /**
  * Создание разметки для перечня фильтров
  * @param {Array} filters
  * @return {string} разметка блока
  */
 const createFilters = (filters) => createFiltersSection(filters.map(getFilter).join(`\n`));
+
 
 /**
  * Получение разметки для каждого фильтра
@@ -28,6 +30,7 @@ const createFiltersSection = (filters) => {
   );
 };
 
+
 /**
  * Создание разметки блока фильтра
  * @param {Object} {параметры фильтра}
@@ -41,11 +44,12 @@ const createFilter = ({name, checked, count}) => {
       class="filter__input visually-hidden"
       name="filter"
       ${checked && Checked.INPUT}/>
-    <label for="filter__${name}" class="filter__label">
-      ${name} <span class="filter__${name}-count">${count}</span>
+    <label for="filter__${name}"
+      class="filter__label">${name} <span class="filter__${name}-count">${count}</span>
     </label>`
   );
 };
+
 
 /**
  * Создание класса фильтров

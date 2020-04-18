@@ -28,17 +28,18 @@ const addCount = (tasks, filter) => {
  * @return {Number} количество задач, соответствующих фильтру
  */
 const getFiltersCount = (tasks, filterName) => {
+  const tasksNotArchive = tasks.filter((task) => !task.isArchive);
   switch (filterName) {
     case `all`:
-      return tasks.length;
+      return tasksNotArchive.length;
     case `overdue`:
-      return tasks.filter((task) => task.dueDate instanceof Date && task.dueDate < Date.now()).length;
+      return tasksNotArchive.filter((task) => task.dueDate instanceof Date && task.dueDate < Date.now()).length;
     case `today`:
-      return tasks.filter((task) => task.dueDate && task.dueDate.getDate() === new Date().getDate()).length;
+      return tasksNotArchive.filter((task) => task.dueDate && task.dueDate.getDate() === new Date().getDate()).length;
     case `favorites`:
-      return tasks.filter((task) => task.isFavorite).length;
+      return tasksNotArchive.filter((task) => task.isFavorite).length;
     case `repeating`:
-      return tasks.filter((task) => Object.values(task.repeatingDays).some(Boolean)).length;
+      return tasksNotArchive.filter((task) => Object.values(task.repeatingDays).some(Boolean)).length;
     case `archive`:
       return tasks.filter((task) => task.isArchive).length;
     default:

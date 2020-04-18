@@ -6,9 +6,9 @@ export const Checked = {
 };
 
 export const CountTask = {
-  ALL: 10,
+  ALL: 9,
   START: 4,
-  BY_BUTTON: 8
+  BY_BUTTON: 2
 };
 
 export const Decision = {
@@ -108,4 +108,9 @@ export const IsExistence = {
   NO: false
 };
 
-export const IS_ARCHIVE = true;
+export const IsArchive = {
+  YES: true,
+  NO: false
+};
+
+export const FILTER_LABEL = `.filter__label`;

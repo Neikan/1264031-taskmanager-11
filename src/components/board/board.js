@@ -2,7 +2,8 @@ import {createSorting} from "./components/sorting";
 import {createBoardTasks} from "./components/board-tasks";
 import {createLoadMore} from "./components/load-more-button";
 import {createElement} from "../../utils";
-import {NO_TASKS} from "../../consts";
+// import {NO_TASKS} from "../../consts";
+
 
 /**
  * Создание разметки блока доски задач
@@ -10,11 +11,12 @@ import {NO_TASKS} from "../../consts";
  * @return {string} разметка блока
  */
 const createBoard = (tasks) => {
-  const isAllTasksInArchive = tasks.every((task) => task.isArchive);
-  const board = (tasks.length && !isAllTasksInArchive) ? getBoardWithTasks(tasks) : getBoardNoTasks();
+  // const isAllTasksInArchive = tasks.every((task) => task.isArchive);
+  const board = tasks ? getBoardWithTasks(tasks) : getBoardNoTasks();
 
   return `<section class="board container">${board}</section>`;
 };
+
 
 /**
  * Получение разметки блока доски при наличии задач
@@ -35,11 +37,12 @@ const getBoardNoTasks = () => {
   );
 };
 
+
 /**
  * Создание класса доски задач
  */
 export default class Board {
-  constructor(tasks = NO_TASKS) {
+  constructor(tasks) {
     this._tasks = tasks;
     this._element = null;
   }
