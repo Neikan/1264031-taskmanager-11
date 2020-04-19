@@ -1,5 +1,6 @@
 import {Position, CHECK_FORMAT_TIME} from "./consts";
 
+
 /**
  * Отрисовка элемента страницы ("компонента")
  * @param {Element} container контейнер, в который отрисосывается шаблон
@@ -12,11 +13,15 @@ export const render = (container, element, position = Position.BEFORE_END) => {
     case Position.AFTER_BEGIN:
       container.prepend(element);
       break;
+    case Position.AFTER_END:
+      container.after(element);
+      break;
     case Position.BEFORE_END:
       container.append(element);
       break;
   }
 };
+
 
 /**
  * Добавление ведущих нулей к часам / минутам: 2 -> 02
@@ -26,6 +31,7 @@ export const render = (container, element, position = Position.BEFORE_END) => {
 const castTimeFormat = (value) => {
   return value < CHECK_FORMAT_TIME ? `0${value}` : String(value);
 };
+
 
 /**
  * Приведение времени к формату "HH:MM"
@@ -39,6 +45,7 @@ export const formatTime = (date) => {
   return `${hours}:${minutes}`;
 };
 
+
 /**
  * Создание DOM-элемента
  * @param {string} template шаблон-разметка для создания элемента
@@ -51,3 +58,13 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
+
+/**
+ * Замена DOM-элемента
+ * @param {Object} container родительский элемент
+ * @param {Object} newElement новый элемент
+ * @param {Object} oldElement заменяемый элемент
+ */
+export const replace = (container, newElement, oldElement) => {
+  container.replaceChild(newElement, oldElement);
+};

@@ -1,7 +1,9 @@
-import {getViewForm} from "./task/components/task-view";
-import {getEditForm} from "./task/components/task-edit";
-import {CardClass, Form} from "../consts";
-import {createElement} from "../utils";
+import {getViewForm} from "./components/task-view";
+import {getEditForm} from "./components/task-edit";
+import {CardClass, Form} from "../../consts";
+import {createElement} from "../../utils";
+
+
 /**
  * Создание разметки блока формы карточки задачи
  * @param {Object} task задача
@@ -18,6 +20,7 @@ const createTask = (task, isView) => {
     getEditForm(task, additionalMarkup, isView, additionalInfo);
 };
 
+
 /**
  * Получение дополнительных вычисляемых свойств задачи
  * @param {Object} {параметры задачи}
@@ -30,6 +33,7 @@ const getAdditionalInfo = ({dueDate, repeatingDays}) => {
   };
 };
 
+
 /**
  * Получение дополнительных классов разметки для карточки задачи
  * @param {Object} {дополнительные параметры}
@@ -41,6 +45,7 @@ const getAdditionalMarkup = ({isExpired, isRepeating}) => {
     deadline: isExpired ? CardClass.deadline : ``
   };
 };
+
 
 /**
  * Создание класса задачи

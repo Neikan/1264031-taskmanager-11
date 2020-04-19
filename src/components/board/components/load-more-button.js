@@ -1,29 +1,18 @@
-import {CountTask} from "../../../consts";
+import {CountTask, IsExistence} from "../../../consts";
+
 
 /**
  * Создание разметки кнопки показа оставшихся задач
+ * @param {Array} tasks
  * @return {string} разметка кнопки
  */
-const createLoadMore = () => `<button class="load-more" type="button">load more</button>`;
+const createLoadMore = (tasks) => {
+  const moreTasksThanStart = (tasks.length > CountTask.START) ? IsExistence.YES : IsExistence.No;
 
-/**
- * Добавление лисенера на кнопку показа оставшихся задач
- * @param {*} boardComponent компонент доски
- * @param {Array} tasks задачи
- * @param {Number} showingTasksCount количество задач, ранее отображенных на доске
- * @param {Function} renderTasksList
- */
-const addLoadMoreListener = (boardComponent, tasks, showingTasksCount, renderTasksList) => {
-  const loadMore = boardComponent.getElement().querySelector(`.load-more`);
-  const loadMoreClickHandler = () => {
-    const prevTasksCount = showingTasksCount;
-    showingTasksCount += CountTask.BY_BUTTON;
-    tasks.slice(prevTasksCount, showingTasksCount).map(renderTasksList());
-    if (showingTasksCount >= tasks.length) {
-      loadMore.remove();
-    }
-  };
-  loadMore.addEventListener(`click`, loadMoreClickHandler);
+  return moreTasksThanStart ?
+    `<button class="load-more" type="button">load more</button>` :
+    ``;
 };
 
-export {createLoadMore, addLoadMoreListener};
+
+export {createLoadMore};

@@ -10,8 +10,8 @@ import {getEditButtons} from "./buttons/buttons-edit";
 const createButtonsBlock = (task, isView) => {
   const {isArchive, isFavorite} = task;
 
-  const archiveBtnInactive = isArchive ? `` : `card__btn--disabled`;
-  const favoriteBtnInactive = isFavorite ? `` : `card__btn--disabled`;
+  const archiveBtnInactive = isArchive ? `card__btn--disabled` : ``;
+  const favoriteBtnInactive = isFavorite ? `card__btn--disabled` : ``;
 
   return isView ? getViewButtons(archiveBtnInactive, favoriteBtnInactive) : getEditButtons();
 };

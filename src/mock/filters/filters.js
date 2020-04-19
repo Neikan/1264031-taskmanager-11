@@ -1,19 +1,52 @@
-import {FILTER_NAMES, CountTask} from "../../consts";
+import {FILTER_NAMES} from "../../consts";
+
 
 /**
  * Генерация фильтров
+ * @param {Array} tasks массив задач
  * @return {Object} фильтр с названием и числом элементов, соответствующих ему
  */
-const generateFilters = () => FILTER_NAMES.map(addCount);
+const generateFilters = (tasks) => FILTER_NAMES.map((filter) => addCount(tasks, filter));
+
 
 /**
  * Добавление свойства количества к элементу фильтра
+ * @param {Array} tasks массив задач
  * @param {Object} filter фильтр
  * @return {Object} объект с добавленным свойством количества
  */
-const addCount = (filter) => {
-  filter[`count`] = Math.floor(Math.random() * CountTask.ALL);
+const addCount = (tasks, filter) => {
+  filter[`count`] = getFiltersCount(tasks, filter.name);
   return filter;
 };
+
+
+/**
+ * Вычисление количества задач по каждому фильтру
+ * @param {Array} tasks массив задач
+ * @param {Object} filterName название фильтра
+ * @return {Number} количество задач, соответствующих фильтру
+ */
+const getFiltersCount = (tasks, filterName) => {
+  const tasksNotDelete = tasks.filter((task) => !task.isDeleted);
+  const tasksNotArchive = tasksNotDelete.filter((task) => !task.isArchive);
+  switch (filterName) {
+    case `all`:
+      return tasksNotArchive.length;
+    case `overdue`:
+      return tasksNotArchive.filter((task) => task.dueDate instanceof Date && task.dueDate < Date.now()).length;
+    case `today`:
+      return tasksNotArchive.filter((task) => task.dueDate && task.dueDate.getDate() === new Date().getDate()).length;
+    case `favorites`:
+      return tasksNotArchive.filter((task) => task.isFavorite).length;
+    case `repeating`:
+      return tasksNotArchive.filter((task) => Object.values(task.repeatingDays).some(Boolean)).length;
+    case `archive`:
+      return tasksNotDelete.filter((task) => task.isArchive).length;
+    default:
+      return 0;
+  }
+};
+
 
 export {generateFilters};

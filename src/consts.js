@@ -100,3 +100,24 @@ export const KeyCode = {
   ENTER: 13,
   ESC: 27
 };
+
+export const NO_TASKS = [];
+
+export const IsExistence = {
+  YES: true,
+  NO: false
+};
+
+export const IsArchive = {
+  YES: true,
+  NO: false
+};
+
+export const IsDeleted = {
+  YES: true,
+  NO: false
+};
+
+export const FILTER_LABEL = `.filter__label`;
+
+export const DEFAULT_FILTER = `filter__all`;
