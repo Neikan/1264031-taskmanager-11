@@ -8,48 +8,46 @@ import FiltersComponent from "./../components/filters/filters";
 /**
  * Пересоздание компонента фильтров с обновленным массивом задач
  * @param {Object} filtersComponent фильтры
- * @param {Array} tasks задачи
+ * @param {Array} allTasks задачи
  * @param {Object} boardComponent доска задач
  * @param {string} currentFilter текущий фильтр
  * @param {Number} showingTasksCount количество отображенных задач
  */
-const regenerateFilters = (filtersComponent, tasks, boardComponent, currentFilter, showingTasksCount) => {
+const regenerateFilters = (filtersComponent, allTasks, boardComponent, currentFilter, showingTasksCount) => {
   document.querySelector(`.filter.container`).remove();
   const mainNode = document.querySelector(`.main__control`);
 
-  const newFilters = generateFilters(tasks);
+  const newFilters = generateFilters(allTasks);
   filtersComponent = new FiltersComponent(newFilters);
   render(mainNode, filtersComponent, Position.AFTER_END);
   setCheckFilter(currentFilter);
-  addListenersToFilters(filtersComponent, tasks, boardComponent, showingTasksCount);
+  addListenersToFilters(filtersComponent, allTasks, boardComponent, showingTasksCount);
 };
 
 
 /**
  * Добавление лисенеров на фильтры
  * @param {Object} filtersComponent фильтры
- * @param {Array} tasks задачи
+ * @param {Array} allTasks задачи
  * @param {Object} boardComponent доска задач
  * @param {Number} showingTasksCount количество отображенных задач
  */
-const addListenersToFilters = (filtersComponent, tasks, boardComponent, showingTasksCount) => {
+const addListenersToFilters = (filtersComponent, allTasks, boardComponent, showingTasksCount) => {
 
   const boardFilters = Array.from(filtersComponent.getElement().querySelectorAll(FILTER_LABEL));
 
   const filterClickHandler = (evt) => {
     unCheckFilter();
 
-    const filter = evt.target.closest(FILTER_LABEL);
-    const filterAttribute = filter.getAttribute(`for`);
-    const filteringTasks = getFilteringTasks(tasks, filterAttribute);
+    const filterAttribute = evt.target.closest(FILTER_LABEL).getAttribute(`for`);
 
     setCheckFilter(filterAttribute);
-    reRenderBoard(filteringTasks, boardComponent, filterAttribute, showingTasksCount);
+    reRenderBoard(allTasks, boardComponent, filterAttribute, showingTasksCount);
   };
 
   const addListenerForFilter = () => (boardFilter) => boardFilter.addEventListener(`click`, filterClickHandler);
 
-  boardFilters.map(addListenerForFilter(tasks));
+  boardFilters.map(addListenerForFilter(allTasks));
 };
 
 
@@ -89,7 +87,7 @@ const getFilteringTasks = (tasks, attributeFor = `filter__all`) => {
       return tasksNotDelete.filter((task) => task.isArchive);
 
     default:
-      return 0;
+      return [];
   }
 };
 

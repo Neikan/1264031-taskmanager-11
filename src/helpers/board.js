@@ -10,16 +10,16 @@ let showingTasksCount = CountTask.START;
 /**
  * Отрисовка блока доски задач
  * @param {Object} boardComponent доска задач
- * @param {Array} tasks задачи
+ * @param {Array} allTasks задачи
  * @param {Object} currentFilter
  * @param {Object} filtersComponent фильтры
  */
-const renderBoard = (boardComponent, tasks, currentFilter, filtersComponent) => {
-  const filteringTasks = getFilteringTasks(tasks, currentFilter);
+const renderBoard = (boardComponent, allTasks, currentFilter, filtersComponent) => {
+  const filteringTasks = getFilteringTasks(allTasks, currentFilter);
 
   if (filteringTasks.length) {
     const renderTasksList = () => (taskData) =>
-      renderTask(boardComponent, tasks, taskData, filtersComponent, showingTasksCount);
+      renderTask(boardComponent, allTasks, taskData, filtersComponent, showingTasksCount);
 
     filteringTasks.slice(0, showingTasksCount).map(renderTasksList());
     const loadMore = boardComponent.getElement().querySelector(`.load-more`);
@@ -50,18 +50,18 @@ const removeBoard = (boardComponent) => {
 
 /**
  * Перерисовка доски задач
- * @param {Array} filteringTasks задачи
+ * @param {Array} allTasks задачи
  * @param {Object} boardComponent
  * @param {Object} currentFilter
  * @param {Number} tasksCount количество отображенных задач
  */
-const reRenderBoard = (filteringTasks, boardComponent, currentFilter, tasksCount) => {
+const reRenderBoard = (allTasks, boardComponent, currentFilter, tasksCount) => {
   removeBoard(boardComponent);
 
-  boardComponent = new BoardComponent(filteringTasks);
+  boardComponent = new BoardComponent(allTasks);
 
   render(document.querySelector(`.main`), boardComponent);
-  renderBoard(boardComponent, filteringTasks, currentFilter, tasksCount);
+  renderBoard(boardComponent, allTasks, currentFilter, tasksCount);
 };
 
 
