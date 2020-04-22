@@ -1,5 +1,6 @@
 import {MEMU_ITEMS} from "../../consts";
 import {createElement} from "../../utils";
+import AbstractComponent from "../abstract/abstract-component";
 
 /**
  * Создание разметки блока главного меню
@@ -41,25 +42,8 @@ const createMenuItem = ({name, label}) => {
 /**
  * Создание класса меню
  */
-export default class Menu {
-  constructor() {
-    this._element = null;
-  }
-
+export default class Menu extends AbstractComponent {
   getTemplate() {
     return createMenu();
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
-

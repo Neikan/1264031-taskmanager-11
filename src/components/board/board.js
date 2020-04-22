@@ -1,8 +1,7 @@
+import AbstractComponent from "../abstract/abstract-component.js";
 import {createSorting} from "./components/sorting";
 import {createBoardTasks} from "./components/board-tasks";
 import {createLoadMore} from "./components/load-more-button";
-import {createElement} from "../../utils";
-// import {NO_TASKS} from "../../consts";
 
 
 /**
@@ -11,7 +10,6 @@ import {createElement} from "../../utils";
  * @return {string} разметка блока
  */
 const createBoard = (tasks) => {
-  // const isAllTasksInArchive = tasks.every((task) => task.isArchive);
   const board = tasks.length ? getBoardWithTasks(tasks) : getBoardNoTasks();
 
   return `<section class="board container">${board}</section>`;
@@ -41,25 +39,14 @@ const getBoardNoTasks = () => {
 /**
  * Создание класса доски задач
  */
-export default class Board {
+export default class Board extends AbstractComponent {
   constructor(tasks) {
+    super();
+
     this._tasks = tasks;
-    this._element = null;
   }
 
   getTemplate() {
     return createBoard(this._tasks);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

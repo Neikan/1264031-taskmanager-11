@@ -2,7 +2,7 @@ import {Position, CHECK_FORMAT_TIME} from "./consts";
 
 
 /**
- * Отрисовка элемента страницы ("компонента")
+ * Отрисовка элемента страницы
  * @param {Element} container контейнер, в который отрисосывается шаблон
  * @param {string} element отрисовываемый элемент
  * @param {string} position место в контейнере для отрисовываемого шаблона
@@ -18,6 +18,28 @@ export const render = (container, element, position = Position.BEFORE_END) => {
       break;
     case Position.BEFORE_END:
       container.append(element);
+      break;
+  }
+};
+
+
+/**
+ * Отрисовка компонента на странице
+ * @param {Element} container контейнер, в который отрисосывается шаблон
+ * @param {string} component отрисовываемый компонент
+ * @param {string} position место в контейнере для отрисовываемого шаблона
+ * @return {void}
+ */
+export const renderComponent = (container, component, position = Position.BEFORE_END) => {
+  switch (position) {
+    case Position.AFTER_BEGIN:
+      container.prepend(component.getElement());
+      break;
+    case Position.AFTER_END:
+      container.after(component.getElement());
+      break;
+    case Position.BEFORE_END:
+      container.append(component.getElement());
       break;
   }
 };

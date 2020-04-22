@@ -2,6 +2,7 @@ import {getViewForm} from "./components/task-view";
 import {getEditForm} from "./components/task-edit";
 import {CardClass, Form} from "../../consts";
 import {createElement} from "../../utils";
+import AbstractComponent from "../abstract/abstract-component";
 
 
 /**
@@ -50,26 +51,15 @@ const getAdditionalMarkup = ({isExpired, isRepeating}) => {
 /**
  * Создание класса задачи
  */
-export default class Task {
+export default class Task extends AbstractComponent {
   constructor(task, isView = Form.VIEW) {
+    super();
+
     this._task = task;
     this._isView = isView;
-    this._element = null;
   }
 
   getTemplate() {
     return createTask(this._task, this._isView);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
