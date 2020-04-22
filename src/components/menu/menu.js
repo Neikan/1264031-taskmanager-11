@@ -1,5 +1,4 @@
 import {MEMU_ITEMS} from "../../consts";
-import {createElement} from "../../utils";
 import AbstractComponent from "../abstract/abstract-component";
 
 /**

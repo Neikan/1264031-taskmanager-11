@@ -1,6 +1,6 @@
 import {Position, FILTER_LABEL} from "../consts";
 import {generateFilters} from "../mock/filters/filters";
-import {render} from "../utils";
+import {render} from "../utils/component-change";
 import {reRenderBoard} from "./../helpers/board";
 import FiltersComponent from "./../components/filters/filters";
 
@@ -19,7 +19,7 @@ const regenerateFilters = (filtersComponent, tasks, boardComponent, currentFilte
 
   const newFilters = generateFilters(tasks);
   filtersComponent = new FiltersComponent(newFilters);
-  render(mainNode, filtersComponent.getElement(), Position.AFTER_END);
+  render(mainNode, filtersComponent, Position.AFTER_END);
   setCheckFilter(currentFilter);
   addListenersToFilters(filtersComponent, tasks, boardComponent, showingTasksCount);
 };

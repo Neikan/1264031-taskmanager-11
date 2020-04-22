@@ -1,7 +1,7 @@
 import {CountTask, DEFAULT_FILTER} from "./consts";
 import {generateTasks} from "./mock/tasks/tasks";
 import {generateFilters} from "./mock/filters/filters";
-import {render} from "./utils";
+import {render} from "./utils/component-change";
 import {renderBoard} from "./helpers/board";
 import {addListenersToFilters, getFilteringTasks, setCheckFilter} from "./helpers/filters";
 import MenuComponent from "./components/menu/menu.js";
@@ -24,9 +24,9 @@ const init = () => {
   const filtersComponent = new FiltersComponent(filters);
   const boardComponent = new BoardComponent(getFilteringTasks(tasks));
 
-  render(Nodes.HEADER, new MenuComponent().getElement());
-  render(Nodes.MAIN, filtersComponent.getElement());
-  render(Nodes.MAIN, boardComponent.getElement());
+  render(Nodes.HEADER, new MenuComponent());
+  render(Nodes.MAIN, filtersComponent);
+  render(Nodes.MAIN, boardComponent);
 
   setCheckFilter(DEFAULT_FILTER);
   renderBoard(boardComponent, tasks, DEFAULT_FILTER, filtersComponent);

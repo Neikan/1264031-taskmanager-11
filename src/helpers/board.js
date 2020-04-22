@@ -1,6 +1,6 @@
 import {CountTask, NO_TASKS} from "../consts";
 import {renderTask} from "./task";
-import {render} from "../utils";
+import {render} from "../utils/component-change";
 import {getFilteringTasks} from "./filters";
 import BoardComponent from "../components/board/board";
 
@@ -33,7 +33,7 @@ const renderBoard = (boardComponent, tasks, currentFilter, filtersComponent) => 
   } else {
     removeBoard(boardComponent);
     boardComponent = new BoardComponent(NO_TASKS);
-    render(document.querySelector(`.main`), boardComponent.getElement());
+    render(document.querySelector(`.main`), boardComponent);
   }
 };
 
@@ -60,7 +60,7 @@ const reRenderBoard = (filteringTasks, boardComponent, currentFilter, tasksCount
 
   boardComponent = new BoardComponent(filteringTasks);
 
-  render(document.querySelector(`.main`), boardComponent.getElement());
+  render(document.querySelector(`.main`), boardComponent);
   renderBoard(boardComponent, filteringTasks, currentFilter, tasksCount);
 };
 

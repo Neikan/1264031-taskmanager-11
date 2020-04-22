@@ -1,15 +1,15 @@
 import TaskComponent from "../components/task/task";
 import {Form, KeyCode, IsArchive, IsDeleted} from "../consts.js";
-import {render, replace} from "../utils.js";
+import {render, replace} from "../utils/component-change";
 import {reRenderBoard} from "./board";
 import {regenerateFilters, getCheckedFilter} from "./filters";
 
 
 const ButtonClass = {
   DISABLED: `card__btn--disabled`,
-  EDIT: `card__btn--edit`,
   ARCHIVE: `card__btn--archive`
 };
+
 
 /**
  * Отрисовка задачи в блок списка задач
@@ -25,7 +25,7 @@ const renderTask = (boardComponent, tasks, taskData, filtersComponent, showingTa
 
   const escKeyDownHandler = (evt) => {
     if (evt.keyCode === KeyCode.ESC) {
-      replace(tasksList, taskForm.view.getElement(), taskForm.edit.getElement());
+      replace(taskForm.view, taskForm.edit);
       document.removeEventListener(`keydown`, escKeyDownHandler);
     }
   };
@@ -47,7 +47,7 @@ const renderTask = (boardComponent, tasks, taskData, filtersComponent, showingTa
       boardComponent, taskForm, showingTasksCount
   );
 
-  render(tasksList, taskForm.view.getElement());
+  render(tasksList, taskForm.view);
 };
 
 
@@ -94,14 +94,18 @@ const showEditForm = (
   const editBtnClickHandler = () => {
     if (tasksList.querySelector(`.card--edit`)) {
       document.removeEventListener(`keydown`, escKeyDownHandler);
-      updateBoardAndFilters(filtersComponent, tasks, boardComponent, getCheckedFilter(), showingTasksCount);
+      updateBoardAndFilters(
+          filtersComponent, tasks, boardComponent, getCheckedFilter(), showingTasksCount
+      );
+
     } else {
-      replace(tasksList, taskForm.edit.getElement(), taskForm.view.getElement());
+
+      replace(taskForm.edit, taskForm.view);
       document.addEventListener(`keydown`, escKeyDownHandler);
     }
   };
-  const editBtn = taskForm.view.getElement().querySelector(`.${ButtonClass.EDIT}`);
-  editBtn.addEventListener(`click`, editBtnClickHandler);
+
+  taskForm.view.setEditBtnClickHandler(editBtnClickHandler);
 };
 
 
@@ -116,7 +120,10 @@ const showEditForm = (
  */
 const addTaskToArchive = (tasks, taskData, filtersComponent, boardComponent, taskForm, showingTasksCount) => {
   const archiveBtnClickHandler = () => {
+    const archiveBtn = taskForm.view.getElement().querySelector(`.${ButtonClass.ARCHIVE}`);
+
     const currentFilter = getCheckedFilter();
+
     if (!archiveBtn.classList.contains(ButtonClass.DISABLED)) {
       archiveBtn.classList.add(ButtonClass.DISABLED);
       tasks[getTaskIndex(tasks, taskData)].isArchive = IsArchive.YES;
@@ -129,8 +136,8 @@ const addTaskToArchive = (tasks, taskData, filtersComponent, boardComponent, tas
       updateBoardAndFilters(filtersComponent, tasks, boardComponent, currentFilter, showingTasksCount);
     }
   };
-  const archiveBtn = taskForm.view.getElement().querySelector(`.${ButtonClass.ARCHIVE}`);
-  archiveBtn.addEventListener(`click`, archiveBtnClickHandler);
+
+  taskForm.view.setArchiveBtnClickhandler(archiveBtnClickHandler);
 };
 
 
@@ -144,10 +151,10 @@ const submitEditForm = (escKeyDownHandler, tasksList, taskForm) => {
   const editFormSubmitHandler = (evt) => {
     evt.preventDefault();
     document.removeEventListener(`keydown`, escKeyDownHandler);
-    replace(tasksList, taskForm.view.getElement(), taskForm.edit.getElement());
+    replace(taskForm.view, taskForm.edit);
   };
-  const editForm = taskForm.edit.getElement().querySelector(`form`);
-  editForm.addEventListener(`submit`, editFormSubmitHandler);
+
+  taskForm.edit.setSubmitHandler(editFormSubmitHandler);
 };
 
 
@@ -165,8 +172,8 @@ const deleteFromTaskList = (tasks, taskData, filtersComponent, boardComponent, t
     tasks[getTaskIndex(tasks, taskData)].isDeleted = IsDeleted.YES;
     updateBoardAndFilters(filtersComponent, tasks, boardComponent, getCheckedFilter(), showingTasksCount);
   };
-  const deleteBtn = taskForm.edit.getElement().querySelector(`.card__delete`);
-  deleteBtn.addEventListener(`click`, deleteBtnClickHandler);
+
+  taskForm.edit.setDeleteBtnClickHandler(deleteBtnClickHandler);
 };
 
 
