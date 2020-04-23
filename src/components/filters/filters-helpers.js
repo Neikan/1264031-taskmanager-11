@@ -1,4 +1,4 @@
-import {Position, FILTER_LABEL, DEFAULT_FILTER, CountTask} from "../../consts";
+import {Position, FILTER_LABEL, DEFAULT_FILTER} from "../../consts";
 import {generateFilters} from "../../mock/filters/filters";
 import {render} from "../../utils/change-component";
 import FiltersComponent from "./filters";
@@ -12,15 +12,16 @@ import FiltersComponent from "./filters";
  * @param {string} currentFilter текущий фильтр
  * @param {Number} showingTasksCount количество отображенных задач
  */
-const regenerateFilters = (allTasks, filtersComponent, boardController, currentFilter, showingTasksCount) => {
-  document.querySelector(`.filter.container`).remove();
-  const mainNode = document.querySelector(`.main__control`);
+const regenerateFilters = (
+    allTasks, filtersComponent, boardController, currentFilter
+) => {
 
-  const newFilters = generateFilters(allTasks);
-  filtersComponent = new FiltersComponent(newFilters);
-  render(mainNode, filtersComponent, Position.AFTER_END);
+  document.querySelector(`.filter.container`).remove();
+
+  filtersComponent = new FiltersComponent(generateFilters(allTasks));
+  render(document.querySelector(`.main__control`), filtersComponent, Position.AFTER_END);
   setCheckFilter(currentFilter);
-  addListenersToFilters(allTasks, filtersComponent, boardController, showingTasksCount);
+  addListenersToFilters(allTasks, filtersComponent, boardController);
 };
 
 
@@ -31,18 +32,22 @@ const regenerateFilters = (allTasks, filtersComponent, boardController, currentF
  * @param {Object} boardController контроллер доски задач
  * @param {Number} showingTasksCount количество отображенных задач
  */
-const addListenersToFilters = (allTasks, filtersComponent, boardController, showingTasksCount = CountTask.START) => {
-  const boardFilters = Array.from(filtersComponent.getElement().querySelectorAll(FILTER_LABEL));
+const addListenersToFilters = (allTasks, filtersComponent, boardController) => {
+
+  const boardFilters = Array.from(
+      filtersComponent.getElement().querySelectorAll(FILTER_LABEL)
+  );
 
   const filterClickHandler = (evt) => {
     const filterAttribute = evt.target.closest(FILTER_LABEL).getAttribute(`for`);
 
     unCheckFilter();
     setCheckFilter(filterAttribute);
-    boardController.replace(allTasks, filtersComponent, filterAttribute, showingTasksCount);
+    boardController.replace(allTasks, filtersComponent, filterAttribute);
   };
 
-  const addListenerForFilter = () => (boardFilter) => boardFilter.addEventListener(`click`, filterClickHandler);
+  const addListenerForFilter = () => (boardFilter) =>
+    boardFilter.addEventListener(`click`, filterClickHandler);
 
   boardFilters.map(addListenerForFilter(allTasks));
 };

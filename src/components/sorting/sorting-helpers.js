@@ -1,15 +1,16 @@
 import {SortType} from "../../consts";
 import {renderLoadMore} from "../load-more-btn/load-more-btn-helpers";
+import {getCurrentCountTasks} from "../task/task-helpers";
+import {remove} from "../../utils/change-component";
+
 
 /**
  * Сортировка задач
  * @param {Array} filteredTasks данные задач
  * @param {string} sortType тип сортировки
- * @param {Number} from начальное количество зада
- * @param {Number} to конечное количество задач
  * @return {Array} отсортированные данные задач
  */
-const getSortedTasks = (filteredTasks, sortType, from, to) => {
+const getSortedTasks = (filteredTasks, sortType) => {
   let sortedTasks = [];
   const showingTasks = filteredTasks.slice();
 
@@ -25,23 +26,36 @@ const getSortedTasks = (filteredTasks, sortType, from, to) => {
       break;
   }
 
-  return sortedTasks.slice(from, to);
+  return sortedTasks;
 };
 
 
+/**
+ * Отрисовка отсортированных задач
+ * @param {Object} container контейнер
+ * @param {Object} loadMoreComponent компонент, отвечающий за кнопку показа оставшихся задач
+ * @param {Array} filteredTasks данные задач
+ * @param {Function} renderTasksList функция рендера задач на доску
+ * @param {Number} showingTasksCount количество задач на доске
+ * @param {Object} sortComponent компонент, отвечающий за сортировку задач
+ * @param {Object} tasksList список задач
+ */
 const renderSortedTasks = (container, loadMoreComponent, filteredTasks, renderTasksList, showingTasksCount, sortComponent, tasksList) => {
-  // console.log(showingTasksCount);
   const sortClickHandler = (sortType) => {
-    // showingTasksCount = CountTask.BY_BUTTON;
+    showingTasksCount = getCurrentCountTasks();
 
-    const sortedTasks = getSortedTasks(filteredTasks, sortType, 0, showingTasksCount);
+    const sortedTasks = getSortedTasks(filteredTasks, sortType);
+
     tasksList.innerHTML = ``;
 
     sortedTasks.slice(0, showingTasksCount).map(renderTasksList());
-    renderLoadMore(container, loadMoreComponent, filteredTasks, renderTasksList, showingTasksCount);
+
+    remove(loadMoreComponent);
+    renderLoadMore(container, loadMoreComponent, sortedTasks, renderTasksList, showingTasksCount);
   };
 
   sortComponent.setSortTypeChangeHandler(sortClickHandler);
 };
+
 
 export {renderSortedTasks};

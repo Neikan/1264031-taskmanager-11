@@ -2,7 +2,7 @@ import {CountTask, DEFAULT_FILTER} from "./consts";
 import {generateTasks} from "./mock/tasks/tasks";
 import {generateFilters} from "./mock/filters/filters";
 import {render} from "./utils/change-component";
-import {addListenersToFilters, getFilteredTasks, setCheckFilter} from "./components/filters/filters-helpers";
+import {getFilteredTasks, setCheckFilter, addListenersToFilters} from "./components/filters/filters-helpers";
 import MenuComponent from "./components/menu/menu.js";
 import FiltersComponent from "./components/filters/filters.js";
 import BoardComponent from "./components/board/board.js";

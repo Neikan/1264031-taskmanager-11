@@ -173,9 +173,8 @@ const getDeleteBtnClickHandler = (
 const updateBoardAndFilters = (
     allTasks, filtersComponent, boardController, currentFilter, showingTasksCount
 ) => {
-  regenerateFilters(
-      allTasks, filtersComponent, boardController, currentFilter, showingTasksCount);
 
+  regenerateFilters(allTasks, filtersComponent, boardController, currentFilter);
   boardController.replace(allTasks, filtersComponent, currentFilter, showingTasksCount);
 };
 
@@ -227,7 +226,7 @@ const getArchiveOrFavoriteHandler = (
 
   return () => {
     const button = taskForm.view.getElement().querySelector(`.${buttonName}`);
-
+    showingTasksCount = getCurrentCountTasks();
     if (!button.classList.contains(BTN_DISABLED_CLASS)) {
       button.classList.add(BTN_DISABLED_CLASS);
       changeTaskAttribute(
@@ -247,4 +246,11 @@ const getArchiveOrFavoriteHandler = (
 };
 
 
-export {renderTask};
+/**
+ * Получение текущего количества задач на доске
+ * @return {Number} количество задач
+ */
+const getCurrentCountTasks = () => document.querySelectorAll(`.card`).length;
+
+
+export {renderTask, getCurrentCountTasks};

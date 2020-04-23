@@ -3,7 +3,7 @@ import {CountTask} from "../consts";
 import {getFilteredTasks} from "../components/filters/filters-helpers";
 import {renderTask} from "../components/task/task-helpers";
 import {renderLoadMore} from "../components/load-more-btn/load-more-btn-helpers";
-import {renderSortedTasks} from "../components/sorting/helpers";
+import {renderSortedTasks} from "../components/sorting/sorting-helpers";
 import TasksComponent from "../components/tasks-list/tasks-list";
 import SortComponent from "../components/sorting/sorting";
 import LoadMoreBtnComponent from "../components/load-more-btn/load-more-btn";
@@ -23,14 +23,12 @@ export default class BoardController {
     this._noTasks = new NoTasksComponent();
   }
 
-  render(allTasks, filtersComponent, currentFilter, countTasks = CountTask.START) {
+  render(allTasks, filtersComponent, currentFilter, showingTasksCount = CountTask.START) {
 
     const container = this._container.getElement();
     const filteredTasks = getFilteredTasks(allTasks, currentFilter);
 
     if (filteredTasks.length) {
-      let showingTasksCount = countTasks;
-
       render(container, this._sortComponent);
       render(container, this._tasksComponent);
 
