@@ -18,7 +18,6 @@ const BTN_DISABLED_CLASS = `card__btn--disabled`;
  */
 const renderTask = (tasksList, allTasks, taskData, filtersComponent, showingTasksCount, boardController) => {
   const taskForm = getTaskForm(taskData);
-
   const dataset = {allTasks, taskData, filtersComponent, taskForm, showingTasksCount, boardController};
 
   render(tasksList, taskForm.view);
@@ -30,16 +29,31 @@ const renderTask = (tasksList, allTasks, taskData, filtersComponent, showingTask
     }
   };
 
-  taskForm.view.setEditBtnClickHandler(getEditBtnClickHandler(dataset, escKeyDownHandler, tasksList));
+  setViewFormListeners(taskForm, dataset, escKeyDownHandler, tasksList);
+  setEditFormListeners(taskForm, dataset, escKeyDownHandler);
+};
 
-  taskForm.view.setArchiveBtnClickhandler(
-      getArchiveOrFavoriteHandler(dataset, AttributeTask.IS_ARCHIVE, ButtonTask.ARCHIVE)
-  );
 
-  taskForm.view.setFavoriteBtnClickhandler(
-      getArchiveOrFavoriteHandler(dataset, AttributeTask.IS_FAVORITE, ButtonTask.FAVORITE)
-  );
+/**
+ * Установка лисенеров для формы просмотра
+ * @param {Object} {view} форма просмотра задачи
+ * @param {Object} dataset данные
+ * @param {Function} escKeyDownHandler помощник, отвечащий за закрытие формы редактирования без сохранения
+ * @param {Object} tasksList список задач
+ */
+const setViewFormListeners = ({view}, dataset, escKeyDownHandler, tasksList) => {
+  view.setEditBtnClickHandler(getEditBtnClickHandler(dataset, escKeyDownHandler, tasksList));
+  view.setArchiveBtnClickhandler(getArchiveOrFavoriteHandler(dataset, AttributeTask.IS_ARCHIVE, ButtonTask.ARCHIVE));
+  view.setFavoriteBtnClickhandler(getArchiveOrFavoriteHandler(dataset, AttributeTask.IS_FAVORITE, ButtonTask.FAVORITE));
+};
 
+/**
+ * Установка лисенеров для формы редактирования задачи
+ * @param {Object} taskForm формы задачи
+ * @param {Object} dataset данные
+ * @param {Function} escKeyDownHandler помощник, отвечащий за закрытие формы редактирования без сохранения
+ */
+const setEditFormListeners = (taskForm, dataset, escKeyDownHandler) => {
   taskForm.edit.setSubmitHandler(getEditFormSubmitHandler(escKeyDownHandler, taskForm));
   taskForm.edit.setDeleteBtnClickHandler(getDeleteBtnClickHandler(dataset));
 };
