@@ -1,19 +1,18 @@
-import {Position, FILTER_LABEL} from "../consts";
-import {generateFilters} from "../mock/filters/filters";
-import {render} from "../utils/component-change";
-import {reRenderBoard} from "./../helpers/board";
-import FiltersComponent from "./../components/filters/filters";
+import {Position, FILTER_LABEL, DEFAULT_FILTER, CountTask} from "../../consts";
+import {generateFilters} from "../../mock/filters/filters";
+import {render} from "../../utils/change-component";
+import FiltersComponent from "./filters";
 
 
 /**
- * Пересоздание компонента фильтров с обновленным массивом задач
+ * Пересоздание компонента фильтров с обновленными данными задач
+ * @param {Array} allTasks данные задач
  * @param {Object} filtersComponent фильтры
- * @param {Array} allTasks задачи
- * @param {Object} boardComponent доска задач
+ * @param {Object} boardController доска задач
  * @param {string} currentFilter текущий фильтр
  * @param {Number} showingTasksCount количество отображенных задач
  */
-const regenerateFilters = (filtersComponent, allTasks, boardComponent, currentFilter, showingTasksCount) => {
+const regenerateFilters = (allTasks, filtersComponent, boardController, currentFilter, showingTasksCount) => {
   document.querySelector(`.filter.container`).remove();
   const mainNode = document.querySelector(`.main__control`);
 
@@ -21,28 +20,26 @@ const regenerateFilters = (filtersComponent, allTasks, boardComponent, currentFi
   filtersComponent = new FiltersComponent(newFilters);
   render(mainNode, filtersComponent, Position.AFTER_END);
   setCheckFilter(currentFilter);
-  addListenersToFilters(filtersComponent, allTasks, boardComponent, showingTasksCount);
+  addListenersToFilters(allTasks, filtersComponent, boardController, showingTasksCount);
 };
 
 
 /**
  * Добавление лисенеров на фильтры
- * @param {Object} filtersComponent фильтры
- * @param {Array} allTasks задачи
- * @param {Object} boardComponent доска задач
+ * @param {Array} allTasks данные задач
+ * @param {Object} filtersComponent компонент фильтров
+ * @param {Object} boardController контроллер доски задач
  * @param {Number} showingTasksCount количество отображенных задач
  */
-const addListenersToFilters = (filtersComponent, allTasks, boardComponent, showingTasksCount) => {
-
+const addListenersToFilters = (allTasks, filtersComponent, boardController, showingTasksCount = CountTask.START) => {
   const boardFilters = Array.from(filtersComponent.getElement().querySelectorAll(FILTER_LABEL));
 
   const filterClickHandler = (evt) => {
-    unCheckFilter();
-
     const filterAttribute = evt.target.closest(FILTER_LABEL).getAttribute(`for`);
 
+    unCheckFilter();
     setCheckFilter(filterAttribute);
-    reRenderBoard(allTasks, boardComponent, filterAttribute, showingTasksCount);
+    boardController.replace(allTasks, filtersComponent, filterAttribute, showingTasksCount);
   };
 
   const addListenerForFilter = () => (boardFilter) => boardFilter.addEventListener(`click`, filterClickHandler);
@@ -53,11 +50,11 @@ const addListenersToFilters = (filtersComponent, allTasks, boardComponent, showi
 
 /**
  * Фильтрация задач в соответствии с выбранным фильтром
- * @param {Array} tasks задачи
+ * @param {Array} tasks данные задач
  * @param {string} attributeFor выбираемый фильтр
- * @return {Array} отфильтрованный массив задач
+ * @return {Array} отфильтрованные данные
  */
-const getFilteringTasks = (tasks, attributeFor = `filter__all`) => {
+const getFilteredTasks = (tasks, attributeFor = DEFAULT_FILTER) => {
   let tasksNotArchive = [];
   const tasksNotDelete = tasks.filter((task) => !task.isDeleted);
   if (tasks.length) {
@@ -118,4 +115,4 @@ const setCheckFilter = (filterAttribute) => {
 };
 
 
-export {addListenersToFilters, regenerateFilters, getFilteringTasks, getCheckedFilter, setCheckFilter};
+export {addListenersToFilters, regenerateFilters, getFilteredTasks, getCheckedFilter, setCheckFilter};

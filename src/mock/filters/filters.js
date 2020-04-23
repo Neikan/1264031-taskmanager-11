@@ -3,32 +3,32 @@ import {FILTER_NAMES} from "../../consts";
 
 /**
  * Генерация фильтров
- * @param {Array} tasks массив задач
+ * @param {Array} allTasks данные задач
  * @return {Object} фильтр с названием и числом элементов, соответствующих ему
  */
-const generateFilters = (tasks) => FILTER_NAMES.map((filter) => addCount(tasks, filter));
+const generateFilters = (allTasks) => FILTER_NAMES.map((filter) => addCount(allTasks, filter));
 
 
 /**
  * Добавление свойства количества к элементу фильтра
- * @param {Array} tasks массив задач
+ * @param {Array} allTasks данные задач
  * @param {Object} filter фильтр
  * @return {Object} объект с добавленным свойством количества
  */
-const addCount = (tasks, filter) => {
-  filter[`count`] = getFiltersCount(tasks, filter.name);
+const addCount = (allTasks, filter) => {
+  filter[`count`] = getFiltersCount(allTasks, filter.name);
   return filter;
 };
 
 
 /**
  * Вычисление количества задач по каждому фильтру
- * @param {Array} tasks массив задач
+ * @param {Array} allTasks данные задач
  * @param {Object} filterName название фильтра
  * @return {Number} количество задач, соответствующих фильтру
  */
-const getFiltersCount = (tasks, filterName) => {
-  const tasksNotDelete = tasks.filter((task) => !task.isDeleted);
+const getFiltersCount = (allTasks, filterName) => {
+  const tasksNotDelete = allTasks.filter((task) => !task.isDeleted);
   const tasksNotArchive = tasksNotDelete.filter((task) => !task.isArchive);
   switch (filterName) {
     case `all`:

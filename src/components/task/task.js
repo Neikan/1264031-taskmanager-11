@@ -1,16 +1,7 @@
 import {getViewForm} from "./components/task-view";
 import {getEditForm} from "./components/task-edit";
-import {CardClass, Form} from "../../consts";
+import {CardClass, Form, ButtonTask} from "../../consts";
 import AbstractComponent from "../abstract/abstract-component";
-
-
-const Button = {
-  EDIT: `card__btn--edit`,
-  ARCHIVE: `card__btn--archive`,
-  FAVORITE: `card__btn--favorites`,
-  DELETE: `card__delete`,
-  FORM: `form`
-};
 
 
 /**
@@ -73,28 +64,28 @@ export default class Task extends AbstractComponent {
 
   // View-form
   setEditBtnClickHandler(handler) {
-    this.getElement().querySelector(`.${Button.EDIT}`)
+    this.getElement().querySelector(`.${ButtonTask.EDIT}`)
       .addEventListener(`click`, handler);
   }
 
   setArchiveBtnClickhandler(handler) {
-    this.getElement().querySelector(`.${Button.ARCHIVE}`)
+    this.getElement().querySelector(`.${ButtonTask.ARCHIVE}`)
       .addEventListener(`click`, handler);
   }
 
   setFavoriteBtnClickhandler(handler) {
-    this.getElement().querySelector(`.${Button.FAVORITE}`)
+    this.getElement().querySelector(`.${ButtonTask.FAVORITE}`)
       .addEventListener(`click`, handler);
   }
 
   // Edit-form
   setDeleteBtnClickHandler(handler) {
-    this.getElement().querySelector(`.${Button.DELETE}`)
+    this.getElement().querySelector(`.${ButtonTask.DELETE}`)
       .addEventListener(`click`, handler);
   }
 
   setSubmitHandler(handler) {
-    this.getElement().querySelector(`${Button.FORM}`)
+    this.getElement().querySelector(`${ButtonTask.FORM}`)
       .addEventListener(`submit`, handler);
   }
 }

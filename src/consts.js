@@ -118,6 +118,33 @@ export const IsDeleted = {
   NO: false
 };
 
+export const IsAttribute = {
+  YES: true,
+  NO: false
+};
+
 export const FILTER_LABEL = `.filter__label`;
 
 export const DEFAULT_FILTER = `filter__all`;
+
+export const SortType = {
+  DATE_DOWN: `date-down`,
+  DATE_UP: `date-up`,
+  DEFAULT: `default`,
+};
+
+
+export const AttributeTask = {
+  IS_ARCHIVE: `isArchive`,
+  IS_FAVORITE: `isFavorite`,
+  IS_DELETED: `isDeleted`
+};
+
+
+export const ButtonTask = {
+  EDIT: `card__btn--edit`,
+  ARCHIVE: `card__btn--archive`,
+  FAVORITE: `card__btn--favorites`,
+  DELETE: `card__delete`,
+  FORM: `form`
+};

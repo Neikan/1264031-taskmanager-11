@@ -1,4 +1,4 @@
-import {createElement} from "../../utils/component-change";
+import {createElement} from "../../utils/change-component";
 
 export default class AbstractComponent {
   constructor() {

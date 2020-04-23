@@ -30,9 +30,9 @@ const generateTask = () => {
 
 
 /**
- * Генерация массива задач
+ * Генерация данных задач
  * @param {Number} count количество элементов для генерации
- * @return {Array} массив сгенерированных задач
+ * @return {Array} массив сгенерированных данных задач
  */
 const generateTasks = (count) => new Array(count).fill({}).map(generateTask);
 
