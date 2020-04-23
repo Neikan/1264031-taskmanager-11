@@ -16,18 +16,17 @@ const BTN_DISABLED_CLASS = `card__btn--disabled`;
  * @param {Number} showingTasksCount количество отображенных задач
  * @param {Object} boardController контроллер доски
  */
-const renderTask = (tasksList, allTasks, taskData, filtersComponent, showingTasksCount, boardController) => {
+const renderTask = (
+    tasksList, allTasks, taskData, filtersComponent,
+    showingTasksCount, boardController
+) => {
+
   const taskForm = getTaskForm(taskData);
   const dataset = {allTasks, taskData, filtersComponent, taskForm, showingTasksCount, boardController};
 
   render(tasksList, taskForm.view);
 
-  const escKeyDownHandler = (evt) => {
-    if (evt.keyCode === KeyCode.ESC) {
-      replace(taskForm.view, taskForm.edit);
-      document.removeEventListener(`keydown`, escKeyDownHandler);
-    }
-  };
+  const escKeyDownHandler = getEscKeyDownHandler(taskForm);
 
   setViewFormListeners(taskForm, dataset, escKeyDownHandler, tasksList);
   setEditFormListeners(taskForm, dataset, escKeyDownHandler);
@@ -42,10 +41,16 @@ const renderTask = (tasksList, allTasks, taskData, filtersComponent, showingTask
  * @param {Object} tasksList список задач
  */
 const setViewFormListeners = ({view}, dataset, escKeyDownHandler, tasksList) => {
-  view.setEditBtnClickHandler(getEditBtnClickHandler(dataset, escKeyDownHandler, tasksList));
-  view.setArchiveBtnClickhandler(getArchiveOrFavoriteHandler(dataset, AttributeTask.IS_ARCHIVE, ButtonTask.ARCHIVE));
-  view.setFavoriteBtnClickhandler(getArchiveOrFavoriteHandler(dataset, AttributeTask.IS_FAVORITE, ButtonTask.FAVORITE));
+  view.setEditBtnClickHandler(
+      getEditBtnClickHandler(dataset, escKeyDownHandler, tasksList));
+
+  view.setArchiveBtnClickhandler(
+      getArchiveOrFavoriteHandler(dataset, AttributeTask.IS_ARCHIVE, ButtonTask.ARCHIVE));
+
+  view.setFavoriteBtnClickhandler(
+      getArchiveOrFavoriteHandler(dataset, AttributeTask.IS_FAVORITE, ButtonTask.FAVORITE));
 };
+
 
 /**
  * Установка лисенеров для формы редактирования задачи
@@ -55,7 +60,7 @@ const setViewFormListeners = ({view}, dataset, escKeyDownHandler, tasksList) => 
  */
 const setEditFormListeners = (taskForm, dataset, escKeyDownHandler) => {
   taskForm.edit.setSubmitHandler(getEditFormSubmitHandler(escKeyDownHandler, taskForm));
-  taskForm.edit.setDeleteBtnClickHandler(getDeleteBtnClickHandler(dataset));
+  taskForm.edit.setDeleteBtnClickHandler(getDeleteBtnClickHandler(dataset, escKeyDownHandler));
 };
 
 
@@ -82,7 +87,23 @@ const getTaskIndex = (allTasks, taskData) => allTasks.indexOf(taskData);
 
 
 /**
- * Получение помозника для отображения формы редактирования
+ * Получение помощника для закрытия формы дедактирования по нажатию кнопки Esc
+ * @param {Object} taskForm формы задачи
+ * @return {Function} созданный помощник
+ */
+const getEscKeyDownHandler = (taskForm) => {
+  const handler = (evt) => {
+    if (evt.keyCode === KeyCode.ESC) {
+      replace(taskForm.view, taskForm.edit);
+      document.removeEventListener(`keydown`, handler);
+    }
+  };
+  return handler;
+};
+
+
+/**
+ * Получение помощника для отображения формы редактирования
  * @param {Object} dataset данные
  * @param {Function} escKeyDownHandler помощник, отвечащий за закрытие формы редактирования без сохранения
  * @param {Object} tasksList контейнер списка задач
@@ -95,12 +116,10 @@ const getEditBtnClickHandler = (
 ) => {
   return () => {
     if (tasksList.querySelector(`.card--edit`)) {
-
       document.removeEventListener(`keydown`, escKeyDownHandler);
       updateBoardAndFilters(allTasks, filtersComponent, boardController, getCheckedFilter(), showingTasksCount);
 
     } else {
-
       replace(taskForm.edit, taskForm.view);
       document.addEventListener(`keydown`, escKeyDownHandler);
     }
@@ -126,12 +145,15 @@ const getEditFormSubmitHandler = (escKeyDownHandler, taskForm) => {
 /**
  * Получение помощника для удаления задачи с доски
  * @param {Object} dataset данные
+ * @param {Function} escKeyDownHandler помощник, отвечащий за закрытие формы редактирования без сохранения
  * @return {Function} созданный помощник
  */
 const getDeleteBtnClickHandler = (
-    {allTasks, taskData, filtersComponent, showingTasksCount, boardController}
+    {allTasks, taskData, filtersComponent, showingTasksCount, boardController},
+    escKeyDownHandler
 ) => {
   return () => {
+    document.removeEventListener(`keydown`, escKeyDownHandler);
     changeTaskAttribute(
         allTasks, taskData, filtersComponent, boardController,
         showingTasksCount, AttributeTask.IS_DELETED, IsAttribute.YES
@@ -148,8 +170,12 @@ const getDeleteBtnClickHandler = (
  * @param {string} currentFilter текущий активный фильтр
  * @param {Number} showingTasksCount количество отображенных задач
  */
-const updateBoardAndFilters = (allTasks, filtersComponent, boardController, currentFilter, showingTasksCount) => {
-  regenerateFilters(allTasks, filtersComponent, boardController, currentFilter, showingTasksCount);
+const updateBoardAndFilters = (
+    allTasks, filtersComponent, boardController, currentFilter, showingTasksCount
+) => {
+  regenerateFilters(
+      allTasks, filtersComponent, boardController, currentFilter, showingTasksCount);
+
   boardController.replace(allTasks, filtersComponent, currentFilter, showingTasksCount);
 };
 
@@ -164,7 +190,11 @@ const updateBoardAndFilters = (allTasks, filtersComponent, boardController, curr
  * @param {string} attributeTask изменяемый атрибут задачи
  * @param {Boolean} attributeValue значение атрибута
  */
-const changeTaskAttribute = (allTasks, taskData, filtersComponent, boardController, showingTasksCount, attributeTask, attributeValue) => {
+const changeTaskAttribute = (
+    allTasks, taskData, filtersComponent, boardController,
+    showingTasksCount, attributeTask, attributeValue
+) => {
+
   switch (attributeTask) {
     case (AttributeTask.IS_ARCHIVE):
       allTasks[getTaskIndex(allTasks, taskData)].isArchive = attributeValue;
@@ -178,6 +208,7 @@ const changeTaskAttribute = (allTasks, taskData, filtersComponent, boardControll
     default:
       break;
   }
+
   updateBoardAndFilters(allTasks, filtersComponent, boardController, getCheckedFilter(), showingTasksCount);
 };
 
@@ -196,14 +227,21 @@ const getArchiveOrFavoriteHandler = (
 
   return () => {
     const button = taskForm.view.getElement().querySelector(`.${buttonName}`);
+
     if (!button.classList.contains(BTN_DISABLED_CLASS)) {
       button.classList.add(BTN_DISABLED_CLASS);
-      changeTaskAttribute(allTasks, taskData, filtersComponent, boardController, showingTasksCount, attributeTask, IsAttribute.YES);
+      changeTaskAttribute(
+          allTasks, taskData, filtersComponent, boardController,
+          showingTasksCount, attributeTask, IsAttribute.YES
+      );
 
     } else {
 
       button.classList.remove(BTN_DISABLED_CLASS);
-      changeTaskAttribute(allTasks, taskData, filtersComponent, boardController, showingTasksCount, attributeTask, IsAttribute.NO);
+      changeTaskAttribute(
+          allTasks, taskData, filtersComponent, boardController,
+          showingTasksCount, attributeTask, IsAttribute.NO
+      );
     }
   };
 };

@@ -3,13 +3,16 @@ import {CountTask} from "../consts";
 import {getFilteredTasks} from "../components/filters/filters-helpers";
 import {renderTask} from "../components/task/task-helpers";
 import {renderLoadMore} from "../components/load-more-btn/load-more-btn-helpers";
+import {renderSortedTasks} from "../components/sorting/helpers";
 import TasksComponent from "../components/tasks-list/tasks-list";
 import SortComponent from "../components/sorting/sorting";
 import LoadMoreBtnComponent from "../components/load-more-btn/load-more-btn";
 import NoTasksComponent from "../components/no-tasks/no-tasks";
-import {renderSortedTasks} from "../components/sorting/helpers";
 
 
+/**
+ * Создание контроллера, обеспечивающего отрисовку компонентов доски
+ */
 export default class BoardController {
   constructor(container) {
     this._container = container;
@@ -54,12 +57,10 @@ export default class BoardController {
     }
   }
 
-
   replace(allTasks, filtersComponent, currentFilter, showingTasksCount) {
     this.removeData();
     this.render(allTasks, filtersComponent, currentFilter, showingTasksCount);
   }
-
 
   removeData() {
     remove(this._tasksComponent);
