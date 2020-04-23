@@ -21,6 +21,8 @@ const renderTask = (tasksList, allTasks, taskData, filtersComponent, showingTask
 
   const dataset = {allTasks, taskData, filtersComponent, taskForm, showingTasksCount, boardController};
 
+  render(tasksList, taskForm.view);
+
   const escKeyDownHandler = (evt) => {
     if (evt.keyCode === KeyCode.ESC) {
       replace(taskForm.view, taskForm.edit);
@@ -28,10 +30,7 @@ const renderTask = (tasksList, allTasks, taskData, filtersComponent, showingTask
     }
   };
 
-  showEditForm(dataset, escKeyDownHandler, tasksList);
-
-  submitEditForm(escKeyDownHandler, taskForm);
-  deleteFromTaskList(dataset);
+  taskForm.view.setEditBtnClickHandler(getEditBtnClickHandler(dataset, escKeyDownHandler, tasksList));
 
   taskForm.view.setArchiveBtnClickhandler(
       getArchiveOrFavoriteHandler(dataset, AttributeTask.IS_ARCHIVE, ButtonTask.ARCHIVE)
@@ -41,7 +40,8 @@ const renderTask = (tasksList, allTasks, taskData, filtersComponent, showingTask
       getArchiveOrFavoriteHandler(dataset, AttributeTask.IS_FAVORITE, ButtonTask.FAVORITE)
   );
 
-  render(tasksList, taskForm.view);
+  taskForm.edit.setSubmitHandler(getEditFormSubmitHandler(escKeyDownHandler, taskForm));
+  taskForm.edit.setDeleteBtnClickHandler(getDeleteBtnClickHandler(dataset));
 };
 
 
@@ -68,17 +68,18 @@ const getTaskIndex = (allTasks, taskData) => allTasks.indexOf(taskData);
 
 
 /**
- * Отображение формы редактирования
+ * Получение помозника для отображения формы редактирования
  * @param {Object} dataset данные
  * @param {Function} escKeyDownHandler помощник, отвечащий за закрытие формы редактирования без сохранения
  * @param {Object} tasksList контейнер списка задач
+ * @return {Function} созданный помощник
  */
-const showEditForm = (
+const getEditBtnClickHandler = (
     {allTasks, filtersComponent, taskForm, showingTasksCount, boardController},
     escKeyDownHandler,
-    tasksList) => {
-
-  const editBtnClickHandler = () => {
+    tasksList
+) => {
+  return () => {
     if (tasksList.querySelector(`.card--edit`)) {
 
       document.removeEventListener(`keydown`, escKeyDownHandler);
@@ -90,40 +91,38 @@ const showEditForm = (
       document.addEventListener(`keydown`, escKeyDownHandler);
     }
   };
-
-  taskForm.view.setEditBtnClickHandler(editBtnClickHandler);
 };
 
 
 /**
- * Отправка формы редактирования
+ * Получение помощника для отправки формы редактирования
  * @param {Function} escKeyDownHandler помощник, отвечащий за закрытие формы редактирования без сохранения
  * @param {Object} taskForm формы задачи
+ * @return {Function} созданный помощник
  */
-const submitEditForm = (escKeyDownHandler, taskForm) => {
-  const editFormSubmitHandler = (evt) => {
+const getEditFormSubmitHandler = (escKeyDownHandler, taskForm) => {
+  return (evt) => {
     evt.preventDefault();
     document.removeEventListener(`keydown`, escKeyDownHandler);
     replace(taskForm.view, taskForm.edit);
   };
-
-  taskForm.edit.setSubmitHandler(editFormSubmitHandler);
 };
 
 
 /**
- * Удаление задачи с доски
+ * Получение помощника для удаления задачи с доски
  * @param {Object} dataset данные
+ * @return {Function} созданный помощник
  */
-const deleteFromTaskList = ({allTasks, taskData, filtersComponent, taskForm, showingTasksCount, boardController}) => {
-  const deleteBtnClickHandler = () => {
+const getDeleteBtnClickHandler = (
+    {allTasks, taskData, filtersComponent, showingTasksCount, boardController}
+) => {
+  return () => {
     changeTaskAttribute(
         allTasks, taskData, filtersComponent, boardController,
         showingTasksCount, AttributeTask.IS_DELETED, IsAttribute.YES
     );
   };
-
-  taskForm.edit.setDeleteBtnClickHandler(deleteBtnClickHandler);
 };
 
 
@@ -142,7 +141,7 @@ const updateBoardAndFilters = (allTasks, filtersComponent, boardController, curr
 
 
 /**
- * Изменение
+ * Изменение атрибута задачи
  * @param {Array} allTasks данные задач
  * @param {Object} taskData данные задачи
  * @param {Object} filtersComponent фильтры
