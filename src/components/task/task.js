@@ -1,7 +1,7 @@
 import {getViewForm} from "./components/task-view";
 import {getEditForm} from "./components/task-edit";
-import {CardClass, Form} from "../../consts";
-import {createElement} from "../../utils";
+import {CardClass, Form, ButtonTask} from "../../consts";
+import AbstractComponent from "../abstract/abstract-component";
 
 
 /**
@@ -50,26 +50,42 @@ const getAdditionalMarkup = ({isExpired, isRepeating}) => {
 /**
  * Создание класса задачи
  */
-export default class Task {
+export default class Task extends AbstractComponent {
   constructor(task, isView = Form.VIEW) {
+    super();
+
     this._task = task;
     this._isView = isView;
-    this._element = null;
   }
 
   getTemplate() {
     return createTask(this._task, this._isView);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  // View-form
+  setEditBtnClickHandler(handler) {
+    this.getElement().querySelector(`.${ButtonTask.EDIT}`)
+      .addEventListener(`click`, handler);
   }
 
-  removeElement() {
-    this._element = null;
+  setArchiveBtnClickhandler(handler) {
+    this.getElement().querySelector(`.${ButtonTask.ARCHIVE}`)
+      .addEventListener(`click`, handler);
+  }
+
+  setFavoriteBtnClickhandler(handler) {
+    this.getElement().querySelector(`.${ButtonTask.FAVORITE}`)
+      .addEventListener(`click`, handler);
+  }
+
+  // Edit-form
+  setDeleteBtnClickHandler(handler) {
+    this.getElement().querySelector(`.${ButtonTask.DELETE}`)
+      .addEventListener(`click`, handler);
+  }
+
+  setSubmitHandler(handler) {
+    this.getElement().querySelector(`${ButtonTask.FORM}`)
+      .addEventListener(`submit`, handler);
   }
 }
