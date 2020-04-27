@@ -3,7 +3,7 @@ import {CountTask} from "../consts";
 import {getFilteredTasks} from "../components/filters/filters-helpers";
 import {renderTask} from "../components/task/task-helpers";
 import {renderLoadMore} from "../components/load-more-btn/load-more-btn-helpers";
-import {renderSortedTasks} from "../components/sorting/sorting-helpers";
+import {renderSortedTasks, getSortedTasks} from "../components/sorting/sorting-helpers";
 import TasksComponent from "../components/tasks-list/tasks-list";
 import SortComponent from "../components/sorting/sorting";
 import LoadMoreBtnComponent from "../components/load-more-btn/load-more-btn";
@@ -14,7 +14,7 @@ import NoTasksComponent from "../components/no-tasks/no-tasks";
  * Создание контроллера, обеспечивающего отрисовку компонентов доски
  */
 export default class BoardController {
-  constructor(container, currentFilter) {
+  constructor(container) {
     this._container = container;
 
     this._tasks = [];
@@ -27,15 +27,14 @@ export default class BoardController {
     this._noTasks = new NoTasksComponent();
 
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
-    this._sortComponent.setSortTypeChangeHandler(this._sortTypeChangeHandler);
-
-    this._currentFilter = currentFilter;
+    this._currentFilter = null;
   }
 
   render(allTasks, filtersComponent, currentFilter, showingTasksCount = CountTask.START) {
     this._tasks = allTasks;
     const container = this._container.getElement();
-    const filteredTasks = getFilteredTasks(this._tasks, currentFilter);
+    this._currentFilter = currentFilter;
+    const filteredTasks = getFilteredTasks(this._tasks, this._currentFilter);
 
     if (!filteredTasks.length) {
       render(container, this._noTasks);
@@ -50,26 +49,25 @@ export default class BoardController {
     const renderTasksList = () => (taskData) =>
       renderTask(tasksList, allTasks, taskData, filtersComponent, showingTasksCount, this);
 
-    filteredTasks.slice(0, showingTasksCount).map(renderTasksList());
+    const sortedTasks = getSortedTasks(filteredTasks, this._sortComponent.getSortType());
+    sortedTasks.slice(0, showingTasksCount).map(renderTasksList());
 
-    renderLoadMore(
-        container, this._loadMoreBtnComponent, filteredTasks, renderTasksList, showingTasksCount
-    );
+    this._renderLoadMore(container, sortedTasks, renderTasksList, showingTasksCount);
 
-    this._renderLoadMore();
-
-    renderSortedTasks(
-        container, this._loadMoreBtnComponent, filteredTasks,
-        renderTasksList, showingTasksCount,
-        this._sortComponent, tasksList
-    );
+    this._sortComponent.setSortTypeChangeHandler(this._sortTypeChangeHandler(container, sortedTasks, renderTasksList, showingTasksCount, tasksList));
   }
 
-  _renderLoadMore() {}
+  _renderLoadMore(container, tasks, renderTasksList, showingTasksCount) {
+    renderLoadMore(container, tasks, renderTasksList, showingTasksCount, this._loadMoreBtnComponent);
+  }
 
-
-  _sortTypeChangeHandler() {}
-
+  _sortTypeChangeHandler(container, sortedTasks, renderTasksList, showingTasksCount, tasksList) {
+    renderSortedTasks(
+        container, sortedTasks,
+        renderTasksList, showingTasksCount,
+        tasksList, this._loadMoreBtnComponent, this._sortComponent
+    );
+  }
 
   replace(allTasks, filtersComponent, currentFilter, showingTasksCount) {
     this.removeData();

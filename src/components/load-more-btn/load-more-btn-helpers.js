@@ -4,20 +4,20 @@ import {remove, render} from "../../utils/change-component";
 
 /**
  * Добавление лисенера на кнопку показа оставшихся задач
- * @param {Object} loadMoreComponent компонент
+ * @param {Object} loadMoreBtnComponent компонент
  * @param {Array} tasks данные задач
  * @param {Function} renderTasksList функция рендера задач на доску
  * @param {Number} showingTasksCount количество задач на доске
  * @return {Function}
  */
-const getLoadMoreListener = (loadMoreComponent, tasks, renderTasksList, showingTasksCount) => {
+const getLoadMoreListener = (loadMoreBtnComponent, tasks, renderTasksList, showingTasksCount) => {
   return () => {
     const prevTasksCount = showingTasksCount;
     showingTasksCount += CountTask.BY_BUTTON;
 
     tasks.slice(prevTasksCount, showingTasksCount).map(renderTasksList());
     if (showingTasksCount >= tasks.length) {
-      remove(loadMoreComponent);
+      remove(loadMoreBtnComponent);
     }
   };
 };
@@ -26,19 +26,19 @@ const getLoadMoreListener = (loadMoreComponent, tasks, renderTasksList, showingT
 /**
  * Отрисовка компонента кнопки показа скрытых задач
  * @param {Object} container контейнер, в который отрисовывается компонент
- * @param {Object} loadMoreComponent компонент
  * @param {Array} tasks данные задач
  * @param {Function} renderTasksList функция рендера задач на доску
  * @param {Number} showingTasksCount количество задач на доске
+ * @param {Object} loadMoreBtnComponent компонент
  */
-const renderLoadMore = (container, loadMoreComponent, tasks, renderTasksList, showingTasksCount) => {
+const renderLoadMore = (container, tasks, renderTasksList, showingTasksCount, loadMoreBtnComponent) => {
   if (showingTasksCount >= tasks.length) {
     return;
   }
 
-  render(container, loadMoreComponent);
+  render(container, loadMoreBtnComponent);
 
-  loadMoreComponent.setClickHandler(getLoadMoreListener(loadMoreComponent, tasks, renderTasksList, showingTasksCount));
+  loadMoreBtnComponent.setClickHandler(getLoadMoreListener(loadMoreBtnComponent, tasks, renderTasksList, showingTasksCount));
 };
 
 

@@ -33,14 +33,14 @@ const getSortedTasks = (filteredTasks, sortType) => {
 /**
  * Отрисовка отсортированных задач
  * @param {Object} container контейнер
- * @param {Object} loadMoreComponent компонент, отвечающий за кнопку показа оставшихся задач
  * @param {Array} filteredTasks данные задач
  * @param {Function} renderTasksList функция рендера задач на доску
  * @param {Number} showingTasksCount количество задач на доске
- * @param {Object} sortComponent компонент, отвечающий за сортировку задач
  * @param {Object} tasksList список задач
+ * @param {Object} loadMoreBtnComponent компонент, отвечающий за кнопку показа оставшихся задач
+ * @param {Object} sortComponent компонент, отвечающий за сортировку задач
  */
-const renderSortedTasks = (container, loadMoreComponent, filteredTasks, renderTasksList, showingTasksCount, sortComponent, tasksList) => {
+const renderSortedTasks = (container, filteredTasks, renderTasksList, showingTasksCount, tasksList, loadMoreBtnComponent, sortComponent) => {
   const sortClickHandler = (sortType) => {
     showingTasksCount = getCurrentCountTasks();
 
@@ -50,12 +50,12 @@ const renderSortedTasks = (container, loadMoreComponent, filteredTasks, renderTa
 
     sortedTasks.slice(0, showingTasksCount).map(renderTasksList());
 
-    remove(loadMoreComponent);
-    renderLoadMore(container, loadMoreComponent, sortedTasks, renderTasksList, showingTasksCount);
+    remove(loadMoreBtnComponent);
+    renderLoadMore(container, sortedTasks, renderTasksList, showingTasksCount, loadMoreBtnComponent);
   };
 
   sortComponent.setSortTypeChangeHandler(sortClickHandler);
 };
 
 
-export {renderSortedTasks};
+export {renderSortedTasks, getSortedTasks};
