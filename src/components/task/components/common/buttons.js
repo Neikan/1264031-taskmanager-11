@@ -1,5 +1,6 @@
 import {getViewButtons} from "./buttons/buttons-view";
 import {getEditButtons} from "./buttons/buttons-edit";
+import {ButtonTask, PART_BTN_CLASS} from "../../../../consts";
 
 /**
  * Создание разметки блока кнопок задачи
@@ -10,8 +11,8 @@ import {getEditButtons} from "./buttons/buttons-edit";
 const createButtonsBlock = (task, isView) => {
   const {isArchive, isFavorite} = task;
 
-  const archiveBtnInactive = isArchive ? `card__btn--disabled` : ``;
-  const favoriteBtnInactive = isFavorite ? `card__btn--disabled` : ``;
+  const archiveBtnInactive = isArchive ? `${PART_BTN_CLASS}${ButtonTask.DISABLED}` : ``;
+  const favoriteBtnInactive = isFavorite ? `${PART_BTN_CLASS}${ButtonTask.DISABLED}` : ``;
 
   return isView ? getViewButtons(archiveBtnInactive, favoriteBtnInactive) : getEditButtons();
 };

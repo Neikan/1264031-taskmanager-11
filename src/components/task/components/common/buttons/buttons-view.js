@@ -1,3 +1,24 @@
+import {ButtonTask, PART_BTN_CLASS} from "../../../../../consts";
+
+
+/**
+ * Создание разметки кнопки
+ * @param {string} name название кнопки
+ * @param {string} inactiveBtn признак доступности кнопки
+ * @return {string} разметка кнопки
+ */
+const createButton = (name, inactiveBtn) => {
+  return (
+    `<button
+      type="button"
+      class="card__btn ${PART_BTN_CLASS}${name} ${inactiveBtn}"
+    >
+      ${name}
+    </button>`
+  );
+};
+
+
 /**
  * Создание разметки блока кнопок формы просмотра задачи
  * @param {string} archiveInactive класс неактивной кнопки добавления в "Архив"
@@ -7,17 +28,9 @@
 const getViewButtons = (archiveInactive, favoriteInactive) => {
   return (
     `<div class="card__control">
-      <button type="button" class="card__btn card__btn--edit">
-        edit
-      </button>
-      <button type="button" class="card__btn card__btn--archive ${archiveInactive}">
-        archive
-      </button>
-      <button
-        type="button"
-        class="card__btn card__btn--favorites ${favoriteInactive}">
-        favorites
-      </button>
+      ${createButton(ButtonTask.EDIT)}
+      ${createButton(ButtonTask.ARCHIVE, archiveInactive)}
+      ${createButton(ButtonTask.FAVORITE, favoriteInactive)}
     </div>`
   );
 };

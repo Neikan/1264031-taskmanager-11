@@ -48,7 +48,7 @@ export default class BoardController {
 
     const renderTasksList = () => (taskData) => {
       const taskController = new TaskController(tasksList);
-      taskController.render(taskData);
+      taskController.render(taskData, this._tasks, filtersComponent, this._showingTasksCount, this);
 
       return taskController;
     };
@@ -60,9 +60,7 @@ export default class BoardController {
     this._renderLoadMore(container, sortedTasks, renderTasksList, showingTasksCount);
 
     this._sortComponent.setSortTypeChangeHandler(
-        this._sortTypeChangeHandler(
-            container, sortedTasks, renderTasksList, showingTasksCount, tasksList
-        )
+        this._sortTypeChangeHandler(container, sortedTasks, renderTasksList, showingTasksCount, tasksList)
     );
   }
 

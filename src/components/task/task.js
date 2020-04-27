@@ -1,6 +1,6 @@
 import {getViewForm} from "./components/task-view";
 import {getEditForm} from "./components/task-edit";
-import {CardClass, Form, ButtonTask} from "../../consts";
+import {CardClass, Form, ButtonTask, PART_BTN_CLASS} from "../../consts";
 import AbstractComponent from "../abstract/abstract-component";
 
 
@@ -64,17 +64,17 @@ export default class Task extends AbstractComponent {
 
   // View-form
   setEditBtnClickHandler(handler) {
-    this.getElement().querySelector(`.${ButtonTask.EDIT}`)
+    this.getElement().querySelector(`.${PART_BTN_CLASS}${ButtonTask.EDIT}`)
       .addEventListener(`click`, handler);
   }
 
   setArchiveBtnClickhandler(handler) {
-    this.getElement().querySelector(`.${ButtonTask.ARCHIVE}`)
+    this.getElement().querySelector(`.${PART_BTN_CLASS}${ButtonTask.ARCHIVE}`)
       .addEventListener(`click`, handler);
   }
 
   setFavoriteBtnClickhandler(handler) {
-    this.getElement().querySelector(`.${ButtonTask.FAVORITE}`)
+    this.getElement().querySelector(`.${PART_BTN_CLASS}${ButtonTask.FAVORITE}`)
       .addEventListener(`click`, handler);
   }
 
