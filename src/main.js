@@ -22,7 +22,7 @@ const init = () => {
   const filters = generateFilters(tasks);
   const filtersComponent = new FiltersComponent(filters);
   const boardComponent = new BoardComponent(getFilteredTasks(tasks));
-  const boardController = new BoardController(boardComponent);
+  const boardController = new BoardController(boardComponent, DEFAULT_FILTER);
 
   render(Nodes.HEADER, new MenuComponent());
   render(Nodes.MAIN, filtersComponent);
