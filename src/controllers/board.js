@@ -1,13 +1,13 @@
 import {render, remove} from "../utils/change-component";
 import {CountTask} from "../consts";
 import {getFilteredTasks} from "../components/filters/filters-helpers";
-import {renderTask} from "../components/task/task-helpers";
 import {renderLoadMore} from "../components/load-more-btn/load-more-btn-helpers";
 import {renderSortedTasks, getSortedTasks} from "../components/sorting/sorting-helpers";
 import TasksComponent from "../components/tasks-list/tasks-list";
 import SortComponent from "../components/sorting/sorting";
 import LoadMoreBtnComponent from "../components/load-more-btn/load-more-btn";
 import NoTasksComponent from "../components/no-tasks/no-tasks";
+import TaskController from "./task.js";
 
 
 /**
@@ -46,15 +46,24 @@ export default class BoardController {
 
     const tasksList = this._tasksComponent.getElement();
 
-    const renderTasksList = () => (taskData) =>
-      renderTask(tasksList, allTasks, taskData, filtersComponent, showingTasksCount, this);
+    const renderTasksList = () => (taskData) => {
+      const taskController = new TaskController(tasksList);
+      taskController.render(taskData);
+
+      return taskController;
+    };
+
 
     const sortedTasks = getSortedTasks(filteredTasks, this._sortComponent.getSortType());
     sortedTasks.slice(0, showingTasksCount).map(renderTasksList());
 
     this._renderLoadMore(container, sortedTasks, renderTasksList, showingTasksCount);
 
-    this._sortComponent.setSortTypeChangeHandler(this._sortTypeChangeHandler(container, sortedTasks, renderTasksList, showingTasksCount, tasksList));
+    this._sortComponent.setSortTypeChangeHandler(
+        this._sortTypeChangeHandler(
+            container, sortedTasks, renderTasksList, showingTasksCount, tasksList
+        )
+    );
   }
 
   _renderLoadMore(container, tasks, renderTasksList, showingTasksCount) {

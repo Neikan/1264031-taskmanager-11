@@ -22,12 +22,11 @@ export default class TaskController {
 
     this._taskForm = null;
 
-    this.escKeyDownHandler = this.escKeyDownHandler.bind(this);
+    this.escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
-  render(task) {
-    this._taskForm = getTaskForm(task);
-
+  render(taskData) {
+    this._taskForm = getTaskForm(taskData);
     this._taskForm.view.setEditBtnClickHandler(() => {
       this._replaceTaskToEdit();
       document.addEventListener(`keydown`, this.escKeyDownHandler);
