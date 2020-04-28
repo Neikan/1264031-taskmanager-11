@@ -7,7 +7,7 @@ export const Checked = {
 
 export const CountTask = {
   ALL: 20,
-  START: 2,
+  START: 1,
   BY_BUTTON: 2
 };
 

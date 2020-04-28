@@ -7,10 +7,10 @@ import {checkIsRepeating} from "../../../../../utils/common";
  * @return {string} разметка блока
  */
 const getEditButtons = ({isDateShowing, isRepeatingTask, activeRepeatingDays}) => {
-  const isBlockSaveButton = (isDateShowing && isRepeatingTask)
-    || (isRepeatingTask && !checkIsRepeating(activeRepeatingDays));
+  const isActiveSaveBtn = (isDateShowing && isRepeatingTask && checkIsRepeating(activeRepeatingDays))
+    || (!isDateShowing && !isRepeatingTask);
 
-  const checkDisabled = isBlockSaveButton ? ButtonTask.DISABLED : ``;
+  const checkDisabled = isActiveSaveBtn ? `` : ButtonTask.DISABLED;
 
   return (
     `<div class="card__status-btns">

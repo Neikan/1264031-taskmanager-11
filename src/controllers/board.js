@@ -89,18 +89,18 @@ export default class BoardController {
 
 
   _dataChangeHandler(taskController, oldData, newData) {
-    const index = this._tasks.findIndex((it) => it === oldData);
+    const index = getTaskIndex(this._tasks, oldData);
 
     if (index === -1) {
       return;
     }
-    this._tasks = [].concat(this._tasks.slice(0, index), newData, this._tasks.slice(index + 1));
+    this._tasks[index] = newData;
     taskController.render(this._tasks[index]);
   }
 
 
   _viewChangeHandler() {
-    this._showedTasks.forEach((it) => it.setDefaultView());
+    this._showedTasks.map((taskData) => taskData.setDefaultView());
   }
 
 
@@ -120,3 +120,12 @@ export default class BoardController {
 
 
 export {renderTasks};
+
+
+/**
+ * Получение индекса задачи
+ * @param {Array} allTasks данные задач
+ * @param {Object} taskData данные задачи
+ * @return {Number} индекс задачи
+ */
+const getTaskIndex = (allTasks, taskData) => allTasks.indexOf(taskData);
