@@ -104,9 +104,9 @@ export default class BoardController {
   }
 
 
-  replace(allTasks, currentFilter, showingTasksCount) {
+  rerender(currentFilter = this._currentFilter) {
     this._removeData();
-    this.render(allTasks, currentFilter, showingTasksCount);
+    this.render(this._tasks, currentFilter);
   }
 
 

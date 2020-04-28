@@ -15,6 +15,7 @@ export default class TaskController {
     this._container = container;
 
     this._mode = Mode.DEFAULT;
+    this._boardController = boardController;
     this._viewChangeHandler = boardController._viewChangeHandler;
     this._dataChangeHandler = boardController._dataChangeHandler;
 
@@ -32,7 +33,7 @@ export default class TaskController {
     this._taskComponent = new TaskComponent(taskData);
     this._taskEditComponent = new TaskEditComponent(taskData);
 
-    this._setViewHandlers(taskData);
+    this._setViewHandlers(taskData, this._boardController);
     this._setEditHandlers(taskData);
 
     this._replaceOldTask(oldTaskEditComponent, oldTaskComponent);
@@ -54,8 +55,9 @@ export default class TaskController {
 
     this._taskEditComponent.setDeleteBtnClickHandler(() => {
       this._dataChangeHandler(this, taskData, Object.assign({}, taskData, {
-        isDeleted: IsDeleted.YES, // в будущем переделать на адекватное решение
+        isDeleted: IsDeleted.YES
       }));
+      this._boardController.rerender();
     });
   }
 
@@ -70,12 +72,14 @@ export default class TaskController {
       this._dataChangeHandler(this, taskData, Object.assign({}, taskData, {
         isArchive: !taskData.isArchive,
       }));
+      this._boardController.rerender();
     });
 
     this._taskComponent.setFavoritesBtnClickHandler(() => {
       this._dataChangeHandler(this, taskData, Object.assign({}, taskData, {
         isFavorite: !taskData.isFavorite,
       }));
+      this._boardController.rerender();
     });
   }
 
