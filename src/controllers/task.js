@@ -1,7 +1,7 @@
 import TaskComponent from "../components/task/task-view.js";
 import TaskEditComponent from "../components/task/task-edit.js";
 import {render, replace} from "../utils/change-component";
-import {KeyCode, IsDeleted} from "../consts.js";
+import {KeyCode, IsDeleted, Position} from "../consts.js";
 
 
 const Mode = {
@@ -89,7 +89,7 @@ export default class TaskController {
       replace(this._taskComponent, oldTaskComponent);
       replace(this._taskEditComponent, oldTaskEditComponent);
     } else {
-      render(this._container, this._taskComponent);
+      render[Position.BEFORE_END](this._container, this._taskComponent);
     }
   }
 

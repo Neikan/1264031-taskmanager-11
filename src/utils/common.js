@@ -37,3 +37,24 @@ export const checkIsRepeating = (days) => Object.values(days).some(Boolean);
  * @return {Number} количество задач
  */
 export const getCurrentCountTasks = () => document.querySelectorAll(`.card`).length;
+
+/**
+ * Правила фильтрации
+ */
+export const filterRules = {
+  'all': (tasksNotArchive) => tasksNotArchive,
+
+  'overdue': (tasksNotArchive) =>
+    tasksNotArchive.filter((task) => task.dueDate instanceof Date && task.dueDate < Date.now()),
+
+  'today': (tasksNotArchive) =>
+    tasksNotArchive.filter((task) => task.dueDate && task.dueDate.getDate() === new Date().getDate()),
+
+  'favorites': (tasksNotArchive) =>
+    tasksNotArchive.filter((task) => task.isFavorite),
+
+  'repeating': (tasksNotArchive) =>
+    tasksNotArchive.filter((task) => checkIsRepeating(task.repeatingDays)),
+
+  'archive': (tasksNotDelete) => tasksNotDelete.filter((task) => task.isArchive)
+};

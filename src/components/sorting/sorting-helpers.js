@@ -1,8 +1,17 @@
-import {SortType} from "../../consts";
 import {renderLoadMore} from "../load-more-btn/load-more-btn-helpers";
 import {remove} from "../../utils/change-component";
 import {getCurrentCountTasks} from "../../utils/common";
 import {renderTasks} from "../../controllers/board";
+
+
+/**
+ * Правила сортировки
+ */
+const sortRules = {
+  'date-down': (showingTasks) => showingTasks.sort((a, b) => a.dueDate - b.dueDate),
+  'date-up': (showingTasks) => showingTasks.sort((a, b) => b.dueDate - a.dueDate),
+  'default': (showingTasks) => showingTasks,
+};
 
 
 /**
@@ -11,24 +20,7 @@ import {renderTasks} from "../../controllers/board";
  * @param {string} sortType тип сортировки
  * @return {Array} отсортированные данные задач
  */
-const getSortedTasks = (filteredTasks, sortType) => {
-  let sortedTasks = [];
-  const showingTasks = filteredTasks.slice();
-
-  switch (sortType) {
-    case SortType.DATE_UP:
-      sortedTasks = showingTasks.sort((a, b) => a.dueDate - b.dueDate);
-      break;
-    case SortType.DATE_DOWN:
-      sortedTasks = showingTasks.sort((a, b) => b.dueDate - a.dueDate);
-      break;
-    case SortType.DEFAULT:
-      sortedTasks = showingTasks;
-      break;
-  }
-
-  return sortedTasks;
-};
+const getSortedTasks = (filteredTasks, sortType) => sortRules[sortType](filteredTasks.slice());
 
 
 /**

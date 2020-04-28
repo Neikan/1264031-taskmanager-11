@@ -125,7 +125,12 @@ export const IsAttribute = {
 
 export const FILTER_LABEL = `.filter__label`;
 
-export const DEFAULT_FILTER = `filter__all`;
+
+export const Filter = {
+  DEFAULT: `filter__all`,
+  ARCHIVE: `filter__archive`
+};
+
 
 export const SortType = {
   DATE_DOWN: `date-down`,

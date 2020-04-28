@@ -1,4 +1,4 @@
-import {CountTask} from "../../consts";
+import {CountTask, Position} from "../../consts";
 import {remove, render} from "../../utils/change-component";
 import {renderTasks} from "../../controllers/board";
 
@@ -40,7 +40,7 @@ const renderLoadMore = (container, tasks, showingTasksCount, tasksList, boardCon
     return;
   }
 
-  render(container, boardController._loadMoreBtnComponent);
+  render[Position.BEFORE_END](container, boardController._loadMoreBtnComponent);
   boardController._loadMoreBtnComponent.setClickHandler(
       getLoadMoreListener(tasks, showingTasksCount, tasksList, boardController));
 };

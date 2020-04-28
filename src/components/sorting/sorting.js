@@ -25,6 +25,7 @@ export default class Sort extends AbstractComponent {
     super();
 
     this._currentSortType = SortType.DEFAULT;
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
 
@@ -39,7 +40,12 @@ export default class Sort extends AbstractComponent {
 
 
   setSortTypeChangeHandler(handler) {
-    this.getElement().addEventListener(`click`, (evt) => {
+    this.getElement().addEventListener(`click`, this._clickHandler(handler));
+  }
+
+
+  _clickHandler(handler) {
+    return (evt) => {
       evt.preventDefault();
       if (evt.target.tagName !== `A`) {
         return;
@@ -52,6 +58,6 @@ export default class Sort extends AbstractComponent {
 
       this._currentSortType = sortType;
       handler(this._currentSortType);
-    });
+    };
   }
 }

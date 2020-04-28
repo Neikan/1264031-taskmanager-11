@@ -1,6 +1,6 @@
 import {render, remove} from "../utils/change-component";
-import {CountTask} from "../consts";
-import {getFilteredTasks} from "../components/filters/filters-helpers";
+import {CountTask, Position} from "../consts";
+import {getFilteredTasks} from "./filters";
 import {renderLoadMore} from "../components/load-more-btn/load-more-btn-helpers";
 import {renderSortedTasks, getSortedTasks} from "../components/sorting/sorting-helpers";
 import TasksComponent from "../components/tasks-list/tasks-list";
@@ -58,12 +58,12 @@ export default class BoardController {
     const filteredTasks = getFilteredTasks(this._tasks, this._currentFilter);
 
     if (!filteredTasks.length) {
-      render(container, this._noTasks);
+      render[Position.BEFORE_END](container, this._noTasks);
       return;
     }
 
-    render(container, this._sortComponent);
-    render(container, this._tasksComponent);
+    render[Position.BEFORE_END](container, this._sortComponent);
+    render[Position.BEFORE_END](container, this._tasksComponent);
     const tasksList = this._tasksComponent.getElement();
 
     const sortedTasks = getSortedTasks(filteredTasks, this._sortComponent.getSortType());
