@@ -6,8 +6,9 @@ import {DAYS, Decision, Checked} from "../../../../consts";
  * @param {Object} repeatingDays дни повторений
  * @return {string} разметка блока
  */
-const createRepeatBlock = (isRepeating, repeatingDays) =>
-  collectRepeatBlock(getRepeatParams(isRepeating, repeatingDays));
+const createRepeatBlock = ({isRepeatingTask, activeRepeatingDays}) =>
+  collectRepeatBlock(getRepeatParams(isRepeatingTask, activeRepeatingDays));
+
 
 /**
  * Получение параметров повторений
@@ -54,11 +55,11 @@ const createRepeatShowingBlock = (repeatingDays) => {
 /**
  * Создание разметки блока дней
  * @param {Array} days дни
- * @param {Object} repeatingDays дни повторений
+ * @param {Object} repeatingActiveDays дни повторений
  * @return {string} разметка блока
  */
-const createRepeatingDays = (days, repeatingDays) =>
-  days.map((day, index) => createRepeatingDay(day, index, repeatingDays)).join(`\n`);
+const createRepeatingDays = (days, repeatingActiveDays) =>
+  days.map((day, index) => createRepeatingDay(day, index, repeatingActiveDays)).join(`\n`);
 
 /**
  * Создание разметки блока дня

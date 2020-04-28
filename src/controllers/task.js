@@ -1,64 +1,58 @@
-import TaskComponent from "../components/task/task.js";
+import TaskComponent from "../components/task/task-view-form.js";
+import TaskEditComponent from "../components/task/task-edit-form.js";
 import {render, replace} from "../utils/change-component";
-import {Form, KeyCode, AttributeTask, ButtonTask, PART_BTN_CLASS, IsAttribute} from "../consts.js";
+import {KeyCode, AttributeTask, ButtonTask, PART_BTN_CLASS, IsAttribute} from "../consts.js";
 import {getCheckedFilter, regenerateFilters} from "../components/filters/filters-helpers.js";
+import {getCurrentCountTasks} from "../utils/common.js";
 
 
-/**
- * Получение форм задачи
- * @param {Object} taskData данные задачи
- * @return {Object} формы задачи
- */
-const getTaskForm = (taskData) => {
-  return {
-    view: new TaskComponent(taskData),
-    edit: new TaskComponent(taskData, Form.EDIT)
-  };
-};
+// /**
+//  * Получение форм задачи
+//  * @param {Object} taskData данные задачи
+//  * @return {Object} формы задачи
+//  */
+// const getTaskForm = (taskData) => {
+//   return {
+//     view: new TaskComponent(taskData),
+//     edit: new TaskComponent(taskData, Form.EDIT)
+//   };
+// };
 
 
 export default class TaskController {
   constructor(container) {
     this._container = container;
 
-    this._taskForm = null;
+    this._taskComponent = null;
+    this._taskEditComponent = null;
 
-    this.escKeyDownHandler = this._escKeyDownHandler.bind(this);
+    this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
+
   render(taskData, allTasks, filtersComponent, showingTasksCount, boardController) {
-    this._taskForm = getTaskForm(taskData);
+    this._taskComponent = new TaskComponent(taskData);
+    this._taskEditComponent = new TaskEditComponent(taskData);
 
-    const dataset = {allTasks, taskData, filtersComponent, taskForm: this._taskForm, showingTasksCount, boardController};
+    const taskForm = {
+      view: this._taskComponent,
+      edit: this._taskEditComponent
+    };
 
-    setViewFormListeners(this._taskForm, dataset, this._escKeyDownHandler, this);
-    setEditFormListeners(this._taskForm, dataset, this._escKeyDownHandler);
+    const dataset = {allTasks, taskData, filtersComponent, taskForm, showingTasksCount, boardController};
 
-    // this._taskForm.view.setEditBtnClickHandler(
-    //     getEditBtnClickHandler(dataset, this.escKeyDownHandler, this));
-
-    // this._taskForm.view.setArchiveBtnClickhandler(
-    //     getArchiveOrFavoriteHandler(dataset, AttributeTask.IS_ARCHIVE, PART_BTN_CLASS + ButtonTask.ARCHIVE));
-
-    // this._taskForm.view.setFavoriteBtnClickhandler(
-    //     getArchiveOrFavoriteHandler(dataset, AttributeTask.IS_FAVORITE, PART_BTN_CLASS + ButtonTask.FAVORITE));
-
-
-    this._taskForm.edit.setSubmitHandler((evt) => {
-      evt.preventDefault();
-      this._replaceEditToTask();
-    });
-
-    render(this._container, this._taskForm.view);
+    setViewFormListeners(this._taskComponent, dataset, this._escKeyDownHandler, this);
+    setEditFormListeners(taskForm, dataset, this._escKeyDownHandler);
+    render(this._container, this._taskComponent);
   }
 
   _replaceEditToTask() {
-    document.removeEventListener(`keydown`, this.escKeyDownHandler);
-    replace(this._taskForm.view, this._taskForm.edit);
+    document.removeEventListener(`keydown`, this._escKeyDownHandler);
+    replace(this._taskComponent, this._taskEditComponent);
   }
 
   _replaceTaskToEdit() {
-    replace(this._taskForm.edit, this._taskForm.view);
+    replace(this._taskEditComponent, this._taskComponent);
   }
 
   _escKeyDownHandler(evt) {
@@ -72,12 +66,12 @@ export default class TaskController {
 
 /**
  * Установка лисенеров для формы просмотра
- * @param {Object} {view} форма просмотра задачи
+ * @param {Object} view форма просмотра задачи
  * @param {Object} dataset данные
  * @param {Function} escKeyDownHandler помощник, отвечащий за закрытие формы редактирования без сохранения
  * @param {Object} tasksList список задач
  */
-const setViewFormListeners = ({view}, dataset, escKeyDownHandler, tasksList) => {
+const setViewFormListeners = (view, dataset, escKeyDownHandler, tasksList) => {
   view.setEditBtnClickHandler(
       getEditBtnClickHandler(dataset, escKeyDownHandler, tasksList));
 
@@ -111,22 +105,6 @@ const getTaskIndex = (allTasks, taskData) => allTasks.indexOf(taskData);
 
 
 /**
- * Получение помощника для закрытия формы дедактирования по нажатию кнопки Esc
- * @param {Object} taskForm формы задачи
- * @return {Function} созданный помощник
- */
-const getEscKeyDownHandler = (taskForm) => {
-  const handler = (evt) => {
-    if (evt.keyCode === KeyCode.ESC) {
-      replace(taskForm.view, taskForm.edit);
-      document.removeEventListener(`keydown`, handler);
-    }
-  };
-  return handler;
-};
-
-
-/**
  * Получение помощника для отображения формы редактирования
  * @param {Object} dataset данные
  * @param {Function} escKeyDownHandler помощник, отвечащий за закрытие формы редактирования без сохранения
@@ -134,19 +112,21 @@ const getEscKeyDownHandler = (taskForm) => {
  * @return {Function} созданный помощник
  */
 const getEditBtnClickHandler = (
-    {allTasks, filtersComponent, taskForm, showingTasksCount, boardController},
-    escKeyDownHandler,
-    tasksList
+    // {allTasks, filtersComponent, taskForm, showingTasksCount, boardController},
+    // escKeyDownHandler,
+    // tasksList
+    {taskForm},
+    escKeyDownHandler
 ) => {
   return () => {
-    if (tasksList.querySelector(`.card--edit`)) {
-      document.removeEventListener(`keydown`, escKeyDownHandler);
-      updateBoardAndFilters(allTasks, filtersComponent, boardController, getCheckedFilter(), showingTasksCount);
+    // if (tasksList.getElement().querySelector(`.card__form`)) {
+    //   document.removeEventListener(`keydown`, escKeyDownHandler);
+    //   updateBoardAndFilters(allTasks, filtersComponent, boardController, getCheckedFilter(), showingTasksCount);
 
-    } else {
-      replace(taskForm.edit, taskForm.view);
-      document.addEventListener(`keydown`, escKeyDownHandler);
-    }
+    // } else {
+    replace(taskForm.edit, taskForm.view);
+    document.addEventListener(`keydown`, escKeyDownHandler);
+    // }
   };
 };
 
@@ -268,13 +248,3 @@ const getArchiveOrFavoriteHandler = (
     }
   };
 };
-
-
-/**
- * Получение текущего количества задач на доске
- * @return {Number} количество задач
- */
-const getCurrentCountTasks = () => document.querySelectorAll(`.card`).length;
-
-
-export {getCurrentCountTasks};

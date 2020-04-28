@@ -6,14 +6,14 @@ import {COLORS, Checked} from "../../../../consts";
  * @return {string} разметка блока
  */
 const createColorsBlock = (color) => {
-  return (`
-    <div class="card__colors-inner">
+  return (
+    `<div class="card__colors-inner">
       <h3 class="card__colors-title">Color</h3>
       <div class="card__colors-wrap">
         ${createColors(COLORS, color)}
       </div>
-    </div>
-  `);
+    </div>`
+  );
 };
 
 /**

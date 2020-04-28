@@ -8,13 +8,13 @@ import {createButtonsBlock} from "./common/buttons";
  * @param {Object} task задача
  * @param {Object} classes классы разметки
  * @param {Boolean} isView флаг, отвечающий за вид отображаемой формы
- * @param {Object} parameters дополнительные параметры задачи
+ * @param {Object} options параметры формы редактирования задачи
+ * @param {Object} additionalInfo дополнительные параметры задачи
  * @return {string} разметка блока
  */
-const getEditForm = (task, classes, isView, parameters) => {
+const getEditForm = (task, classes, isView, options) => {
   const {description, color} = task;
   const {repeat, deadline} = classes;
-  const {isRepeating} = parameters;
 
   return (
     `<article class="card card--edit card--${color} ${repeat} ${deadline}">
@@ -22,8 +22,8 @@ const getEditForm = (task, classes, isView, parameters) => {
         <div class="card__inner">
           ${createColorBar()}
           ${createDescription(description, isView)}
-          ${createSettingsBlock(task, isView, isRepeating)}
-          ${createButtonsBlock(task, isView)}
+          ${createSettingsBlock(task, isView, options)}
+          ${createButtonsBlock(task, isView, options)}
         </div>
       </form>
     </article>`

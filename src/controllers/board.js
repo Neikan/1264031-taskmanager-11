@@ -43,16 +43,14 @@ export default class BoardController {
 
     render(container, this._sortComponent);
     render(container, this._tasksComponent);
-
     const tasksList = this._tasksComponent.getElement();
 
     const renderTasksList = () => (taskData) => {
-      const taskController = new TaskController(tasksList);
+      const taskController = new TaskController(tasksList, this._dataChangeHandler);
       taskController.render(taskData, this._tasks, filtersComponent, this._showingTasksCount, this);
 
       return taskController;
     };
-
 
     const sortedTasks = getSortedTasks(filteredTasks, this._sortComponent.getSortType());
     sortedTasks.slice(0, showingTasksCount).map(renderTasksList());
@@ -68,6 +66,7 @@ export default class BoardController {
     renderLoadMore(container, tasks, renderTasksList, showingTasksCount, this._loadMoreBtnComponent);
   }
 
+
   _sortTypeChangeHandler(container, sortedTasks, renderTasksList, showingTasksCount, tasksList) {
     renderSortedTasks(
         container, sortedTasks,
@@ -76,10 +75,12 @@ export default class BoardController {
     );
   }
 
+
   replace(allTasks, filtersComponent, currentFilter, showingTasksCount) {
     this.removeData();
     this.render(allTasks, filtersComponent, currentFilter, showingTasksCount);
   }
+
 
   removeData() {
     remove(this._tasksComponent);

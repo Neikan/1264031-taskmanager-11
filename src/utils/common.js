@@ -22,3 +22,18 @@ export const formatTime = (date) => {
 
   return `${hours}:${minutes}`;
 };
+
+
+/**
+ * Проверка дней на наличие дней повторения
+ * @param {Object} days
+ * @return {Boolean} результат
+ */
+export const checkIsRepeating = (days) => Object.values(days).some(Boolean);
+
+
+/**
+ * Получение текущего количества задач на доске
+ * @return {Number} количество задач
+ */
+export const getCurrentCountTasks = () => document.querySelectorAll(`.card`).length;

@@ -1,7 +1,7 @@
 import {SortType} from "../../consts";
 import {renderLoadMore} from "../load-more-btn/load-more-btn-helpers";
-import {getCurrentCountTasks} from "../task/task-helpers";
 import {remove} from "../../utils/change-component";
+import {getCurrentCountTasks} from "../../utils/common";
 
 
 /**
