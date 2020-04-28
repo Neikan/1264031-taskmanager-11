@@ -35,7 +35,7 @@ export default class BoardController {
     this._container = container;
 
     this._tasks = [];
-    this._showedTaskControllers = [];
+    this._showedTasks = [];
     this._showingTasksCount = CountTask.START;
     this._sortComponent = new SortComponent();
     this._tasksComponent = new TasksComponent();
@@ -69,7 +69,7 @@ export default class BoardController {
     const sortedTasks = getSortedTasks(filteredTasks, this._sortComponent.getSortType());
     const newTasks = renderTasks(tasksList, sortedTasks.slice(0, showingTasksCount), this);
 
-    this._showedTaskControllers = this._showedTaskControllers.concat(newTasks);
+    this._showedTasks = this._showedTasks.concat(newTasks);
     this._renderLoadMore(container, sortedTasks, showingTasksCount, tasksList);
 
     this._sortComponent.setSortTypeChangeHandler(
@@ -100,7 +100,7 @@ export default class BoardController {
 
 
   _viewChangeHandler() {
-    this._showedTaskControllers.forEach((it) => it.setDefaultView());
+    this._showedTasks.forEach((it) => it.setDefaultView());
   }
 
 

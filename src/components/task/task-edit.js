@@ -23,6 +23,7 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._isDateShowing = !!task.dueDate;
     this._isRepeatingTask = checkIsRepeating(task.repeatingDays);
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
+    this._activeColor = task.color;
     this._submitHandler = null;
 
     this._subscribeOnEvents();
@@ -144,6 +145,7 @@ const changeColor = (taskEdit, element) => {
   if (color) {
     color.addEventListener(`change`, (evt) => {
       taskEdit._activeColor = evt.target.value;
+
       taskEdit.rerender();
     });
   }

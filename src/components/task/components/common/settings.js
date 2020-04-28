@@ -18,7 +18,7 @@ const createSettingsBlock = (task, isView, options) => {
   const date = (isShowning && dueDate) ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
   const time = (isShowning && dueDate) ? formatTime(dueDate) : ``;
 
-  return isView ? getViewSettings(date, time) : getEditSettings(task, date, time, isShowning, options);
+  return isView ? getViewSettings(date, time) : getEditSettings(date, time, isShowning, options);
 };
 
 export {createSettingsBlock};

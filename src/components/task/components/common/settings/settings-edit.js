@@ -5,16 +5,13 @@ import {createColorsBlock} from "./../../task-edit/colors-block";
 
 /**
  * Создание разметки блока с описанием задачи для создания / редактирования
- * @param {string} task описание задачи
  * @param {string} date дата
  * @param {string} time время
  * @param {Boolean} isDateShowing флаг, определяющий имеет ли задача срок исполнения
  * @param {Object} options параметры формы редактирования задачи
  * @return {string} разметка блока
  */
-const getEditSettings = (task, date, time, isDateShowing, options) => {
-  const {color} = task;
-
+const getEditSettings = (date, time, isDateShowing, options) => {
   return (
     `<div class="card__settings">
       <div class="card__details">
@@ -23,7 +20,7 @@ const getEditSettings = (task, date, time, isDateShowing, options) => {
           ${createRepeatBlock(options)}
         </div>
       </div>
-      ${createColorsBlock(color)}
+      ${createColorsBlock(options.activeColor)}
     </div>`
   );
 };
