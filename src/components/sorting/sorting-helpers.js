@@ -2,6 +2,7 @@ import {SortType} from "../../consts";
 import {renderLoadMore} from "../load-more-btn/load-more-btn-helpers";
 import {remove} from "../../utils/change-component";
 import {getCurrentCountTasks} from "../../utils/common";
+import {renderTasks} from "../../controllers/board";
 
 
 /**
@@ -34,27 +35,25 @@ const getSortedTasks = (filteredTasks, sortType) => {
  * Отрисовка отсортированных задач
  * @param {Object} container контейнер
  * @param {Array} filteredTasks данные задач
- * @param {Function} renderTasksList функция рендера задач на доску
  * @param {Number} showingTasksCount количество задач на доске
  * @param {Object} tasksList список задач
- * @param {Object} loadMoreBtnComponent компонент, отвечающий за кнопку показа оставшихся задач
- * @param {Object} sortComponent компонент, отвечающий за сортировку задач
+ * @param {Object} boardController
  */
-const renderSortedTasks = (container, filteredTasks, renderTasksList, showingTasksCount, tasksList, loadMoreBtnComponent, sortComponent) => {
+const renderSortedTasks = (container, filteredTasks, showingTasksCount, tasksList, boardController) => {
   const sortClickHandler = (sortType) => {
     showingTasksCount = getCurrentCountTasks();
-
     const sortedTasks = getSortedTasks(filteredTasks, sortType);
 
     tasksList.innerHTML = ``;
+    const newTasks = renderTasks(tasksList, sortedTasks.slice(0, showingTasksCount), boardController);
 
-    sortedTasks.slice(0, showingTasksCount).map(renderTasksList());
+    boardController._showedTaskControllers = boardController._showedTaskControllers.concat(newTasks);
 
-    remove(loadMoreBtnComponent);
-    renderLoadMore(container, sortedTasks, renderTasksList, showingTasksCount, loadMoreBtnComponent);
+    remove(boardController._loadMoreBtnComponent);
+    renderLoadMore(container, sortedTasks, showingTasksCount, tasksList, boardController);
   };
 
-  sortComponent.setSortTypeChangeHandler(sortClickHandler);
+  boardController._sortComponent.setSortTypeChangeHandler(sortClickHandler);
 };
 
 

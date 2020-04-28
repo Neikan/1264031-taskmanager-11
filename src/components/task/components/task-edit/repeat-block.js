@@ -1,9 +1,10 @@
 import {DAYS, Decision, Checked} from "../../../../consts";
 
+
 /**
  * Создание разметки блока повторений задачи
- * @param {Boolean} isRepeating флаг, определеяющий является ли задача повторяющейся
- * @param {Object} repeatingDays дни повторений
+ * @param {Boolean} isRepeatingTask флаг, определеяющий является ли задача повторяющейся
+ * @param {Object} activeRepeatingDays дни повторений
  * @return {string} разметка блока
  */
 const createRepeatBlock = ({isRepeatingTask, activeRepeatingDays}) =>
@@ -13,15 +14,16 @@ const createRepeatBlock = ({isRepeatingTask, activeRepeatingDays}) =>
 /**
  * Получение параметров повторений
  * @param {Boolean} isRepeating флаг, определеяющий является ли задача повторяющейся
- * @param {Object} repeatingDays дни повторений
+ * @param {Object} activeRepeatingDays дни повторений
  * @return {Object} параметры повторений
  */
-const getRepeatParams = (isRepeating, repeatingDays) => {
+const getRepeatParams = (isRepeating, activeRepeatingDays) => {
   return {
     status: isRepeating ? Decision.YES : Decision.NO,
-    showing: isRepeating ? createRepeatShowingBlock(repeatingDays) : ``
+    showing: isRepeating ? createRepeatShowingBlock(activeRepeatingDays) : ``
   };
 };
+
 
 /**
  * Сбор разметки блока повторений в зависимости от параметров
@@ -37,39 +39,42 @@ const collectRepeatBlock = ({status, showing}) => {
   );
 };
 
+
 /**
  * Создание разметки блока показа дней
- * @param {Object} repeatingDays дни повторений
+ * @param {Object} activeRepeatingDays дни повторений
  * @return {string} разметка блока
  */
-const createRepeatShowingBlock = (repeatingDays) => {
+const createRepeatShowingBlock = (activeRepeatingDays) => {
   return (
     `<fieldset class="card__repeat-days">
       <div class="card__repeat-days-inner">
-        ${createRepeatingDays(DAYS, repeatingDays)}
+        ${createRepeatingDays(DAYS, activeRepeatingDays)}
       </div>
     </fieldset>`
   );
 };
 
+
 /**
  * Создание разметки блока дней
  * @param {Array} days дни
- * @param {Object} repeatingActiveDays дни повторений
+ * @param {Object} activeRepeatingDays дни повторений
  * @return {string} разметка блока
  */
-const createRepeatingDays = (days, repeatingActiveDays) =>
-  days.map((day, index) => createRepeatingDay(day, index, repeatingActiveDays)).join(`\n`);
+const createRepeatingDays = (days, activeRepeatingDays) =>
+  days.map((day, index) => createRepeatingDay(day, index, activeRepeatingDays)).join(`\n`);
+
 
 /**
  * Создание разметки блока дня
  * @param {string} day день
  * @param {Number} index номер дня в массиве дней
- * @param {Object} repeatingDays дни повторений
+ * @param {Object} activeRepeatingDays дни повторений
  * @return {string} разметка блока
  */
-const createRepeatingDay = (day, index, repeatingDays) => {
-  const checked = repeatingDays[day] ? Checked.INPUT : ``;
+const createRepeatingDay = (day, index, activeRepeatingDays) => {
+  const checked = activeRepeatingDays[day] ? Checked.INPUT : ``;
   return (
     `<input
       class="visually-hidden card__repeat-day-input"
@@ -82,5 +87,6 @@ const createRepeatingDay = (day, index, repeatingDays) => {
     <label class="card__repeat-day" for="repeat-${day}-${index}">${day}</label>`
   );
 };
+
 
 export {createRepeatBlock};

@@ -1,6 +1,6 @@
 import {CardClass} from "../../../consts";
-import {getViewForm} from "./task-view";
-import {getEditForm} from "./task-edit";
+import {getViewForm} from "./task-creation-view";
+import {getEditForm} from "./task-creation-edit";
 import {checkIsRepeating} from "../../../utils/common";
 
 
@@ -12,21 +12,11 @@ import {checkIsRepeating} from "../../../utils/common";
  * @return {string} разметка блока
  */
 const createTask = (task, isView, options = {}) => {
-  let additionalInfo = {};
-  let additionalMarkup = {};
+  const {dueDate} = task;
+  const days = isView ? task.repeatingDays : options.activeRepeatingDays;
 
-  if (isView) {
-    const {dueDate, repeatingDays} = task;
-    additionalInfo = getAdditionalInfo(dueDate, repeatingDays, isView);
-    additionalMarkup = getAdditionalMarkup(additionalInfo);
-
-  } else {
-    const {dueDate} = task;
-    const {activeRepeatingDays} = options;
-
-    additionalInfo = getAdditionalInfo(dueDate, activeRepeatingDays);
-    additionalMarkup = getAdditionalMarkup(additionalInfo);
-  }
+  const additionalInfo = getAdditionalInfo(dueDate, days);
+  const additionalMarkup = getAdditionalMarkup(additionalInfo);
 
   return isView ?
     getViewForm(task, additionalMarkup, isView) :

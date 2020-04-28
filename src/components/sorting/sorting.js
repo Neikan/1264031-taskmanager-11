@@ -1,6 +1,7 @@
 import AbstractComponent from "../abstract/abstract-component";
 import {SortType} from "../../consts";
 
+
 /**
  * Создание разметки блока сортировки задач
  * @return {string} разметка блока
@@ -26,30 +27,30 @@ export default class Sort extends AbstractComponent {
     this._currentSortType = SortType.DEFAULT;
   }
 
+
   getTemplate() {
     return createSorting();
   }
+
 
   getSortType() {
     return this._currentSortType;
   }
 
+
   setSortTypeChangeHandler(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
-
       if (evt.target.tagName !== `A`) {
         return;
       }
 
       const sortType = evt.target.dataset.sortType;
-
       if (this._currentSortType === sortType) {
         return;
       }
 
       this._currentSortType = sortType;
-
       handler(this._currentSortType);
     });
   }

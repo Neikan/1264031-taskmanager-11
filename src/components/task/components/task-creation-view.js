@@ -8,7 +8,6 @@ import {createSettingsBlock} from "./common/settings";
  * @param {Object} task задача
  * @param {Object} classes классы разметки
  * @param {Boolean} isView флаг, отвечающий за вид отображаемой формы
- * @param {Object} options
  * @return {string} разметка блока
  */
 const getViewForm = (task, classes, isView) => {

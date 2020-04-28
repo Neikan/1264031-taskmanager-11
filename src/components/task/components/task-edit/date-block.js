@@ -1,5 +1,6 @@
 import {Decision} from "../../../../consts";
 
+
 /**
  * Создание разметки блока даты и времени
  * @param {Boolean} isDateShowing флаг, определяющий отображение даты и времени
@@ -9,6 +10,7 @@ import {Decision} from "../../../../consts";
  */
 const createDateBlock = (isDateShowing, date, time) =>
   collectDateBlock(getDateParams(isDateShowing, date, time));
+
 
 /**
  * Получение параметров даты и времени
@@ -24,6 +26,7 @@ const getDateParams = (isDateShowing, date, time) => {
   };
 };
 
+
 /**
  * Сбор разметки блока даты и времени в зависимости от параметров
  * @param {string} {параметры даты и времени}
@@ -37,6 +40,7 @@ const collectDateBlock = ({status, showing}) => {
     ${showing}`
   );
 };
+
 
 /**
  * Создание разметки блока показа даты
@@ -59,5 +63,6 @@ const createDateShowingBlock = (date, time) => {
     </fieldset>`
   );
 };
+
 
 export {createDateBlock};

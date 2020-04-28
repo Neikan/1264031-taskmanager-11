@@ -13,22 +13,10 @@ import {getEditSettings} from "./settings/settings-edit";
  */
 const createSettingsBlock = (task, isView, options) => {
   const {dueDate} = task;
-  let isShowning = null;
-  let date = ``;
-  let time = ``;
+  const isShowning = isView ? !!dueDate : options.isDateShowing;
 
-  if (isView) {
-    isShowning = !!dueDate;
-    date = isShowning ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
-    time = isShowning ? formatTime(dueDate) : ``;
-
-  } else {
-    const {isDateShowing} = options;
-    isShowning = isDateShowing;
-
-    date = (isShowning && dueDate) ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
-    time = (isShowning && dueDate) ? formatTime(dueDate) : ``;
-  }
+  const date = (isShowning && dueDate) ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
+  const time = (isShowning && dueDate) ? formatTime(dueDate) : ``;
 
   return isView ? getViewSettings(date, time) : getEditSettings(task, date, time, isShowning, options);
 };

@@ -8,6 +8,7 @@ import FiltersComponent from "./components/filters/filters.js";
 import BoardComponent from "./components/board/board.js";
 import BoardController from "./controllers/board.js";
 
+
 const Nodes = {
   HEADER: document.querySelector(`.control`),
   MAIN: document.querySelector(`.main`),
@@ -29,7 +30,7 @@ const init = () => {
   render(Nodes.MAIN, boardComponent);
 
   setCheckFilter(DEFAULT_FILTER);
-  boardController.render(tasks, filtersComponent, DEFAULT_FILTER);
+  boardController.render(tasks, DEFAULT_FILTER);
 
   addListenersToFilters(tasks, filtersComponent, boardController);
 };

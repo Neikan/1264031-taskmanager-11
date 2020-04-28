@@ -43,7 +43,7 @@ const addListenersToFilters = (allTasks, filtersComponent, boardController) => {
 
     unCheckFilter();
     setCheckFilter(filterAttribute);
-    boardController.replace(allTasks, filtersComponent, filterAttribute);
+    boardController.replace(allTasks, filterAttribute);
   };
 
   const addListenerForFilter = () => (boardFilter) =>

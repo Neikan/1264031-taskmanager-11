@@ -13,7 +13,9 @@ import {createButtonsBlock} from "./common/buttons";
  * @return {string} разметка блока
  */
 const getEditForm = (task, classes, isView, options) => {
-  const {description, color} = task;
+  const color = isView ? task.color : options.activeColor;
+
+  const {description} = task;
   const {repeat, deadline} = classes;
 
   return (

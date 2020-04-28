@@ -22,12 +22,12 @@ export default class Task extends AbstractComponent {
       .addEventListener(`click`, handler);
   }
 
-  setArchiveBtnClickhandler(handler) {
+  setArchiveBtnClickHandler(handler) {
     this.getElement().querySelector(`.${PART_BTN_CLASS}${ButtonTask.ARCHIVE}`)
       .addEventListener(`click`, handler);
   }
 
-  setFavoriteBtnClickhandler(handler) {
+  setFavoritesBtnClickHandler(handler) {
     this.getElement().querySelector(`.${PART_BTN_CLASS}${ButtonTask.FAVORITE}`)
       .addEventListener(`click`, handler);
   }

@@ -9,6 +9,7 @@ const createLoadMore = () => {
   return (`<button class="load-more" type="button">load more</button>`);
 };
 
+
 /**
  * Создание класса кнопки показа оставшихся задач
  */
