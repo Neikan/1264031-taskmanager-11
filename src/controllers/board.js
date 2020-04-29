@@ -87,19 +87,25 @@ class BoardController {
   }
 
 
-  _dataChangeHandler(taskController, oldData, newData) {
-    const index = getTaskIndex(this._tasks, oldData);
+  _dataChangeHandler(oldData, newData) {
+    let index = getTaskIndex(this._tasks, oldData);
 
     if (index === -1) {
       return;
     }
-    this._tasks[index] = newData;
-    taskController.render(this._tasks[index]);
+
+    const newTasksData = this._tasks.slice();
+    newTasksData[index] = newData;
+    this._tasks = newTasksData;
+
+    index = getTaskIndex(this._tasks, newData);
+
+    this._showedTasksControllers[index].render(this._tasks[index]);
   }
 
 
   _viewChangeHandler() {
-    this._showedTasks.map((taskData) => taskData.setDefaultView());
+    this._showedTasksControllers.map((taskData) => taskData.setDefaultView());
   }
 
 
