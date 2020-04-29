@@ -23,6 +23,11 @@ export default class TaskController {
     this._taskEditComponent = null;
 
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
+    this._replaceEditToTask = this._replaceEditToTask.bind(this);
+    this._replaceTaskToEdit = this._replaceTaskToEdit.bind(this);
+    this._replaceOldTask = this._replaceOldTask.bind(this);
+    this._setDefaultView = this.setDefaultView.bind(this);
+    this._dataChangeHandler = this._dataChangeHandler.bind(this);
   }
 
 

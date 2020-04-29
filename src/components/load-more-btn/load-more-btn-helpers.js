@@ -1,6 +1,6 @@
 import {CountTask, Position} from "../../consts";
 import {remove, render} from "../../utils/change-component";
-import {renderTasks} from "../../controllers/board";
+import {renderTaskControllers} from "../../controllers/board";
 
 
 /**
@@ -16,9 +16,10 @@ const getLoadMoreListener = (tasks, showingTasksCount, tasksList, boardControlle
     const prevTasksCount = showingTasksCount;
     showingTasksCount += CountTask.BY_BUTTON;
 
-    const newTasks = renderTasks(tasksList, tasks.slice(prevTasksCount, showingTasksCount), boardController);
-
-    boardController._showedTasks = boardController._showedTasks.concat(newTasks);
+    const newTasksControllers = renderTaskControllers(tasksList,
+        tasks.slice(prevTasksCount, showingTasksCount), boardController);
+    boardController._showedTasksControllers =
+        boardController._showedTasksControllers.concat(newTasksControllers);
 
     if (showingTasksCount >= tasks.length) {
       remove(boardController._loadMoreBtnComponent);

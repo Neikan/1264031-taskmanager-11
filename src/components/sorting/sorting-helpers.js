@@ -1,7 +1,7 @@
 import {renderLoadMore} from "../load-more-btn/load-more-btn-helpers";
 import {remove} from "../../utils/change-component";
 import {getCurrentCountTasks} from "../../utils/common";
-import {renderTasks} from "../../controllers/board";
+import {renderTaskControllers} from "../../controllers/board";
 
 
 /**
@@ -37,9 +37,10 @@ const renderSortedTasks = (container, filteredTasks, showingTasksCount, tasksLis
     const sortedTasks = getSortedTasks(filteredTasks, sortType);
 
     tasksList.innerHTML = ``;
-    const newTasks = renderTasks(tasksList, sortedTasks.slice(0, showingTasksCount), boardController);
-
-    boardController._showedTasks = boardController._showedTasks.concat(newTasks);
+    const newTasksControllers = renderTaskControllers(tasksList,
+        sortedTasks.slice(0, showingTasksCount), boardController);
+    boardController._showedTasksControllers =
+        boardController._showedTasksControllers.concat(newTasksControllers);
 
     remove(boardController._loadMoreBtnComponent);
     renderLoadMore(container, sortedTasks, showingTasksCount, tasksList, boardController);

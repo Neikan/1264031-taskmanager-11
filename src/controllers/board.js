@@ -17,7 +17,7 @@ import TaskController from "./task.js";
  * @param {Function} boardController контроллер доски
  * @return {Object} созданный контроллер
  */
-const renderTasks = (tasksList, tasks, boardController) => {
+const renderTaskControllers = (tasksList, tasks, boardController) => {
   return tasks.map((task) => {
     const taskController = new TaskController(tasksList, boardController);
     taskController.render(task);
@@ -30,12 +30,12 @@ const renderTasks = (tasksList, tasks, boardController) => {
 /**
  * Создание контроллера, обеспечивающего отрисовку компонентов доски
  */
-export default class BoardController {
+class BoardController {
   constructor(container) {
     this._container = container;
 
     this._tasks = [];
-    this._showedTasks = [];
+    this._showedTasksControllers = [];
     this._showingTasksCount = CountTask.START;
     this._sortComponent = new SortComponent();
     this._tasksComponent = new TasksComponent();
@@ -47,7 +47,6 @@ export default class BoardController {
 
     this._dataChangeHandler = this._dataChangeHandler.bind(this);
     this._viewChangeHandler = this._viewChangeHandler.bind(this);
-    this._removeData = this._removeData.bind(this);
   }
 
 
@@ -67,9 +66,9 @@ export default class BoardController {
     const tasksList = this._tasksComponent.getElement();
 
     const sortedTasks = getSortedTasks(filteredTasks, this._sortComponent.getSortType());
-    const newTasks = renderTasks(tasksList, sortedTasks.slice(0, showingTasksCount), this);
+    const newTasksControllers = renderTaskControllers(tasksList, sortedTasks.slice(0, showingTasksCount), this);
+    this._showedTasksControllers = this._showedTasksControllers.concat(newTasksControllers);
 
-    this._showedTasks = this._showedTasks.concat(newTasks);
     this._renderLoadMore(container, sortedTasks, showingTasksCount, tasksList);
 
     this._sortComponent.setSortTypeChangeHandler(
@@ -119,9 +118,6 @@ export default class BoardController {
 }
 
 
-export {renderTasks};
-
-
 /**
  * Получение индекса задачи
  * @param {Array} allTasks данные задач
@@ -129,3 +125,6 @@ export {renderTasks};
  * @return {Number} индекс задачи
  */
 const getTaskIndex = (allTasks, taskData) => allTasks.indexOf(taskData);
+
+
+export {BoardController, renderTaskControllers};

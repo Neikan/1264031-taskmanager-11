@@ -5,7 +5,7 @@ import {render} from "./utils/change-component";
 import MenuComponent from "./components/menu/menu.js";
 import FiltersComponent from "./components/filters/filters.js";
 import BoardComponent from "./components/board/board.js";
-import BoardController from "./controllers/board.js";
+import {BoardController} from "./controllers/board.js";
 import {getFilteredTasks, setCheckFilter, addListenersToFilters} from "./controllers/filters";
 
 
