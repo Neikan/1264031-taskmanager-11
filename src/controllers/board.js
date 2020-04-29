@@ -35,7 +35,7 @@ class BoardController {
     this._container = container;
 
     this._tasks = [];
-    this._showedTasksControllers = [];
+    this._showedTaskControllers = [];
     this._showingTasksCount = CountTask.START;
     this._sortComponent = new SortComponent();
     this._tasksComponent = new TasksComponent();
@@ -66,8 +66,8 @@ class BoardController {
     const tasksList = this._tasksComponent.getElement();
 
     const sortedTasks = getSortedTasks(filteredTasks, this._sortComponent.getSortType());
-    const newTasksControllers = renderTaskControllers(tasksList, sortedTasks.slice(0, showingTasksCount), this);
-    this._showedTasksControllers = this._showedTasksControllers.concat(newTasksControllers);
+    const newTaskControllers = renderTaskControllers(tasksList, sortedTasks.slice(0, showingTasksCount), this);
+    this._showedTaskControllers = this._showedTaskControllers.concat(newTaskControllers);
 
     this._renderLoadMore(container, sortedTasks, showingTasksCount, tasksList);
 
@@ -87,7 +87,7 @@ class BoardController {
   }
 
 
-  _dataChangeHandler(tasksController, oldData, newData) {
+  _dataChangeHandler(taskController, oldData, newData) {
     let index = getTaskIndex(this._tasks, oldData);
 
     if (index === -1) {
@@ -96,13 +96,12 @@ class BoardController {
     const newTasksData = this._tasks.slice();
     newTasksData[index] = newData;
     this._tasks = newTasksData;
-
-    tasksController.render(this._tasks[index]);
+    taskController.render(this._tasks[index]);
   }
 
 
   _viewChangeHandler() {
-    this._showedTasksControllers.map((taskData) => taskData.setDefaultView());
+    this._showedTaskControllers.map((taskData) => taskData.setDefaultView());
   }
 
 
@@ -113,6 +112,7 @@ class BoardController {
 
 
   _removeData() {
+    this._showedTaskControllers = [];
     remove(this._tasksComponent);
     remove(this._sortComponent);
     remove(this._loadMoreBtnComponent);

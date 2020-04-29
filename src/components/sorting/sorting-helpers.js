@@ -37,10 +37,9 @@ const renderSortedTasks = (container, filteredTasks, showingTasksCount, tasksLis
     const sortedTasks = getSortedTasks(filteredTasks, sortType);
 
     tasksList.innerHTML = ``;
-    const newTasksControllers = renderTaskControllers(tasksList,
+    const newTaskControllers = renderTaskControllers(tasksList,
         sortedTasks.slice(0, showingTasksCount), boardController);
-    boardController._showedTasksControllers =
-        boardController._showedTasksControllers.concat(newTasksControllers);
+    boardController._showedTaskControllers = newTaskControllers;
 
     remove(boardController._loadMoreBtnComponent);
     renderLoadMore(container, sortedTasks, showingTasksCount, tasksList, boardController);
