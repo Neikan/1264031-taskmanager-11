@@ -87,20 +87,17 @@ class BoardController {
   }
 
 
-  _dataChangeHandler(oldData, newData) {
+  _dataChangeHandler(tasksController, oldData, newData) {
     let index = getTaskIndex(this._tasks, oldData);
 
     if (index === -1) {
       return;
     }
-
     const newTasksData = this._tasks.slice();
     newTasksData[index] = newData;
     this._tasks = newTasksData;
 
-    index = getTaskIndex(this._tasks, newData);
-
-    this._showedTasksControllers[index].render(this._tasks[index]);
+    tasksController.render(this._tasks[index]);
   }
 
 
