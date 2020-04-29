@@ -14,12 +14,13 @@ import TaskController from "./task.js";
  * Создание контроллера, обеспечивающего отрисовку задач
  * @param {Object} tasksList список задач на доске
  * @param {Array} tasks данные задач
- * @param {Function} boardController контроллер доски
+ * @param {Function} viewChangeHandler
+ * @param {Function} dataChangeHandler
  * @return {Object} созданный контроллер
  */
-const renderTaskControllers = (tasksList, tasks, boardController) => {
+const renderTaskControllers = (tasksList, tasks, viewChangeHandler, dataChangeHandler) => {
   return tasks.map((task) => {
-    const taskController = new TaskController(tasksList, boardController);
+    const taskController = new TaskController(tasksList, viewChangeHandler, dataChangeHandler);
     taskController.render(task);
 
     return taskController;
@@ -36,7 +37,7 @@ class BoardController {
 
     this._tasks = [];
     this._showedTaskControllers = [];
-    this._showingTasksCount = CountTask.START;
+    this._showingTasksCount = null;
     this._sortComponent = new SortComponent();
     this._tasksComponent = new TasksComponent();
     this._loadMoreBtnComponent = new LoadMoreBtnComponent();
@@ -52,6 +53,7 @@ class BoardController {
 
   render(allTasks, currentFilter, showingTasksCount = CountTask.START) {
     this._tasks = allTasks;
+    this._showingTasksCount = showingTasksCount;
     const container = this._container.getElement();
     this._currentFilter = currentFilter;
     const filteredTasks = getFilteredTasks(this._tasks, this._currentFilter);
@@ -66,7 +68,8 @@ class BoardController {
     const tasksList = this._tasksComponent.getElement();
 
     const sortedTasks = getSortedTasks(filteredTasks, this._sortComponent.getSortType());
-    const newTaskControllers = renderTaskControllers(tasksList, sortedTasks.slice(0, showingTasksCount), this);
+    const newTaskControllers = renderTaskControllers(tasksList,
+        sortedTasks.slice(0, showingTasksCount), this._viewChangeHandler, this._dataChangeHandler);
     this._showedTaskControllers = this._showedTaskControllers.concat(newTaskControllers);
 
     this._renderLoadMore(container, sortedTasks, showingTasksCount, tasksList);
@@ -87,7 +90,7 @@ class BoardController {
   }
 
 
-  _dataChangeHandler(taskController, oldData, newData) {
+  _dataChangeHandler(oldData, newData) {
     let index = getTaskIndex(this._tasks, oldData);
 
     if (index === -1) {
@@ -96,7 +99,8 @@ class BoardController {
     const newTasksData = this._tasks.slice();
     newTasksData[index] = newData;
     this._tasks = newTasksData;
-    taskController.render(this._tasks[index]);
+    this._showingTasksCount = this._showedTaskControllers.length;
+    this.rerender();
   }
 
 
@@ -105,9 +109,9 @@ class BoardController {
   }
 
 
-  rerender(currentFilter = this._currentFilter) {
+  rerender(currentFilter = this._currentFilter, showingTasksCount = this._showingTasksCount) {
     this._removeData();
-    this.render(this._tasks, currentFilter);
+    this.render(this._tasks, currentFilter, showingTasksCount);
   }
 
 

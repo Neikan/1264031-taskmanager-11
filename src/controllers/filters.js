@@ -1,4 +1,4 @@
-import {Position, Filter, FILTER_LABEL} from "../consts";
+import {Position, Filter, FILTER_LABEL, CountTask} from "../consts";
 import {generateFilters} from "../mock/filters/filters";
 import {render} from "../utils/change-component";
 import FiltersComponent from "../components/filters/filters";
@@ -47,7 +47,7 @@ const addListenersToFilters = (allTasks, filtersComponent, boardController) => {
 
     unCheckFilter();
     setCheckFilter(filterAttribute);
-    boardController.rerender(filterAttribute);
+    boardController.rerender(filterAttribute, CountTask.START);
   };
 
   const addListenerForFilter = () => (boardFilter) =>

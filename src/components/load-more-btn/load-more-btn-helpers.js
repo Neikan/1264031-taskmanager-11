@@ -16,8 +16,10 @@ const getLoadMoreListener = (tasks, showingTasksCount, tasksList, boardControlle
     const prevTasksCount = showingTasksCount;
     showingTasksCount += CountTask.BY_BUTTON;
 
-    const newTaskControllers = renderTaskControllers(tasksList,
-        tasks.slice(prevTasksCount, showingTasksCount), boardController);
+    const newTaskControllers = renderTaskControllers(
+        tasksList, tasks.slice(prevTasksCount, showingTasksCount),
+        boardController._viewChangeHandler, boardController._dataChangeHandler
+    );
     boardController._showedTaskControllers =
         boardController._showedTaskControllers.concat(newTaskControllers);
 
