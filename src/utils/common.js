@@ -58,3 +58,15 @@ export const filterRules = {
 
   'archive': (tasksNotDelete) => tasksNotDelete.filter((task) => task.isArchive)
 };
+
+/**
+ * Получение задач для фильтрации
+ * @param {Array} allTasks данные задач
+ * @return {Object} задачи
+ */
+export const getTasksForFilters = (allTasks) => {
+  const tasksNotDelete = (allTasks.length) ? allTasks.filter((task) => !task.isDeleted) : [];
+  const tasksNotArchive = (tasksNotDelete.length) ? tasksNotDelete.filter((task) => !task.isArchive) : [];
+
+  return {tasksNotDelete, tasksNotArchive};
+};

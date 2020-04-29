@@ -2,7 +2,7 @@ import {Position, Filter, FILTER_LABEL} from "../consts";
 import {generateFilters} from "../mock/filters/filters";
 import {render} from "../utils/change-component";
 import FiltersComponent from "../components/filters/filters";
-import {filterRules} from "../utils/common";
+import {filterRules, getTasksForFilters} from "../utils/common";
 
 // Здесь будет будущий контроллер фильтров
 
@@ -64,11 +64,7 @@ const addListenersToFilters = (allTasks, filtersComponent, boardController) => {
  * @return {Array} отфильтрованные данные
  */
 const getFilteredTasks = (tasks, filter = Filter.DEFAULT) => {
-  let tasksNotArchive = [];
-  const tasksNotDelete = tasks.filter((task) => !task.isDeleted);
-  if (tasks.length) {
-    tasksNotArchive = tasksNotDelete.filter((task) => !task.isArchive);
-  }
+  const {tasksNotDelete, tasksNotArchive} = getTasksForFilters(tasks);
   const nameFilter = filter.replace(FILTER_MARK, ``);
 
   return (filter === Filter.ARCHIVE) ?

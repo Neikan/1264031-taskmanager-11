@@ -1,5 +1,5 @@
 import {FILTER_NAMES} from "../../consts";
-import {filterRules} from "../../utils/common";
+import {filterRules, getTasksForFilters} from "../../utils/common";
 
 
 const FILTER_NAME = `archive`;
@@ -31,8 +31,7 @@ const addCount = (allTasks, filter) => {
  * @return {Number} количество задач, соответствующих фильтру
  */
 const getFiltersCount = (allTasks, filterName) => {
-  const tasksNotDelete = allTasks.filter((task) => !task.isDeleted);
-  const tasksNotArchive = tasksNotDelete.filter((task) => !task.isArchive);
+  const {tasksNotDelete, tasksNotArchive} = getTasksForFilters(allTasks);
 
   return (filterName === FILTER_NAME) ?
     filterRules[filterName](tasksNotDelete).length :
