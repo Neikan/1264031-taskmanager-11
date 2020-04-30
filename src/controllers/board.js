@@ -14,9 +14,11 @@ import TaskController from "./task.js";
  * Создание контроллера, обеспечивающего отрисовку задач
  * @param {Object} tasksList список задач на доске
  * @param {Array} tasks данные задач
- * @param {Function} viewChangeHandler
- * @param {Function} dataChangeHandler
- * @return {Object} созданный контроллер
+ * @param {Function} viewChangeHandler метод контроллера доски,
+ *  обеспечивающий установку представления задачи в режим по умолчанию
+ * @param {Function} dataChangeHandler метод контроллера доски,
+ *  обеспечивающий изменение данных задачи и перерисовку текущего представления
+ * @return {Array} массив контроллеров представлений задач
  */
 const renderTaskControllers = (tasksList, tasks, viewChangeHandler, dataChangeHandler) => {
   return tasks.map((task) => {
