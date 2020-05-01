@@ -1,13 +1,13 @@
 import {render, remove} from "../utils/change-component";
 import {CountTask, Position} from "../consts";
 import {getFilteredTasks} from "./filters";
-import {renderLoadMore} from "../components/load-more-btn/load-more-btn-helpers";
-import {renderSortedTasks, getSortedTasks} from "../components/sorting/sorting-helpers";
+import {getSortedTasks} from "../components/sorting/sorting";
 import TasksComponent from "../components/tasks-list/tasks-list";
-import SortComponent from "../components/sorting/sorting";
-import LoadMoreBtnComponent from "../components/load-more-btn/load-more-btn";
+import {Sort} from "../components/sorting/sorting";
+import {LoadMoreBtn} from "../components/load-more-btn/load-more-btn";
 import NoTasksComponent from "../components/no-tasks/no-tasks";
 import TaskController from "./task.js";
+import {getCurrentCountTasks} from "../utils/common";
 
 
 /**
@@ -39,10 +39,10 @@ class BoardController {
 
     this._tasks = [];
     this._showedTaskControllers = [];
-    this._showingTasksCount = null;
-    this._sortComponent = new SortComponent();
+    this._countTasks = null;
+    this._sortComponent = new Sort();
     this._tasksComponent = new TasksComponent();
-    this._loadMoreBtnComponent = new LoadMoreBtnComponent();
+    this._loadMoreBtnComponent = new LoadMoreBtn();
     this._noTasks = new NoTasksComponent();
 
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
@@ -53,20 +53,26 @@ class BoardController {
   }
 
 
+  /**
+   * Метод, обеспечивающий отрисовку данных задач
+   * @param {Array} allTasks данные задач
+   * @param {string} currentFilter текущий примененный фильтр
+   * @param {Number} showingTasksCount текущее количество показанных задач
+   */
   render(allTasks, currentFilter, showingTasksCount = CountTask.START) {
     this._tasks = allTasks;
-    this._showingTasksCount = showingTasksCount;
-    const container = this._container.getElement();
     this._currentFilter = currentFilter;
     const filteredTasks = getFilteredTasks(this._tasks, this._currentFilter);
+    const container = this._container.getElement();
 
     if (!filteredTasks.length) {
       render[Position.BEFORE_END](container, this._noTasks);
       return;
     }
 
-    render[Position.BEFORE_END](container, this._sortComponent);
+    this._countTasks = showingTasksCount;
     render[Position.BEFORE_END](container, this._tasksComponent);
+
     const tasksList = this._tasksComponent.getElement();
 
     const sortedTasks = getSortedTasks(filteredTasks, this._sortComponent.getSortType());
@@ -76,47 +82,101 @@ class BoardController {
 
     this._renderLoadMore(container, sortedTasks, showingTasksCount, tasksList);
 
+    render[Position.AFTER_BEGIN](container, this._sortComponent);
     this._sortComponent.setSortTypeChangeHandler(
         this._sortTypeChangeHandler(container, sortedTasks, showingTasksCount, tasksList)
     );
   }
 
 
-  _renderLoadMore(container, tasks, showingTasksCount, tasksList) {
-    renderLoadMore(container, tasks, showingTasksCount, tasksList, this);
-  }
-
-
-  _sortTypeChangeHandler(container, sortedTasks, showingTasksCount, tasksList) {
-    renderSortedTasks(container, sortedTasks, showingTasksCount, tasksList, this);
-  }
-
-
-  _dataChangeHandler(oldData, newData) {
-    let index = getTaskIndex(this._tasks, oldData);
-
-    if (index === -1) {
-      return;
-    }
-    const newTasksData = this._tasks.slice();
-    newTasksData[index] = newData;
-    this._tasks = newTasksData;
-    this._showingTasksCount = this._showedTaskControllers.length;
-    this.rerender();
-  }
-
-
-  _viewChangeHandler() {
-    this._showedTaskControllers.map((taskData) => taskData.setDefaultView());
-  }
-
-
+  /**
+   * Метод, обеспечивающий перерисовку доски при изменении задач
+   * @param {string} currentFilter текущий примененный фильтр
+   * @param {Number} showingTasksCount текущее количество показанных задач
+   */
   rerender(currentFilter = this._currentFilter, showingTasksCount = this._showingTasksCount) {
     this._removeData();
     this.render(this._tasks, currentFilter, showingTasksCount);
   }
 
 
+  _renderLoadMore(container, tasks, showingTasksCount, tasksList) {
+    if (showingTasksCount >= tasks.length) {
+      return;
+    }
+
+    render[Position.BEFORE_END](container, this._loadMoreBtnComponent);
+    this._loadMoreBtnComponent.setClickHandler(
+        this._loadMoreClickHandler(tasks, showingTasksCount, tasksList, this));
+  }
+
+  _loadMoreClickHandler(tasks, showingTasksCount, tasksList, boardController) {
+    return () => {
+      const prevTasksCount = showingTasksCount;
+      showingTasksCount += CountTask.BY_BUTTON;
+
+      const newTaskControllers = renderTaskControllers(
+          tasksList, tasks.slice(prevTasksCount, showingTasksCount),
+          boardController._viewChangeHandler, boardController._dataChangeHandler
+      );
+      boardController._showedTaskControllers =
+          boardController._showedTaskControllers.concat(newTaskControllers);
+
+      if (showingTasksCount >= tasks.length) {
+        remove(boardController._loadMoreBtnComponent);
+      }
+    };
+  }
+
+
+  _sortTypeChangeHandler(container, sortedTasks, showingTasksCount, tasksList) {
+    return () => {
+      showingTasksCount = getCurrentCountTasks();
+
+      tasksList.innerHTML = ``;
+      this._showedTaskControllers = renderTaskControllers(
+          tasksList, sortedTasks.slice(0, showingTasksCount),
+          this._viewChangeHandler, this._dataChangeHandler
+      );
+
+      remove(this._loadMoreBtnComponent);
+      this._renderLoadMore(container, sortedTasks, showingTasksCount, tasksList, this);
+    };
+  }
+
+
+  /**
+   * Метод, обеспечивающий обновление контроллера форм задачи на основе новых данных
+   * @param {Object} oldData прежние данные задачи
+   * @param {Object} newData обновленные данные задачи
+   */
+  _dataChangeHandler(oldData, newData) {
+    let index = getTaskIndex(this._tasks, oldData);
+
+    if (index === -1) {
+      return;
+    }
+
+    const newTasksData = this._tasks.slice();
+    newTasksData[index] = newData;
+    this._tasks = newTasksData;
+
+    this._showingTasksCount = this._showedTaskControllers.length;
+    this.rerender();
+  }
+
+
+  /**
+   * Метод, обеспечивающий отображение каждого контроллера форм задачи в режиме по умолчанию
+   */
+  _viewChangeHandler() {
+    this._showedTaskControllers.map((taskData) => taskData.setDefaultView());
+  }
+
+
+  /**
+   * Метод, обепечивающий сброс данных для выполнения ререндера
+   */
   _removeData() {
     this._showedTaskControllers = [];
     remove(this._tasksComponent);

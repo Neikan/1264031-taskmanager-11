@@ -13,7 +13,7 @@ const createLoadMore = () => {
 /**
  * Создание класса кнопки показа оставшихся задач
  */
-export default class LoadMoreBtn extends AbstractComponent {
+class LoadMoreBtn extends AbstractComponent {
   getTemplate() {
     return createLoadMore();
   }
@@ -22,3 +22,6 @@ export default class LoadMoreBtn extends AbstractComponent {
     this.getElement().addEventListener(`click`, handler);
   }
 }
+
+
+export {LoadMoreBtn};

@@ -3,6 +3,25 @@ import {SortType} from "../../consts";
 
 
 /**
+ * Правила сортировки
+ */
+const sortRules = {
+  'date-down': (showingTasks) => showingTasks.sort((a, b) => a.dueDate - b.dueDate),
+  'date-up': (showingTasks) => showingTasks.sort((a, b) => b.dueDate - a.dueDate),
+  'default': (showingTasks) => showingTasks,
+};
+
+
+/**
+ * Сортировка задач
+ * @param {Array} filteredTasks данные задач
+ * @param {string} sortType тип сортировки
+ * @return {Array} отсортированные данные задач
+ */
+const getSortedTasks = (filteredTasks, sortType) => sortRules[sortType](filteredTasks.slice());
+
+
+/**
  * Создание разметки блока сортировки задач
  * @return {string} разметка блока
  */
@@ -20,7 +39,7 @@ const createSorting = () => {
 /**
  * Создание класса сортировки
  */
-export default class Sort extends AbstractComponent {
+class Sort extends AbstractComponent {
   constructor() {
     super();
 
@@ -47,11 +66,13 @@ export default class Sort extends AbstractComponent {
   _clickHandler(handler) {
     return (evt) => {
       evt.preventDefault();
+
       if (evt.target.tagName !== `A`) {
         return;
       }
 
       const sortType = evt.target.dataset.sortType;
+
       if (this._currentSortType === sortType) {
         return;
       }
@@ -61,3 +82,5 @@ export default class Sort extends AbstractComponent {
     };
   }
 }
+
+export {Sort, getSortedTasks};
