@@ -14,8 +14,11 @@ const createNoTasks = () => {
 };
 
 
-export default class NoTasks extends AbstractComponent {
+class NoTasks extends AbstractComponent {
   getTemplate() {
     return createNoTasks();
   }
 }
+
+
+export {NoTasks};

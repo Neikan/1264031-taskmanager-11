@@ -7,8 +7,11 @@ import AbstractComponent from "../abstract/abstract-component";
 const createTasksList = () => `<div class="board__tasks"></div>`;
 
 
-export default class Tasks extends AbstractComponent {
+class Tasks extends AbstractComponent {
   getTemplate() {
     return createTasksList();
   }
 }
+
+
+export {Tasks};

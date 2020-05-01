@@ -70,3 +70,12 @@ export const getTasksForFilters = (allTasks) => {
 
   return {tasksNotDelete, tasksNotArchive};
 };
+
+
+/**
+ * Получение индекса задачи
+ * @param {Array} allTasks данные задач
+ * @param {Object} taskData данные задачи
+ * @return {Number} индекс задачи
+ */
+export const getIndex = (allTasks, taskData) => allTasks.indexOf(taskData);
