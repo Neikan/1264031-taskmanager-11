@@ -7,7 +7,7 @@ import {Tasks} from "../components/tasks-list/tasks-list";
 import {Sort} from "../components/sorting/sorting";
 import {LoadMoreBtn} from "../components/load-more-btn/load-more-btn";
 import {NoTasks} from "../components/no-tasks/no-tasks";
-import TaskController from "./task.js";
+import {TaskController} from "./task.js";
 
 
 /**
