@@ -1,6 +1,6 @@
 import {getViewButtons} from "./buttons/buttons-view";
 import {getEditButtons} from "./buttons/buttons-edit";
-import {ButtonTask, PART_BTN_CLASS} from "../../../../consts";
+import {ButtonTask, PART_BTN_CLASS} from "../../../consts";
 
 /**
  * Создание разметки блока кнопок задачи

@@ -1,6 +1,6 @@
-import {createDateBlock} from "./../../task-edit/date-block";
-import {createRepeatBlock} from "./../../task-edit/repeat-block";
-import {createColorsBlock} from "./../../task-edit/colors-block";
+import {createDateBlock} from "../../task-edit/date-block";
+import {createRepeatBlock} from "../../task-edit/repeat-block";
+import {createColorsBlock} from "../../task-edit/colors-block";
 
 
 /**

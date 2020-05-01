@@ -2,11 +2,11 @@ import {render, remove} from "../utils/change-component";
 import {getIndex} from "../utils/common";
 import {CountTask, Position} from "../consts";
 import {getFilteredTasks} from "./filters";
-import {getSortedTasks} from "../components/sorting/sorting";
-import {Tasks} from "../components/tasks-list/tasks-list";
-import {Sort} from "../components/sorting/sorting";
-import {LoadMoreBtn} from "../components/load-more-btn/load-more-btn";
-import {NoTasks} from "../components/no-tasks/no-tasks";
+import {getSortedTasks} from "../components/sorting";
+import {Tasks} from "../components/tasks-list";
+import {Sort} from "../components/sorting";
+import {LoadMoreBtn} from "../components/load-more-btn";
+import {NoTasks} from "../components/no-tasks";
 import {TaskController} from "./task.js";
 
 

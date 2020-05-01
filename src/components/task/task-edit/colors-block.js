@@ -1,4 +1,4 @@
-import {COLORS, Checked} from "../../../../consts";
+import {COLORS, Checked} from "../../../consts";
 
 /**
  * Создание разметки блока выбора цвета

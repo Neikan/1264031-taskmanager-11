@@ -1,7 +1,7 @@
-import {CardClass} from "../../../consts";
+import {CardClass} from "../../consts";
 import {getViewForm} from "./task-creation-view";
 import {getEditForm} from "./task-creation-edit";
-import {checkIsRepeating} from "../../../utils/common";
+import {checkIsRepeating} from "../../utils/common";
 
 
 /**

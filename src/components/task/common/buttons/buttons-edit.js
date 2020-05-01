@@ -1,5 +1,5 @@
-import {ButtonTask} from "../../../../../consts";
-import {checkIsRepeating} from "../../../../../utils/common";
+import {ButtonTask} from "../../../../consts";
+import {checkIsRepeating} from "../../../../utils/common";
 
 /**
  * Создание разметки блока кнопок формы создания / редактирования задачи

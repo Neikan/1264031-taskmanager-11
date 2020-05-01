@@ -1,4 +1,4 @@
-import {ButtonTask, PART_BTN_CLASS} from "../../../../../consts";
+import {ButtonTask, PART_BTN_CLASS} from "../../../../consts";
 
 
 /**

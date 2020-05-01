@@ -1,5 +1,5 @@
-import TaskComponent from "../components/task/task-view.js";
-import TaskEditComponent from "../components/task/task-edit.js";
+import {Task} from "../components/task-view.js";
+import {TaskEdit} from "../components/task-edit.js";
 import {render, replace} from "../utils/change-component";
 import {KeyCode, IsDeleted, Position, AttributeTask} from "../consts.js";
 
@@ -39,8 +39,8 @@ class TaskController {
     const oldTaskComponent = this._taskComponent;
     const oldTaskEditComponent = this._taskEditComponent;
 
-    this._taskComponent = new TaskComponent(taskData);
-    this._taskEditComponent = new TaskEditComponent(taskData);
+    this._taskComponent = new Task(taskData);
+    this._taskEditComponent = new TaskEdit(taskData);
 
     this._setViewHandlers(taskData);
     this._setEditHandlers(taskData);

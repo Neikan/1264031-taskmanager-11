@@ -1,7 +1,7 @@
-import {Form, ButtonTask} from "../../consts";
-import AbstractSmartComponent from "../abstract/abstract-smart-component";
-import {createTask} from "./components/task-creation";
-import {checkIsRepeating} from "../../utils/common";
+import {Form, ButtonTask} from "../consts";
+import AbstractSmartComponent from "./abstract/abstract-smart-component";
+import {createTask} from "./task/task-creation";
+import {checkIsRepeating} from "../utils/common";
 
 
 const Selector = {
@@ -15,7 +15,7 @@ const Selector = {
 /**
  * Создание класса задачи
  */
-export default class TaskEdit extends AbstractSmartComponent {
+class TaskEdit extends AbstractSmartComponent {
   constructor(task) {
     super();
 
@@ -217,3 +217,6 @@ export default class TaskEdit extends AbstractSmartComponent {
     };
   }
 }
+
+
+export {TaskEdit};

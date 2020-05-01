@@ -1,7 +1,7 @@
 import {Position, Filter, FILTER_LABEL, CountTask} from "../consts";
 import {generateFilters} from "../mock/filters/filters";
 import {render} from "../utils/change-component";
-import FiltersComponent from "../components/filters/filters";
+import {Filters} from "../components/filters";
 import {filterRules, getTasksForFilters} from "../utils/common";
 
 // Здесь будет будущий контроллер фильтров
@@ -22,7 +22,7 @@ const regenerateFilters = (
 
   document.querySelector(`.filter.container`).remove();
 
-  filtersComponent = new FiltersComponent(generateFilters(allTasks));
+  filtersComponent = new Filters(generateFilters(allTasks));
   render[Position.AFTER_END](document.querySelector(`.main__control`), filtersComponent);
   setCheckFilter(currentFilter);
   addListenersToFilters(allTasks, filtersComponent, boardController);

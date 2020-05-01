@@ -1,4 +1,4 @@
-import {Decision} from "../../../../consts";
+import {Decision} from "../../../consts";
 
 
 /**

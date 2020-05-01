@@ -1,4 +1,4 @@
-import AbstractComponent from "../abstract/abstract-component.js";
+import AbstractComponent from "./abstract/abstract-component.js";
 
 
 /**
@@ -13,8 +13,11 @@ const createBoard = () => {
 /**
  * Создание класса доски задач
  */
-export default class Board extends AbstractComponent {
+class Board extends AbstractComponent {
   getTemplate() {
     return createBoard(this._tasks);
   }
 }
+
+
+export {Board};

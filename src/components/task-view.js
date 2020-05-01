@@ -1,12 +1,12 @@
-import {Form, ButtonTask, PART_BTN_CLASS} from "../../consts";
-import AbstractComponent from "../abstract/abstract-component";
-import {createTask} from "./components/task-creation";
+import {Form, ButtonTask, PART_BTN_CLASS} from "../consts";
+import AbstractComponent from "./abstract/abstract-component";
+import {createTask} from "./task/task-creation";
 
 
 /**
  * Создание класса задачи
  */
-export default class Task extends AbstractComponent {
+class Task extends AbstractComponent {
   constructor(task) {
     super();
 
@@ -32,3 +32,6 @@ export default class Task extends AbstractComponent {
       .addEventListener(`click`, handler);
   }
 }
+
+
+export {Task};

@@ -1,5 +1,5 @@
-import AbstractComponent from "../abstract/abstract-component";
-import {SortType} from "../../consts";
+import AbstractComponent from "./abstract/abstract-component";
+import {SortType} from "../consts";
 
 
 /**
