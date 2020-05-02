@@ -1,5 +1,3 @@
-export const CHECK_FORMAT_TIME = 10;
-
 export const Checked = {
   INPUT: ` checked`,
   CLASS: `checked`

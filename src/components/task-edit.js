@@ -5,6 +5,7 @@ import {checkIsRepeating} from "../utils/common";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 
+
 const Selector = {
   REPEAT_DAYS: `.card__repeat-days`,
   REPEAT_TOGGLE: `.card__repeat-toggle`,
