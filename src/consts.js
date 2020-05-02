@@ -7,7 +7,7 @@ export const Checked = {
 
 export const CountTask = {
   ALL: 20,
-  START: 2,
+  START: 3,
   BY_BUTTON: 2
 };
 
@@ -125,7 +125,12 @@ export const IsAttribute = {
 
 export const FILTER_LABEL = `.filter__label`;
 
-export const DEFAULT_FILTER = `filter__all`;
+
+export const Filter = {
+  DEFAULT: `filter__all`,
+  ARCHIVE: `filter__archive`
+};
+
 
 export const SortType = {
   DATE_DOWN: `date-down`,
@@ -142,9 +147,13 @@ export const AttributeTask = {
 
 
 export const ButtonTask = {
-  EDIT: `card__btn--edit`,
-  ARCHIVE: `card__btn--archive`,
-  FAVORITE: `card__btn--favorites`,
+  EDIT: `edit`,
+  ARCHIVE: `archive`,
+  FAVORITE: `favorites`,
   DELETE: `card__delete`,
-  FORM: `form`
+  FORM: `form`,
+  DISABLED: `disabled`
 };
+
+
+export const PART_BTN_CLASS = `card__btn--`;

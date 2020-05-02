@@ -1,5 +1,25 @@
-import AbstractComponent from "../abstract/abstract-component";
-import {SortType} from "../../consts";
+import AbstractComponent from "./abstract/abstract-component";
+import {SortType} from "../consts";
+
+
+/**
+ * Правила сортировки
+ */
+const sortRules = {
+  'date-down': (showingTasks) => showingTasks.sort((a, b) => a.dueDate - b.dueDate),
+  'date-up': (showingTasks) => showingTasks.sort((a, b) => b.dueDate - a.dueDate),
+  'default': (showingTasks) => showingTasks,
+};
+
+
+/**
+ * Сортировка задач
+ * @param {Array} filteredTasks данные задач
+ * @param {string} sortType тип сортировки
+ * @return {Array} отсортированные данные задач
+ */
+const getSortedTasks = (filteredTasks, sortType) => sortRules[sortType](filteredTasks.slice());
+
 
 /**
  * Создание разметки блока сортировки задач
@@ -19,23 +39,32 @@ const createSorting = () => {
 /**
  * Создание класса сортировки
  */
-export default class Sort extends AbstractComponent {
+class Sort extends AbstractComponent {
   constructor() {
     super();
 
     this._currentSortType = SortType.DEFAULT;
+    this._clickHandler = this._clickHandler.bind(this);
   }
+
 
   getTemplate() {
     return createSorting();
   }
 
+
   getSortType() {
     return this._currentSortType;
   }
 
+
   setSortTypeChangeHandler(handler) {
-    this.getElement().addEventListener(`click`, (evt) => {
+    this.getElement().addEventListener(`click`, this._clickHandler(handler));
+  }
+
+
+  _clickHandler(handler) {
+    return (evt) => {
       evt.preventDefault();
 
       if (evt.target.tagName !== `A`) {
@@ -49,8 +78,9 @@ export default class Sort extends AbstractComponent {
       }
 
       this._currentSortType = sortType;
-
       handler(this._currentSortType);
-    });
+    };
   }
 }
+
+export {Sort, getSortedTasks};

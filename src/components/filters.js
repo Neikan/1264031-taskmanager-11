@@ -1,4 +1,4 @@
-import AbstractComponent from "../abstract/abstract-component";
+import AbstractComponent from "./abstract/abstract-component";
 
 
 /**
@@ -52,7 +52,7 @@ const createFilter = ({name, count}) => {
 /**
  * Создание класса фильтров
  */
-export default class Filters extends AbstractComponent {
+class Filters extends AbstractComponent {
   constructor(filters) {
     super();
 
@@ -63,3 +63,6 @@ export default class Filters extends AbstractComponent {
     return createFilters(this._filters);
   }
 }
+
+
+export {Filters};

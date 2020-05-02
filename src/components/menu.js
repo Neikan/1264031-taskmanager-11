@@ -1,5 +1,5 @@
-import {MEMU_ITEMS} from "../../consts";
-import AbstractComponent from "../abstract/abstract-component";
+import {MEMU_ITEMS} from "../consts";
+import AbstractComponent from "./abstract/abstract-component";
 
 /**
  * Создание разметки блока главного меню
@@ -41,8 +41,11 @@ const createMenuItem = ({name, label}) => {
 /**
  * Создание класса меню
  */
-export default class Menu extends AbstractComponent {
+class Menu extends AbstractComponent {
   getTemplate() {
     return createMenu();
   }
 }
+
+
+export {Menu};

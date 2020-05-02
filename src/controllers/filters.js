@@ -1,8 +1,12 @@
-import {Position, FILTER_LABEL, DEFAULT_FILTER} from "../../consts";
-import {generateFilters} from "../../mock/filters/filters";
-import {render} from "../../utils/change-component";
-import FiltersComponent from "./filters";
+import {Position, Filter, FILTER_LABEL, CountTask} from "../consts";
+import {generateFilters} from "../mock/filters/filters";
+import {render} from "../utils/change-component";
+import {Filters} from "../components/filters";
+import {filterRules, getTasksForFilters} from "../utils/common";
 
+// Здесь будет будущий контроллер фильтров
+
+const FILTER_MARK = `filter__`;
 
 /**
  * Пересоздание компонента фильтров с обновленными данными задач
@@ -18,8 +22,8 @@ const regenerateFilters = (
 
   document.querySelector(`.filter.container`).remove();
 
-  filtersComponent = new FiltersComponent(generateFilters(allTasks));
-  render(document.querySelector(`.main__control`), filtersComponent, Position.AFTER_END);
+  filtersComponent = new Filters(generateFilters(allTasks));
+  render[Position.AFTER_END](document.querySelector(`.main__control`), filtersComponent);
   setCheckFilter(currentFilter);
   addListenersToFilters(allTasks, filtersComponent, boardController);
 };
@@ -43,7 +47,7 @@ const addListenersToFilters = (allTasks, filtersComponent, boardController) => {
 
     unCheckFilter();
     setCheckFilter(filterAttribute);
-    boardController.replace(allTasks, filtersComponent, filterAttribute);
+    boardController.rerender(filterAttribute, CountTask.START);
   };
 
   const addListenerForFilter = () => (boardFilter) =>
@@ -56,41 +60,16 @@ const addListenersToFilters = (allTasks, filtersComponent, boardController) => {
 /**
  * Фильтрация задач в соответствии с выбранным фильтром
  * @param {Array} tasks данные задач
- * @param {string} attributeFor выбираемый фильтр
+ * @param {string} filter выбираемый фильтр
  * @return {Array} отфильтрованные данные
  */
-const getFilteredTasks = (tasks, attributeFor = DEFAULT_FILTER) => {
-  let tasksNotArchive = [];
-  const tasksNotDelete = tasks.filter((task) => !task.isDeleted);
-  if (tasks.length) {
-    tasksNotArchive = tasksNotDelete.filter((task) => !task.isArchive);
-  }
+const getFilteredTasks = (tasks, filter = Filter.DEFAULT) => {
+  const {tasksNotDelete, tasksNotArchive} = getTasksForFilters(tasks);
+  const nameFilter = filter.replace(FILTER_MARK, ``);
 
-  switch (attributeFor) {
-    case `filter__all`:
-      return tasksNotArchive;
-
-    case `filter__overdue`:
-      return tasksNotArchive.filter((task) =>
-        task.dueDate instanceof Date && task.dueDate < Date.now());
-
-    case `filter__today`:
-      return tasksNotArchive.filter((task) =>
-        task.dueDate && task.dueDate.getDate() === new Date().getDate());
-
-    case `filter__favorites`:
-      return tasksNotArchive.filter((task) => task.isFavorite);
-
-    case `filter__repeating`:
-      return tasksNotArchive.filter((task) =>
-        Object.values(task.repeatingDays).some(Boolean));
-
-    case `filter__archive`:
-      return tasksNotDelete.filter((task) => task.isArchive);
-
-    default:
-      return [];
-  }
+  return (filter === Filter.ARCHIVE) ?
+    filterRules[nameFilter](tasksNotDelete) :
+    filterRules[nameFilter](tasksNotArchive);
 };
 
 

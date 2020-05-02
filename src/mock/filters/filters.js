@@ -1,5 +1,8 @@
 import {FILTER_NAMES} from "../../consts";
+import {filterRules, getTasksForFilters} from "../../utils/common";
 
+
+const FILTER_NAME = `archive`;
 
 /**
  * Генерация фильтров
@@ -28,24 +31,11 @@ const addCount = (allTasks, filter) => {
  * @return {Number} количество задач, соответствующих фильтру
  */
 const getFiltersCount = (allTasks, filterName) => {
-  const tasksNotDelete = allTasks.filter((task) => !task.isDeleted);
-  const tasksNotArchive = tasksNotDelete.filter((task) => !task.isArchive);
-  switch (filterName) {
-    case `all`:
-      return tasksNotArchive.length;
-    case `overdue`:
-      return tasksNotArchive.filter((task) => task.dueDate instanceof Date && task.dueDate < Date.now()).length;
-    case `today`:
-      return tasksNotArchive.filter((task) => task.dueDate && task.dueDate.getDate() === new Date().getDate()).length;
-    case `favorites`:
-      return tasksNotArchive.filter((task) => task.isFavorite).length;
-    case `repeating`:
-      return tasksNotArchive.filter((task) => Object.values(task.repeatingDays).some(Boolean)).length;
-    case `archive`:
-      return tasksNotDelete.filter((task) => task.isArchive).length;
-    default:
-      return 0;
-  }
+  const {tasksNotDelete, tasksNotArchive} = getTasksForFilters(allTasks);
+
+  return (filterName === FILTER_NAME) ?
+    filterRules[filterName](tasksNotDelete).length :
+    filterRules[filterName](tasksNotArchive).length;
 };
 
 

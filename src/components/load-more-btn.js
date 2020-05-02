@@ -1,4 +1,4 @@
-import AbstractComponent from "../abstract/abstract-component";
+import AbstractComponent from "./abstract/abstract-component";
 
 
 /**
@@ -9,10 +9,11 @@ const createLoadMore = () => {
   return (`<button class="load-more" type="button">load more</button>`);
 };
 
+
 /**
  * Создание класса кнопки показа оставшихся задач
  */
-export default class LoadMoreBtn extends AbstractComponent {
+class LoadMoreBtn extends AbstractComponent {
   getTemplate() {
     return createLoadMore();
   }
@@ -21,3 +22,6 @@ export default class LoadMoreBtn extends AbstractComponent {
     this.getElement().addEventListener(`click`, handler);
   }
 }
+
+
+export {LoadMoreBtn};
