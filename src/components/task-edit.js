@@ -102,22 +102,11 @@ class TaskEdit extends AbstractSmartComponent {
 
 
   /**
-   * Метод, добавляющий возможность выбора даты и времени
+   * Метод, добавляющий возможность выбора даты из календаря
    */
   _applyFlatpickr() {
-    if (this._flatpickr) {
-      this._flatpickr.destroy();
-      this._flatpickr = null;
-    }
-
-    if (this._isDateShowing) {
-      const dateElement = this.getElement().querySelector(`.card__date`);
-      this._flatpickr = flatpickr(dateElement, {
-        altInput: true,
-        allowInput: true,
-        defaultDate: this._task.dueDate || `today`,
-      });
-    }
+    this._resetFlatpickr();
+    this._changeDateInputToFlatpickr();
   }
 
 
@@ -192,6 +181,42 @@ class TaskEdit extends AbstractSmartComponent {
     if (color) {
       color.addEventListener(`change`, this._changeColorHandler());
     }
+  }
+
+
+  /**
+   * Метод, обеспечивающий пересоздание _flatpickr
+   */
+  _resetFlatpickr() {
+    if (this._flatpickr) {
+      this._flatpickr.destroy();
+      this._flatpickr = null;
+    }
+  }
+
+
+  /**
+   * Метод, обеспечивающий подмену поля ввода даты
+   */
+  _changeDateInputToFlatpickr() {
+    if (this._isDateShowing) {
+      this._flatpickr = flatpickr(
+          this.getElement().querySelector(`.card__date`), this._createrFlatpickr()
+      );
+    }
+  }
+
+
+  /**
+   * Метод, обеспечивающий создание поля ввода flatpickr с заданными параметрами
+   * @return {Object}
+   */
+  _createrFlatpickr() {
+    return {
+      altInput: true,
+      allowInput: true,
+      defaultDate: this._task.dueDate || `today`,
+    };
   }
 
 
