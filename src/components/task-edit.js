@@ -2,7 +2,8 @@ import {Form, ButtonTask} from "../consts";
 import AbstractSmartComponent from "./abstract/abstract-smart-component";
 import {createTask} from "./task/task-creation";
 import {checkIsRepeating} from "../utils/common";
-
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
 
 const Selector = {
   REPEAT_DAYS: `.card__repeat-days`,
@@ -25,7 +26,9 @@ class TaskEdit extends AbstractSmartComponent {
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
     this._activeColor = task.color;
     this._submitHandler = null;
+    this._flatpickr = null;
 
+    this._applyFlatpickr();
     this._subscribeOnEvents();
   }
 
@@ -57,6 +60,7 @@ class TaskEdit extends AbstractSmartComponent {
    */
   rerender() {
     super.rerender();
+    this._applyFlatpickr();
   }
 
 
@@ -93,6 +97,26 @@ class TaskEdit extends AbstractSmartComponent {
       activeRepeatingDays: this._activeRepeatingDays,
       activeColor: this._activeColor
     };
+  }
+
+
+  /**
+   * Метод, добавляющий возможность выбора даты и времени
+   */
+  _applyFlatpickr() {
+    if (this._flatpickr) {
+      this._flatpickr.destroy();
+      this._flatpickr = null;
+    }
+
+    if (this._isDateShowing) {
+      const dateElement = this.getElement().querySelector(`.card__date`);
+      this._flatpickr = flatpickr(dateElement, {
+        altInput: true,
+        allowInput: true,
+        defaultDate: this._task.dueDate || `today`,
+      });
+    }
   }
 
 
