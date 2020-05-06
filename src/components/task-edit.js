@@ -2,6 +2,8 @@ import {Form, ButtonTask} from "../consts";
 import AbstractSmartComponent from "./abstract/abstract-smart-component";
 import {createTask} from "./task/task-creation";
 import {checkIsRepeating} from "../utils/common";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
 
 
 const Selector = {
@@ -25,7 +27,9 @@ class TaskEdit extends AbstractSmartComponent {
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
     this._activeColor = task.color;
     this._submitHandler = null;
+    this._flatpickr = null;
 
+    this._applyFlatpickr();
     this._subscribeOnEvents();
   }
 
@@ -57,6 +61,7 @@ class TaskEdit extends AbstractSmartComponent {
    */
   rerender() {
     super.rerender();
+    this._applyFlatpickr();
   }
 
 
@@ -93,6 +98,15 @@ class TaskEdit extends AbstractSmartComponent {
       activeRepeatingDays: this._activeRepeatingDays,
       activeColor: this._activeColor
     };
+  }
+
+
+  /**
+   * Метод, добавляющий возможность выбора даты из календаря
+   */
+  _applyFlatpickr() {
+    this._resetFlatpickr();
+    this._changeDateInputToFlatpickr();
   }
 
 
@@ -167,6 +181,42 @@ class TaskEdit extends AbstractSmartComponent {
     if (color) {
       color.addEventListener(`change`, this._changeColorHandler());
     }
+  }
+
+
+  /**
+   * Метод, обеспечивающий пересоздание _flatpickr
+   */
+  _resetFlatpickr() {
+    if (this._flatpickr) {
+      this._flatpickr.destroy();
+      this._flatpickr = null;
+    }
+  }
+
+
+  /**
+   * Метод, обеспечивающий подмену поля ввода даты
+   */
+  _changeDateInputToFlatpickr() {
+    if (this._isDateShowing) {
+      this._flatpickr = flatpickr(
+          this.getElement().querySelector(`.card__date`), this._createrFlatpickr()
+      );
+    }
+  }
+
+
+  /**
+   * Метод, обеспечивающий создание поля ввода flatpickr с заданными параметрами
+   * @return {Object}
+   */
+  _createrFlatpickr() {
+    return {
+      altInput: true,
+      allowInput: true,
+      defaultDate: this._task.dueDate || `today`,
+    };
   }
 
 

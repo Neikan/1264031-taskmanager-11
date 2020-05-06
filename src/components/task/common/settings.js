@@ -1,5 +1,4 @@
-import {MONTH_NAMES} from "../../../consts";
-import {formatTime} from "../../../utils/common";
+import {formatTime, formatDate} from "../../../utils/common";
 import {getViewSettings} from "./settings/settings-view";
 import {getEditSettings} from "./settings/settings-edit";
 
@@ -15,7 +14,7 @@ const createSettingsBlock = (task, isView, options) => {
   const {dueDate} = task;
   const isShowning = isView ? !!dueDate : options.isDateShowing;
 
-  const date = (isShowning && dueDate) ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
+  const date = (isShowning && dueDate) ? formatDate(dueDate) : ``;
   const time = (isShowning && dueDate) ? formatTime(dueDate) : ``;
 
   return isView ? getViewSettings(date, time) : getEditSettings(date, time, isShowning, options);
