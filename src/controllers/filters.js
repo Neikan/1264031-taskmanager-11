@@ -1,10 +1,9 @@
-import {Position, Filter, FILTER_LABEL, CountTask} from "../consts";
+import {Position, FilterType, FILTER_LABEL, CountTask} from "../consts";
 import {generateFilters} from "../mock/filters/filters";
 import {render} from "../utils/change-component";
 import {Filters} from "../components/filters";
 import {filterRules, getTasksForFilters} from "../utils/common";
 
-// Здесь будет будущий контроллер фильтров
 
 const FILTER_MARK = `filter__`;
 
@@ -31,12 +30,12 @@ const regenerateFilters = (
 
 /**
  * Добавление лисенеров на фильтры
- * @param {Array} allTasks данные задач
+ * @param {Array} tasksModel модель данных задач
  * @param {Object} filtersComponent компонент фильтров
  * @param {Object} boardController контроллер доски задач
  * @param {Number} showingTasksCount количество отображенных задач
  */
-const addListenersToFilters = (allTasks, filtersComponent, boardController) => {
+const addListenersToFilters = (tasksModel, filtersComponent, boardController) => {
 
   const boardFilters = Array.from(
       filtersComponent.getElement().querySelectorAll(FILTER_LABEL)
@@ -47,13 +46,14 @@ const addListenersToFilters = (allTasks, filtersComponent, boardController) => {
 
     unCheckFilter();
     setCheckFilter(filterAttribute);
-    boardController.rerender(filterAttribute, CountTask.START);
+    tasksModel.setFilter(filterAttribute);
+    boardController.rerender(CountTask.START);
   };
 
   const addListenerForFilter = () => (boardFilter) =>
     boardFilter.addEventListener(`click`, filterClickHandler);
 
-  boardFilters.map(addListenerForFilter(allTasks));
+  boardFilters.map(addListenerForFilter(tasksModel.getTasksData()));
 };
 
 
@@ -63,11 +63,11 @@ const addListenersToFilters = (allTasks, filtersComponent, boardController) => {
  * @param {string} filter выбираемый фильтр
  * @return {Array} отфильтрованные данные
  */
-const getFilteredTasks = (tasks, filter = Filter.DEFAULT) => {
+const getFilteredTasks = (tasks, filter = FilterType.DEFAULT) => {
   const {tasksNotDelete, tasksNotArchive} = getTasksForFilters(tasks);
   const nameFilter = filter.replace(FILTER_MARK, ``);
 
-  return (filter === Filter.ARCHIVE) ?
+  return (filter === FilterType.ARCHIVE) ?
     filterRules[nameFilter](tasksNotDelete) :
     filterRules[nameFilter](tasksNotArchive);
 };

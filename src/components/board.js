@@ -15,7 +15,7 @@ const createBoard = () => {
  */
 class Board extends AbstractComponent {
   getTemplate() {
-    return createBoard(this._tasks);
+    return createBoard();
   }
 }
 

@@ -124,7 +124,7 @@ export const IsAttribute = {
 export const FILTER_LABEL = `.filter__label`;
 
 
-export const Filter = {
+export const FilterType = {
   DEFAULT: `filter__all`,
   ARCHIVE: `filter__archive`
 };

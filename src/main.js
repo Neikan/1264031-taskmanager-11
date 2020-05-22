@@ -1,4 +1,5 @@
-import {CountTask, Position, Filter} from "./consts";
+import TasksModel from "./models/tasks";
+import {CountTask, Position, FilterType} from "./consts";
 import {generateTasks} from "./mock/tasks/tasks";
 import {generateFilters} from "./mock/filters/filters";
 import {render} from "./utils/change-component";
@@ -6,7 +7,7 @@ import {Menu} from "./components/menu.js";
 import {Filters} from "./components/filters.js";
 import {Board} from "./components/board.js";
 import {BoardController} from "./controllers/board.js";
-import {getFilteredTasks, setCheckFilter, addListenersToFilters} from "./controllers/filters";
+import {setCheckFilter, addListenersToFilters} from "./controllers/filters";
 
 
 const Nodes = {
@@ -20,19 +21,22 @@ const Nodes = {
  */
 const init = () => {
   const tasks = generateTasks(CountTask.ALL);
-  const filters = generateFilters(tasks);
-  const filtersComponent = new Filters(filters);
-  const boardComponent = new Board(getFilteredTasks(tasks));
-  const boardController = new BoardController(boardComponent);
+
+  const tasksModel = new TasksModel();
+  tasksModel.setTasksData(tasks);
+
+  const filtersComponent = new Filters(generateFilters(tasksModel.getTasksData()));
+  const boardComponent = new Board();
+  const boardController = new BoardController(boardComponent, tasksModel);
 
   render[Position.BEFORE_END](Nodes.HEADER, new Menu());
   render[Position.BEFORE_END](Nodes.MAIN, filtersComponent);
   render[Position.BEFORE_END](Nodes.MAIN, boardComponent);
 
-  setCheckFilter(Filter.DEFAULT);
-  boardController.render(tasks, Filter.DEFAULT);
+  setCheckFilter(FilterType.DEFAULT);
+  boardController.render();
 
-  addListenersToFilters(tasks, filtersComponent, boardController);
+  addListenersToFilters(tasksModel, filtersComponent, boardController);
 };
 
 

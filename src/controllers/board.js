@@ -34,16 +34,16 @@ const renderTaskControllers = (tasksList, tasks, viewChangeHandler, dataChangeHa
  * Создание контроллера, обеспечивающего отрисовку компонентов доски
  */
 class BoardController {
-  constructor(container) {
+  constructor(container, tasksModel) {
     this._container = container;
 
     this._tasks = [];
+    this._tasksModel = tasksModel;
     this._taskControllers = [];
     this._sorting = new Sort();
     this._boardTasks = new Tasks();
     this._loadMoreBtn = new LoadMoreBtn();
     this._noTasks = new NoTasks();
-    this._currentFilter = null;
     this._countTasks = null;
 
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
@@ -54,14 +54,11 @@ class BoardController {
 
   /**
    * Метод, обеспечивающий отрисовку данных задач
-   * @param {Array} allTasks данные задач
-   * @param {string} currentFilter текущий примененный фильтр
    * @param {Number} сountTasks текущее количество показанных задач
    */
-  render(allTasks, currentFilter, сountTasks = CountTask.START) {
-    this._tasks = allTasks;
-    this._currentFilter = currentFilter;
-    const filteredTasks = getFilteredTasks(this._tasks, this._currentFilter);
+  render(сountTasks = CountTask.START) {
+    this._tasks = this._tasksModel.getTasksData();
+    const filteredTasks = this._tasksModel.getFilteredTasks();
     const container = this._container.getElement();
 
     if (!filteredTasks.length) {
@@ -70,9 +67,12 @@ class BoardController {
     }
 
     this._renderBoardTasks(
-        this._getDataSet(container,
+        this._getDataSet(
+            container,
             getSortedTasks(filteredTasks, this._sorting.getSortType()),
-            this._boardTasks.getElement(), 0, сountTasks
+            this._boardTasks.getElement(),
+            0,
+            сountTasks
         )
     );
   }
@@ -80,12 +80,11 @@ class BoardController {
 
   /**
    * Метод, обеспечивающий перерисовку доски при изменениях
-   * @param {string} currentFilter текущий примененный фильтр
    * @param {Number} countTasks текущее количество показанных задач
    */
-  rerender(currentFilter = this._currentFilter, countTasks = this._countTasks) {
+  rerender(countTasks = this._countTasks) {
     this._removeData();
-    this.render(this._tasks, currentFilter, countTasks);
+    this.render(countTasks);
   }
 
 
@@ -214,9 +213,14 @@ class BoardController {
       this._countTasks = dataset.countTasks;
       this._removeData();
       this._renderBoardTasks(
-          this._getDataSet(dataset.container,
-              getSortedTasks(getFilteredTasks(this._tasks, this._currentFilter), this._sorting.getSortType()),
-              this._boardTasks.getElement(), 0, this._countTasks));
+          this._getDataSet(
+              dataset.container,
+              getSortedTasks(getFilteredTasks(
+                  this._tasks, this._tasksModel.getFilter()), this._sorting.getSortType()
+              ),
+              this._boardTasks.getElement(),
+              0,
+              this._countTasks));
     };
   }
 
